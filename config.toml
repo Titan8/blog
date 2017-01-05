@@ -1,0 +1,11 @@
+baseurl = "http://blog.titangroupco.com"
+languageCode = "en-us"
+title = "A POEM OF LIFE"
+theme = "self"
+paginate = 5
+googleAnalytics = "UA-74937756-1"
+disqusShortname = "tryer3000"
+
+[[menu.main]]
+  Name = "about"
+  URL = "/about"

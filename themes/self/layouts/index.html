@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}">
+
+<head>
+  {{ partial "head.html" . }}
+</head>
+
+<body>
+  <div class="container">
+    {{ partial "header.html" . }}
+    {{ range first 1 (where .Data.Pages "Section" "post") }}
+       <h1 class="post-title">{{ .Title }}</h1>
+       {{ .Content }}
+    {{ end }}
+    {{ partial "footer.html" . }}
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</body>
+
+</html>

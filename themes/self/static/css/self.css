@@ -1,0 +1,75 @@
+.whatsup {
+  text-transform: capitalize;
+}
+.post-title {
+  color: #b49e09;
+  text-align: center;
+}
+header a,
+footer a
+{
+  color: #5BC3EB;
+}
+footer {
+  text-align: center;
+}
+body {
+  margin: 0 auto;
+  max-width: 50em;
+  font-family: "Nunito", "Roboto", "Helvetica", "Arial", sans-serif;
+  line-height: 1.5;
+  padding: 4em 1em;
+}
+body * + * {
+  margin-top: 1.5rem;
+}
+p + p {
+  margin-top: 0.3rem;
+}
+h1,h2,h3,h4,h5,h6 {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}
+h1, h2, strong {
+  color: #333;
+}
+h1 {
+    font-size: 1.8rem;
+}
+h2 {
+    font-size: 1.5rem;
+    margin-top: 1em;
+    padding-top: 1em;
+}
+h3 {
+    font-size: 1.25rem;
+}
+h4, h5, h6 {
+    font-size: 1rem;
+}
+code,
+pre {
+  background: #eee;
+}
+code {
+  font-family: Inconsolata, Monaco, Consolas, 'Courier New', Courier;
+  font-size: 15px;
+  padding: 2px 4px;
+  vertical-align: text-bottom;
+}
+pre {
+  padding: 1em;
+}
+ul{
+  list-style: disc inside;
+}
+ol {
+  list-style-position: inside;
+}
+li {
+  margin-top: 0.3rem;
+  padding-left: 2em;
+  text-indent: -2em;
+}
+.disabled {
+  pointer-events: none;
+}
