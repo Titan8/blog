@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  
+<link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Nunito' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.2.3/css/bulma.min.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/default.min.css">
+
+
+
+<link rel="stylesheet" href="http://blog.titangroupco.com/css/self.css">
+
+</head>
+
+<body>
+  <div class="container">
+    <header>
+  <a href="/" class="whatsup">a poem of life</a>  
+</header>
+
+
+    <div class="posts">
+      <div class="post">
+        <h1 class="post-title">Webpack</h1>
+        <span class="post-date">Oct 28, 2016 </span>
+        <div class="post-content">
+          
+
+<h2 id="motivation-or-problems">Motivation or Problems</h2>
+
+<ul>
+<li>There are multiple standards of module system in JS world including CommonJS, AMD, ES6 modules and <code>&lt;script&gt;</code> tag style.</li>
+<li>There are two extremes when transferring modules
+
+<ol>
+<li>one request per module</li>
+<li>All modules in one request</li>
+</ol></li>
+<li>Why should a module system only help the developer with JavaScript?</li>
+</ul>
+
+<h2 id="io">IO</h2>
+
+<p>Webpack is a module bundler.</p>
+
+<p>It takes a bunch of files, treating each as a module, figuring out the dependencies between them, and bundle them into static assets that are ready for deployment.</p>
+
+<p><img src="https://dtinth.github.io/webpack-docs-images/usage/how-it-works.png" alt="what webpack does" /></p>
+
+<h3 id="some-concepts-of-webpack">Some concepts of Webpack</h3>
+
+<ul>
+<li><p>chunk: A batch of modules that bundled into one single file.</p></li>
+
+<li><p>loader: Transformations that are applied on a resource file(module) of your app.</p></li>
+
+<li><p>plugin: Add functionality typically related to bundles in webpack.</p></li>
+</ul>
+
+<h3 id="some-plugins">Some plugins</h3>
+
+<ul>
+<li><p>DefinePlugin: Allows you to create global constants which can be configured at compile time.</p></li>
+
+<li><p>HotModuleReplacementPlugin: Enables Hot Module Replacement.</p></li>
+
+<li><p>HtmlWebpackPlugin: Generates a solid base html page for your web application with all your webpack generated css and js files built in.</p></li>
+
+<li><p>CommonsChunkPlugin: Generate an extra chunk, which contains common modules shared between entry points.</p></li>
+
+<li><p>UglifyJsPlugin: Minimize all JavaScript output of chunks.</p></li>
+
+<li><p>ExtractTextPlugin: Extract text from bundle into a file.</p></li>
+</ul>
+
+<h3 id="example-of-webpack-configuration">Example of Webpack configuration</h3>
+
+<p><em>notice comments start with hash character</em></p>
+
+<pre><code>{
+  ...
+  module: {
+    ...
+    loaders: [
+      # They are functions that take the source of a resource file as the parameter
+      # and return the new source.
+      { test: /\.less$/,
+        loader: 'css-loader!less-loader' },
+      { test: /\.js$/,
+        loader: 'babel',
+        include: '/path-to-your-project/vue-webpack',
+        exclude: /node_modules/ },
+      ...
+    ]
+  }
+}
+</code></pre>
+
+        </div>
+      </div>
+      <div class="pagination">
+        <a class="btn previous " href="http://blog.titangroupco.com/post/vue-introduction/"> Prev</a>  
+        <a class="btn next " href="http://blog.titangroupco.com/about/"> Next</a> 
+      </div>
+    </div>
+
+    <footer>
+  <a href="/post">Archive</a>
+</footer>
+
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</body>
+
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  
+<link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Nunito' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.2.3/css/bulma.min.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/default.min.css">
+
+
+
+<link rel="stylesheet" href="http://blog.titangroupco.com/css/self.css">
+
+</head>
+
+<body>
+  <div class="container">
+    <header>
+  <a href="/" class="whatsup">a poem of life</a>  
+</header>
+
+
+    <div class="posts">
+      <div class="post">
+        <h1 class="post-title">Introduction to Vue</h1>
+        <span class="post-date">Oct 31, 2016 </span>
+        <div class="post-content">
+          
+
+<h2 id="basic">Basic</h2>
+
+<pre><code class="language-html">&lt;div id=&quot;app&quot;&gt;
+  {{ message }}
+&lt;/div&gt;
+</code></pre>
+
+<pre><code class="language-javascript">var app = new Vue({
+  el: '#app',
+  data: {
+    message: 'Hello Vue!'
+  }
+})
+</code></pre>
+
+<p>Vue inherits a lot from angular. Both has concept of <code>directives</code> and <code>components</code>.</p>
+
+<p>We will skip those similarities, but focus on differences here.</p>
+
+<h3 id="directive-has-modifier-and-arguments">Directive has Modifier and Arguments</h3>
+
+<pre><code class="language-html">&lt;input v-model.number=&quot;age&quot; type=&quot;number&quot;&gt;
+&lt;a v-bind:href=&quot;url&quot;&gt;&lt;/a&gt;
+</code></pre>
+
+<ul>
+<li>Modifiers are special postfixes denoted by a dot, which indicate that a directive should be bound in some special way.</li>
+<li>Some directives can take an “argument”, denoted by a colon after the directive name.</li>
+</ul>
+
+<h3 id="component-has-slots">Component has slots</h3>
+
+<p><img src="http://p1.bpimg.com/567571/d8c7009a5bc6f77a.jpg" alt="slot" /></p>
+
+<p>The API for a Vue component comes in three parts - props, events, and slots:</p>
+
+<ol>
+<li>Props allow the external environment to pass data into the component</li>
+<li>Events allow the component to trigger side effects in the external environment</li>
+<li>Slots allow the external environment to compose the component with extra content.</li>
+</ol>
+
+<pre><code class="language-html">&lt;my-component
+  v-bind:foo=&quot;baz&quot;
+  v-bind:bar=&quot;qux&quot;
+  v-on:event-a=&quot;doThis&quot;
+  v-on:event-b=&quot;doThat&quot;
+&gt;
+  &lt;img slot=&quot;icon&quot; src=&quot;...&quot;&gt;
+  &lt;p slot=&quot;main-text&quot;&gt;Hello!&lt;/p&gt;
+&lt;/my-component&gt;
+</code></pre>
+
+<h2 id="vue-ecosystem">Vue Ecosystem</h2>
+
+<ul>
+<li><p><a href="http://router.vuejs.org/">vue-router</a> is officially-supported</p></li>
+
+<li><p><a href="http://vuex.vuejs.org/">vuex</a> is a state management pattern + library for Vue.js applications.</p></li>
+</ul>
+
+<h2 id="comparison">Comparison</h2>
+
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th align="center">Angular</th>
+<th align="center">Angular 2</th>
+<th align="center">React</th>
+<th align="right">Vue</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Star(Github)</td>
+<td align="center">53015</td>
+<td align="center">17748</td>
+<td align="center">52844</td>
+<td align="right">32113</td>
+</tr>
+
+<tr>
+<td>Fork(Github)</td>
+<td align="center">26177</td>
+<td align="center">4525</td>
+<td align="center">9306</td>
+<td align="right">3645</td>
+</tr>
+
+<tr>
+<td>Issue(on/off)</td>
+<td align="center"><sup>674</sup>&frasl;<sub>7460</sub></td>
+<td align="center"><sup>811</sup>&frasl;<sub>6964</sub></td>
+<td align="center"><sup>484</sup>&frasl;<sub>3336</sub></td>
+<td align="right"><sup>66</sup>&frasl;<sub>3069</sub></td>
+</tr>
+
+<tr>
+<td>Size</td>
+<td align="center">156K</td>
+<td align="center">636K</td>
+<td align="center">150K</td>
+<td align="right">64K</td>
+</tr>
+
+<tr>
+<td>LOC(TodoMVC)</td>
+<td align="center">442</td>
+<td align="center">198</td>
+<td align="center">520</td>
+<td align="right">221</td>
+</tr>
+
+<tr>
+<td>Size(TodoMVC)</td>
+<td align="center">1.1M</td>
+<td align="center">1.6M</td>
+<td align="center">1.2M</td>
+<td align="right">294K</td>
+</tr>
+</tbody>
+</table>
+
+<p><em>created on 10/31/2016</em></p>
+
+<p><strong>PS:</strong></p>
+
+<ul>
+<li>Angular 2 requires Typescript while others require Javascript.</li>
+<li>Angular 2, React and Vue support cross-platform programming.</li>
+<li>Angular offer more features. But React and Vue get enhancement from
+additional libraries, which is authored and supported by community.</li>
+<li>From the metric above, Vue has the smallest community.</li>
+</ul>
+
+<p><a href="http://vuejs.org/guide/comparison.html">Read more</a> on differences among these front-end Javascript frameworks.</p>
+
+<p>You can use <a href="https://github.com/vuejs/vue-cli">vue-cli</a> to scaffold Vue.js projects.</p>
+
+        </div>
+      </div>
+      <div class="pagination">
+        <a class="btn previous " href="http://blog.titangroupco.com/post/js-prototype/"> Prev</a>  
+        <a class="btn next " href="http://blog.titangroupco.com/post/webpack/"> Next</a> 
+      </div>
+    </div>
+
+    <footer>
+  <a href="/post">Archive</a>
+</footer>
+
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</body>
+
+</html>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  
+<link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Nunito' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.2.3/css/bulma.min.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/default.min.css">
+
+
+
+<link rel="stylesheet" href="http://blog.titangroupco.com/css/self.css">
+
+</head>
+
+<body>
+  <div class="container">
+    <header>
+  <a href="/" class="whatsup">a poem of life</a>  
+</header>
+
+
+    <div class="posts">
+      <div class="post">
+        <h1 class="post-title">Python Decorator</h1>
+        <span class="post-date">Jan 22, 2017 </span>
+        <div class="post-content">
+          
+
+<h2 id="什么是装饰器">什么是装饰器</h2>
+
+<p>在coding的时候，你经常会需要计算一个函数的执行时间，最容易想到的方法是在每个函数内部进行计算。</p>
+
+<pre><code class="language-python">def hello():
+    start = time.time()
+    print 'Hello'
+    print 'Spend ', time.time() - start
+</code></pre>
+
+<p>也有可能是在函数外部计算时间。</p>
+
+<pre><code class="language-python">def hello():
+    print 'Hello'
+
+start = time.time()
+hello()
+print 'Spend ', time.time() - start
+</code></pre>
+
+<p>但是，一个hello还好，如果还有hello1、 hello2、hello3，甚至更多的时候你就懵了。这时候，你就会想有没有不需要写这么多重复代码的方法。</p>
+
+<p>要解决这个问题，你首先需要知道在Python中，<code>function is the first class</code>。有一种意译是，“函数是一等公民”。你想啊，函数都是一等公民了，那它肯定可以像基本类型那样作为函数参数喽。于是呢，就有了下面这种方法。</p>
+
+<pre><code class="language-python">def spend(func):
+    def _spend():
+        start = time.time()
+        func()
+        print 'Spend ', time.time() - start
+    return _spend
+
+def hello():
+    print 'Hello'
+
+hello = spend(hello)
+hello()
+</code></pre>
+
+<p>这样是不是少写了很多代码，但是呢，还有一个问题，一旦需要计算时间的函数多了，就有可能漏掉一个两个。那么，将时间计算写在函数定义的时候总不会漏了吧。于是乎，Python从2.4版本开始引入一个特殊的语法糖标记<code>@</code>。</p>
+
+<pre><code class="language-python">@spend
+def hello():
+    print 'Hello'
+</code></pre>
+
+<p>这个spend呢，我们就将其称之为装饰器（Decorator）。</p>
+
+<h2 id="装饰器的种类">装饰器的种类</h2>
+
+<h3 id="无参数装饰器">无参数装饰器</h3>
+
+<pre><code class="language-python">def spend(func):
+    def _spend(*args, **kwargs):
+        start = time.time()
+        func(*args, **kwargs)
+        print 'Spend ', time.time() - start
+    return _spend
+
+@spend
+def hello(name):
+    print 'Hello', name
+
+# 等同于
+def hello(name):
+    print 'Hello', name
+hello = spend(hello)
+</code></pre>
+
+<h3 id="有参数装饰器">有参数装饰器</h3>
+
+<pre><code class="language-python">def spend(start):
+    def _spend(func):
+        def __spend(*args, **kwargs):
+            func(*args, **kwargs)
+            print 'Spend ', time.time() - start
+        return __spend
+    return _spend
+
+@spend(time.time())
+def hello(name):
+    print 'Hello', name
+
+# 等同于
+def hello(name):
+    print 'Hello', name
+hello = spend(time.time())(hello)
+</code></pre>
+
+<p>这里有个问题，为什么spend的参数start能在hello中使用？</p>
+
+<p>我们从作用域的角度分析这个问题，举一个另外的例子。</p>
+
+<pre><code class="language-python">def outer(arg):
+    print locals()
+    def inner():
+        x = arg * arg
+        print locals()
+        print x
+    return inner
+
+&gt;&gt;&gt; f = outer(2)
+{'arg': 2}
+&gt;&gt;&gt; f()
+{'x': 4, 'arg': 2}
+4
+&gt;&gt;&gt;
+</code></pre>
+
+<p>locals函数的结果是局部命名空间的内容。在outer中，局部命名空间只有一个键arg，而在inner内部也有arg。这就引出了另外一个术语<code>闭包</code>。在维基中，闭包的解释是这样的：</p>
+
+<blockquote>
+<p>在计算机科学中，闭包（Closure）是词法闭包（Lexical Closure）的简称，是引用了自由变量的函数。这个被引用的自由变量将和这个函数一同存在，即使已经离开了创造它的环境也不例外。所以，有另一种说法认为闭包是由函数和与其相关的引用环境组合而成的实体。闭包在运行时可以有多个实例，不同的引用环境和相同的函数组合可以产生不同的实例。</p>
+
+<p>我的理解是，Python的装饰器就是一种闭包。</p>
+</blockquote>
+
+<p>这样，我们就能明白为什么spend的参数start能在hello中使用了。</p>
+
+<h3 id="类装饰器">类装饰器</h3>
+
+<pre><code class="language-python">def deco(*args, **kwargs):
+    def _deco(cls):
+        cls.x = 12
+        return cls
+    return _deco
+
+@deco('hello')
+class A(object):
+    pass
+
+&gt;&gt;&gt; A.x
+12
+
+# 等同于
+class A(object):
+    pass
+A = deco('hello')(A)
+</code></pre>
+
+<h3 id="装饰器类">装饰器类</h3>
+
+<p>类作为装饰器，分为有参数和无参数。同时，需要装饰的是类方法时，需要用到<strong>get</strong>。</p>
+
+<h4 id="无参数">无参数</h4>
+
+<pre><code class="language-python">class Deco(object):
+    def __init__(self, func):
+        self.func = func
+
+    def __call__(self, *args, **kwargs):
+        print 'call Deco'
+        self.func(*args, **kwargs)
+
+@Deco
+def test():
+    print 'call test'
+
+# 等同于
+test = Deco(test)
+</code></pre>
+
+<h4 id="有参数">有参数</h4>
+
+<pre><code class="language-python">class Deco(object):
+    def __init__(self, *args, **kwargs):
+        print args, kwargs
+
+    def __call__(self, func):
+        def _deco(*args, **kwargs):
+            print 'call Deco'
+            func(*args, **kwargs)
+        return _deco
+
+@Deco('hello')
+def test():
+    print 'call test'
+
+# 等同于
+test = Deco('hello')(func)
+</code></pre>
+
+<h2 id="内置装饰器">内置装饰器</h2>
+
+<p>Python中有三个常用的内置装饰器，<code>staticmethod</code>，<code>classmethod</code>，<code>functools.wraps</code>。</p>
+
+<h3 id="staticmethod">staticmethod</h3>
+
+<p>staticmethod返回一个静态方法。</p>
+
+<pre><code class="language-python">class Time(object):
+
+    @staticmethod
+    def now():
+        print time.time()
+
+t = Time()
+t.now()
+</code></pre>
+
+<h3 id="classmethod">classmethod</h3>
+
+<p>classmethod返回一个类方法。</p>
+
+<pre><code class="language-python">class Time(object):
+
+    @classmethod
+    def now():
+        print time.time()
+
+Time.now()
+</code></pre>
+
+<h3 id="functools-wraps">functools.wraps</h3>
+
+<p>在使用装饰器的时候，返回的新函数的名称并不是原函数的。</p>
+
+<pre><code class="language-python">def spend(func):
+    def _spend(*args, **kwargs):
+        start = time.time()
+        func(*args, **kwargs)
+        print 'Spend ', time.time() - start
+    return _spend
+
+@spend
+def hello(name):
+    print 'Hello', name
+
+&gt;&gt;&gt; print hello.__name__
+_spend
+</code></pre>
+
+<p>如果需要新函数的名称和原函数相同，functools.wraps就派上用场了。</p>
+
+<pre><code class="language-python">def spend(func):
+    @functools.wraps(func)
+    def _spend(*args, **kwargs):
+        start = time.time()
+        func(*args, **kwargs)
+        print 'Spend ', time.time() - start
+    return _spend
+
+@spend
+def hello(name):
+    print 'Hello', name
+
+&gt;&gt;&gt; print hello.__name__
+hello
+</code></pre>
+
+<h2 id="总结">总结</h2>
+
+<p>假如有新的功能需要实现，但是又不想改变已有的逻辑代码，这时候就需要考虑考虑装饰器了。</p>
+
+<p>参考： <a href="https://www.python.org/dev/peps/pep-0318/#warningwarningwarning">PEP 318 &ndash; Decorators for Functions and Methods</a></p>
+
+        </div>
+      </div>
+      <div class="pagination"> 
+        <a class="btn next " href="http://blog.titangroupco.com/post/mongo-introduction/"> Next</a> 
+      </div>
+    </div>
+
+    <footer>
+  <a href="/post">Archive</a>
+</footer>
+
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+</body>
+
+</html>

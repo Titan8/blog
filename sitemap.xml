@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>http://blog.titangroupco.com/</loc>
+    <lastmod>2017-01-22T13:20:36+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.titangroupco.com/post/python-decorator/</loc>
+    <lastmod>2017-01-22T13:20:36+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.titangroupco.com/post/mongo-introduction/</loc>
+    <lastmod>2017-01-19T09:15:18+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.titangroupco.com/post/js-prototype/</loc>
+    <lastmod>2017-01-05T00:00:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.titangroupco.com/post/vue-introduction/</loc>
+    <lastmod>2016-10-31T08:42:14+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.titangroupco.com/post/webpack/</loc>
+    <lastmod>2016-10-28T08:42:14+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.titangroupco.com/about/</loc>
+    <lastmod>2016-02-25T16:55:03+08:00</lastmod>
+  </url>
+  
+</urlset>
