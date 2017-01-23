@@ -131,10 +131,11 @@ css=input
 ```
 
 以Cgntest的登录按钮为例子Robot framework 中的写法：
+
 方法 | 定位|文本
----|---|---|
-||Input Text | css=.btn | \\\13|
-||Input Text | css=body > div > titan-login > div > div.form > div.btn|\\\13|
+---|---|---
+Input Text | css=.btn | \\\13|
+Input Text | css=body > div > titan-login > div > div.form > div.btn|\\\13|
 
 同样一个元素，根基CSS的不同规则，可能有几十上百种写法。CSS更灵活强大，但是相比Xpath 的学习成本为更高。但是CSS和Xpath两种定位方式是一定要学会一种，不然你的自动化工作更无法开展。
 ### 2.4 JS定位
