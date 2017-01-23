@@ -268,11 +268,31 @@ css=[autocomplete=off]
 <pre><code class="language-html">css=input
 </code></pre>
 
-<p>以Cgntest的登录按钮为例子Robot framework 中的写法：
-方法 | 定位|文本
-&mdash;|&mdash;|&mdash;|
-||Input Text | css=.btn | \\13|
-||Input Text | css=body &gt; div &gt; titan-login &gt; div &gt; div.form &gt; div.btn|\\13|</p>
+<p>以Cgntest的登录按钮为例子Robot framework 中的写法：</p>
+
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>定位</th>
+<th>文本</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Input Text</td>
+<td>css=.btn</td>
+<td>\\13</td>
+</tr>
+
+<tr>
+<td>Input Text</td>
+<td>css=body &gt; div &gt; titan-login &gt; div &gt; div.form &gt; div.btn</td>
+<td>\\13</td>
+</tr>
+</tbody>
+</table>
 
 <p>同样一个元素，根基CSS的不同规则，可能有几十上百种写法。CSS更灵活强大，但是相比Xpath 的学习成本为更高。但是CSS和Xpath两种定位方式是一定要学会一种，不然你的自动化工作更无法开展。</p>
 

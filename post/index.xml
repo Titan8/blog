@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Post-rsses on A POEM OF LIFE</title>
+    <title>Posts on A POEM OF LIFE</title>
     <link>http://blog.titangroupco.com/post/index.xml</link>
-    <description>Recent content in Post-rsses on A POEM OF LIFE</description>
+    <description>Recent content in Posts on A POEM OF LIFE</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 22 Jan 2017 18:11:48 +0800</lastBuildDate>
@@ -36,7 +36,7 @@ IE10以上才支持HTML5，才支持websocket，chrome，火狐，opera等浏览
 
 &lt;blockquote&gt;
 &lt;p&gt;WebSocket是HTML5的一种新通信协议，它实现了浏览器与服务器之间的双向通讯。而Socket.IO是一个完全由JavaScript实现、基于Node.js、支持WebSocket的协议用于实时通信、跨平台的开源框架，它包括了&lt;strong&gt;客户端的JavaScript&lt;/strong&gt;和&lt;strong&gt;服务器端的Node.js&lt;/strong&gt;。
-Socket.IO是一个跨平台，支持多种连接方式，如websocket，flashsocket,ajax等，如果客户端不支持websocket时，可以切换使用其他链接方式，比如ajax等。&lt;/p&gt;
+Socket.IO是一个跨平台，支持多种连接方式，如websocket，flashsocket,ajax等，如果客户端不支持websocket时，可以切换使用其他链接方式，比如ajax轮询等。&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;pre&gt;&lt;code&gt;&amp;lt;script src=&amp;quot;/lib/socket.io/socket.io.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
@@ -395,11 +395,31 @@ css=[autocomplete=off]
 &lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;css=input
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;以Cgntest的登录按钮为例子Robot framework 中的写法：
-方法 | 定位|文本
-&amp;mdash;|&amp;mdash;|&amp;mdash;|
-||Input Text | css=.btn | \\13|
-||Input Text | css=body &amp;gt; div &amp;gt; titan-login &amp;gt; div &amp;gt; div.form &amp;gt; div.btn|\\13|&lt;/p&gt;
+&lt;p&gt;以Cgntest的登录按钮为例子Robot framework 中的写法：&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;方法&lt;/th&gt;
+&lt;th&gt;定位&lt;/th&gt;
+&lt;th&gt;文本&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Input Text&lt;/td&gt;
+&lt;td&gt;css=.btn&lt;/td&gt;
+&lt;td&gt;\\13&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Input Text&lt;/td&gt;
+&lt;td&gt;css=body &amp;gt; div &amp;gt; titan-login &amp;gt; div &amp;gt; div.form &amp;gt; div.btn&lt;/td&gt;
+&lt;td&gt;\\13&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 
 &lt;p&gt;同样一个元素，根基CSS的不同规则，可能有几十上百种写法。CSS更灵活强大，但是相比Xpath 的学习成本为更高。但是CSS和Xpath两种定位方式是一定要学会一种，不然你的自动化工作更无法开展。&lt;/p&gt;
 
