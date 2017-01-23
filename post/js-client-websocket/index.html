@@ -63,7 +63,7 @@ Socket.IO是一个跨平台，支持多种连接方式，如websocket，flashsoc
 
 <p>最近笔者新参与的一个web项目，拟定采用vue2.0来编写，期间遇到有关使用websocket的问题，记录一下，个中遇到的一些问题和解决方法，分享给有需要的人。</p>
 
-<p>当前服务端采用了websocket的方式，这需要客户端也相应的采用websocket来与客户端建立ws连接，这样客户端和服务端就可以双向的发送数据。笔者的定式思维是，一拿到这个就会觉得是不是又需要npm安装什么包似的，因为这个功能是从另一个项目（暂且称其为项目B）的功能迁移过来的，而项目B前端是用的angularjs开发的，前端直接用的angularjs的一个websocket的包（angular-websocke），然后几行代码就敲定了，创建连接，发送数据，接收数据，很是方便。当前项目采用的是vue框架，很自然的就去搜有木有vue的websocket包，很快找到了vue-websocket，安装好后，调试，直接报错：
+<p>当前服务端采用了websocket的方式，这需要客户端也相应的采用websocket来与客户端建立ws连接，这样客户端和服务端就可以双向的发送数据。笔者当时一拿到这个就会觉得是不是又需要npm安装什么包似的，因为这个功能是从另一个项目（暂且称其为项目B）的功能迁移过来的，而项目B前端是用的angularjs开发的，前端直接用的angularjs的一个websocket的包（angular-websocke），然后几行代码就敲定了，创建连接，发送数据，接收数据，很是方便。当前项目采用的是vue框架，很自然的就去搜有木有vue的websocket包，很快找到了vue-websocket，安装好后，调试，直接报错：
 　　</p>
 
 <pre><code>XMLHttpRequest cannot load http://192.168.0.239:9000/socket.io/?EIO=3&amp;transport=polling&amp;t=LbjddEK. No 'Access-Control-Allow-Origin' header is present on the requested resource. Origin 'http://localhost:8080' is therefore not allowed access. The response had HTTP status code 404.
