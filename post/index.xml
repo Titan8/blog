@@ -6,8 +6,424 @@
     <description>Recent content in Post-rsses on A POEM OF LIFE</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 22 Jan 2017 13:20:36 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 22 Jan 2017 18:11:48 +0800</lastBuildDate>
     <atom:link href="http://blog.titangroupco.com/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>前端使用websocket的问题</title>
+      <link>http://blog.titangroupco.com/post/js-client-websocket/</link>
+      <pubDate>Sun, 22 Jan 2017 18:11:48 +0800</pubDate>
+      
+      <guid>http://blog.titangroupco.com/post/js-client-websocket/</guid>
+      <description>
+
+&lt;blockquote&gt;
+&lt;p&gt;websocket相关概念&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Web/API/WebSocket&#34;&gt;websocket&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;随着互联网的发展，传统的HTTP协议已经很难满足Web应用日益复杂的需求了。近年来，随着HTML5的诞生，WebSocket协议被提出，它实现了浏览器与服务器的全双工通信，扩展了浏览器与服务端的通信功能，使服务端也能主动向客户端发送数据。
+IE10以上才支持HTML5，才支持websocket，chrome，火狐，opera等浏览器支持较好。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://socket.io/&#34;&gt;Socket.IO&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;WebSocket是HTML5的一种新通信协议，它实现了浏览器与服务器之间的双向通讯。而Socket.IO是一个完全由JavaScript实现、基于Node.js、支持WebSocket的协议用于实时通信、跨平台的开源框架，它包括了&lt;strong&gt;客户端的JavaScript&lt;/strong&gt;和&lt;strong&gt;服务器端的Node.js&lt;/strong&gt;。
+Socket.IO是一个跨平台，支持多种连接方式，如websocket，flashsocket,ajax等，如果客户端不支持websocket时，可以切换使用其他链接方式，比如ajax等。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;script src=&amp;quot;/lib/socket.io/socket.io.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;script&amp;gt;
+   var socket = io();
+   socket.on(&#39;connect&#39;, function() {
+           /* 具体操作 */
+   });
+&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;最近笔者新参与的一个web项目，拟定采用vue2.0来编写，期间遇到有关使用websocket的问题，记录一下，个中遇到的一些问题和解决方法，分享给有需要的人。&lt;/p&gt;
+
+&lt;p&gt;当前服务端采用了websocket的方式，这需要客户端也相应的采用websocket来与客户端建立ws连接，这样客户端和服务端就可以双向的发送数据。笔者的定式思维是，一拿到这个就会觉得是不是又需要npm安装什么包似的，因为这个功能是从另一个项目（暂且称其为项目B）的功能迁移过来的，而项目B前端是用的angularjs开发的，前端直接用的angularjs的一个websocket的包（angular-websocke），然后几行代码就敲定了，创建连接，发送数据，接收数据，很是方便。当前项目采用的是vue框架，很自然的就去搜有木有vue的websocket包，很快找到了vue-websocket，安装好后，调试，直接报错：
+　　&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;XMLHttpRequest cannot load http://192.168.0.239:9000/socket.io/?EIO=3&amp;amp;transport=polling&amp;amp;t=LbjddEK. No &#39;Access-Control-Allow-Origin&#39; header is present on the requested resource. Origin &#39;http://localhost:8080&#39; is therefore not allowed access. The response had HTTP status code 404.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;笔者对比了项目B，同样在客户端启动本地server，能正常创建到服务端的ws连接，不会像http请求一样有跨域的问题，同时另一问题就是，明明是要创建ws连接，为何浏览器的控制台里会提示是http的连接？vue-websocket没有调试成功，马上去找找有没有通用的包，于是在github找了js相关的websocket的相关包，比如ws，笔者对照了angularjs-websocket包，它也是依赖的ws。于是按照ws的说明文档，安装，然后webpack直接报错了：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ERROR in ./~/ws/lib/WebSocketServer.js
+Module not found: Error: Cannot resolve module &#39;tls&#39; in xx\node_modules\ws\lib
+@ ./~/ws/lib/WebSocketServer.js 15:10-24
+ERROR in ./~/options/lib/options.js
+Module not found: Error: Cannot resolve module &#39;fs&#39; in xx\node_modules\options\lib
+@ ./~/options/lib/options.js 6:9-22
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;查找资料，说是这两个包是服务端node用的，客户端没有所以导致报错，需要修改webpack的配置文件，使其不加载客户端不需要的包
+&lt;a href=&#34;https://github.com/webpack/react-starter/issues/3#issuecomment-53395089&#34;&gt;https://github.com/webpack/react-starter/issues/3#issuecomment-53395089&lt;/a&gt;
+然后，webpack不报错了，但是前端调用ws生成实例的时候，依然会报错，因为ws链接创建的时候，先发起了http的链接请求，按照ws文档：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var WebSocket = require(&#39;ws&#39;)
+var ws = new WebSocket(&#39;ws://xxx/ws&#39;, &#39;ws&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在代码里，生成ws实例的时候，还是会产生http的链接，跟前面用vue-websocket的情况类似，因为是在本地启动的前端服务，所以这样发起到服务器的请求，会导致跨越报错。奇怪的是项目B里的angular使用的angular-websocket包，同样是基于ws包做的，在本地启动，是直接创建的ws链接，没有跨越的问题。然后在vue论坛上查找相关资料，类似的问题比如：&lt;a href=&#34;https://forum-archive.vuejs.org/topic/1293/webpack-bundling-issue-with-websockets/3&#34;&gt;https://forum-archive.vuejs.org/topic/1293/webpack-bundling-issue-with-websockets/3&lt;/a&gt;
+有人提到：Can&amp;rsquo;t you just use window.WebSocket instead of ws?
+提醒到了我，我摒弃了ws，直接用window.WebSocket，来创建ws连接，果然成功了。那为啥angular-websocket基于ws，能正常在浏览器执行，vue这边直接用ws不行，于是去查看angular-websocket的源码，才发现angular-websocket基于ws做了封装，它提供的$websocket对象，在当前浏览器环境下，本质上也是window.WebSocket的对象。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;import angular from &#39;angular&#39;;
+var Socket;
+if (typeof window === &#39;undefined&#39;) {
+try {
+var ws = require(&#39;ws&#39;);
+Socket = (ws.Client||ws.client||ws);
+} catch(e) {}
+}
+// Browser
+Socket = (Socket || window.WebSocket || window.MozWebSocket);
+////////////////////////////////////////////////////////////
+function $WebSocketBackendProvider($log) {
+this.create = function create(url, protocols) {
+var match = /wss?:\/\//.exec(url);
+if (!match) {
+throw new Error(&#39;Invalid url provided&#39;);
+}
+if (protocols) {
+return new Socket(url, protocols);
+}
+return new Socket(url);
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;看源码里面，angular-websocket也是用window.WebSocket创建的，只有在没有window对象的时候，才会基于ws包来创建websocket对象。然后瞬间感觉找准了方向，目前我们的场景主要是PC端的浏览器使用，可以直接用window.WebSocket对象来，于是查阅了&lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Web/API/WebSocket&#34;&gt;window.WebSocket的文档&lt;/a&gt;，很快问题就解决了，原来自带的window对象就已经可以解决问题了，自己绕了一大圈，还是回到原点，细看了它文档里写的相关方法，确实和前面讲到的angular-websocket很像，确实angular-websocket是对这些方法，比如onopen，send，onmessange等方法进行了封装，让开发可以更方便的调用。&lt;/p&gt;
+
+&lt;p&gt;另外，文章最前面提到的&lt;a href=&#34;http://socket.io/&#34;&gt;Socket.IO&lt;/a&gt;，笔者在客户端安装了Socket.IO，并且按照文档说明，去建立ws链接，发现以下问题：&lt;/p&gt;
+
+&lt;h4 id=&#34;1-安装socket-io-client-安装完之后-webpack报错&#34;&gt;1、安装socket.io-client，安装完之后，webpack报错&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;ERROR in ./~/socket.io-client/~/component-emitter/index.js
+Module build failed: Error: ENOENT: no such file or directory, open &#39;xx\node_modules\socket.io-client\node_modules\component-emitter\index.js&#39;
+    at Error (native)
+ @ ./~/socket.io-client/lib/manager.js 8:14-42
+ERROR in ./~/engine.io-client/~/component-emitter/index.js
+Module build failed: Error: ENOENT: no such file or directory, open &#39;xx\node_modules\engine.io-client\node_modules\component-emitter\index.js&#39;
+    at Error (native)
+ @ ./~/engine.io-client/lib/socket.js 6:14-42
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;参考&lt;a href=&#34;https://github.com/socketio/socket.io-client/issues/933&#34;&gt;https://github.com/socketio/socket.io-client/issues/933&lt;/a&gt;这个需要修改一下webpack的配置文件，添加以下两行后，webpack可以打包通过。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;module: {
+    noParse: [&#39;ws&#39;]
+  },
+  externals: [&#39;ws&#39;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;2-创建连接报错&#34;&gt;2、创建连接报错&lt;/h4&gt;
+
+&lt;p&gt;创建连接&lt;code&gt;var socket = io(url);&lt;/code&gt;，这样创建的链接，Socket.IO默认是按轮询方式发起的http请求（很奇怪，当前浏览器明明是支持websocket的），这样首先就出现了前面的http跨域请求报错：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;XMLHttpRequest cannot load http://192.168.0.239:9000/socket.io/?EIO=3&amp;amp;transport=polling&amp;amp;t=LbjddEK. No &#39;Access-Control-Allow-Origin&#39; header is present on the requested resource. Origin &#39;http://localhost:8080&#39; is therefore not allowed access. The response had HTTP status code 404.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;查阅资料，创建连接的时候，可以指定参数&lt;code&gt;io(WS_URL, {transports: [&#39;websocket&#39;, &#39;polling&#39;, &#39;flashsocket&#39;]})&lt;/code&gt;，设置其发起websocket链接，这样在console里看到的确实是发起的ws请求，然而依然报404错：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;WebSocket connection to &#39;ws://192.168.0.239:9000/socket.io/?EIO=3&amp;amp;transport=websocket&#39; failed: Error during WebSocket handshake: Unexpected response code: 404
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;提示是404找不到，确实是服务端没有&lt;code&gt;&#39;ws://192.168.0.239:9000/socket.io/?EIO=3&amp;amp;transport=websocket&#39;&lt;/code&gt;这样的url，这种url是默认的ws服务端的url，可以设置 path，path默认是&lt;code&gt;/socket.io&lt;/code&gt;，设置path后，&lt;code&gt;io(WS_URL, {path: &#39;/ws&#39;, transports: [&#39;websocket&#39;, &#39;polling&#39;, &#39;flashsocket&#39;]})&lt;/code&gt;，依然报301错：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;WebSocket connection to &#39;ws://192.168.0.239:9000/ws/?EIO=3&amp;amp;transport=websocket&#39; failed: Error during WebSocket handshake: Unexpected response code: 301
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;笔者对比了成功建立ws链接时的url，&lt;code&gt;ws://192.168.0.239:9000/ws&lt;/code&gt;，然后用工具测试了下，只有path是&lt;code&gt;/ws&lt;/code&gt;，即ws://192.168.0.239:9000/ws?EIO=3&amp;amp;transport=websocket&lt;code&gt;这样的url才能成功建立ws链接，这里报301的错误，是因为socketio会在path后面添加&lt;/code&gt;/?EIO=3&amp;amp;transport=websocket`这样一串参数，这样导致了服务端路由匹配不上，导致出现了404或301的情况，所以这里需要服务端配合调整一下路由规则，即可。&lt;/p&gt;
+
+&lt;p&gt;最终，结合当前的实际情况还是采用了原生的websocket，Socket.IO对url的格式有一定的规范要求，目前查阅了socketio的相关api文档，尚未找到可以自定义url格式的方法，比较适合客户端和服务端都同时可控的情况。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>自动化测试</title>
+      <link>http://blog.titangroupco.com/post/auto-ui-test/</link>
+      <pubDate>Sun, 22 Jan 2017 17:03:51 +0800</pubDate>
+      
+      <guid>http://blog.titangroupco.com/post/auto-ui-test/</guid>
+      <description>
+
+&lt;h1 id=&#34;自动化测试&#34;&gt;自动化测试&lt;/h1&gt;
+
+&lt;h2 id=&#34;一-ui自动化测试-页面元素定位&#34;&gt;一. UI自动化测试-页面元素定位&lt;/h2&gt;
+
+&lt;h3 id=&#34;1-robot-framework-selenium做ui自动化测试&#34;&gt;1.Robot Framework+selenium做UI自动化测试&lt;/h3&gt;
+
+&lt;h3 id=&#34;2-页面元素定位&#34;&gt;2.页面元素定位&lt;/h3&gt;
+
+&lt;h3 id=&#34;2-1-id和name定位&#34;&gt;2.1 id和name定位&lt;/h3&gt;
+
+&lt;p&gt;假如把一个元素看作一个人的话，id 和name可以看作一个人的身份证号和姓名。当然，这些属性值是否唯一要看前端工程师如何设计了。&lt;/p&gt;
+
+&lt;p&gt;百度搜索框和搜索按钮&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;input type=&amp;quot;text&amp;quot; class=&amp;quot;s_ipt&amp;quot; ==name=&amp;quot;wd&amp;quot;== id=&amp;quot;kw&amp;quot; maxlength=&amp;quot;100&amp;quot; autocomplete=&amp;quot;off&amp;quot;&amp;gt;
+
+&amp;lt;input type=&amp;quot;submit&amp;quot; value=&amp;quot;百度一下&amp;quot; ==id=&amp;quot;su&amp;quot;== class=&amp;quot;btn self-btn bg s_btn&amp;quot;&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;根据上面的例子，百度输入框可以取id 或name进行定位。（前提是id和name的值在当页面上唯一）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;id = su
+name = wd
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在Robot framework 中写法如下：&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;方法&lt;/th&gt;
+&lt;th&gt;定位&lt;/th&gt;
+&lt;th&gt;文本&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Input Text&lt;/td&gt;
+&lt;td&gt;id=kw&lt;/td&gt;
+&lt;td&gt;地图&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Input Text&lt;/td&gt;
+&lt;td&gt;name=wd&lt;/td&gt;
+&lt;td&gt;地图&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;百度按钮只id数据可以利用：id = su&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;方法&lt;/th&gt;
+&lt;th&gt;定位&lt;/th&gt;
+&lt;th&gt;文本&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Click Button&lt;/td&gt;
+&lt;td&gt;id=su&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Click Button是按钮点击的关键字。&lt;/p&gt;
+
+&lt;h3 id=&#34;2-2-xpath定位&#34;&gt;2.2 xpath定位&lt;/h3&gt;
+
+&lt;p&gt;假如页面元素。既没有id也没有name
+例如：cgntes的登录页面&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;input class=&amp;quot;input ng-pristine ng-valid ng-empty ng-touched&amp;quot; autocomplete=&amp;quot;off&amp;quot; ng-change=&amp;quot;vm.loginFailed=false&amp;quot; ng-model=&amp;quot;vm.user.username&amp;quot; placeholder=&amp;quot;请输入用户名&amp;quot; autofocus=&amp;quot;&amp;quot; ng-keyup=&amp;quot;vm.keyUp($event)&amp;quot; tabindex=&amp;quot;1&amp;quot; aria-invalid=&amp;quot;false&amp;quot; style=&amp;quot;&amp;quot;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Xpath的绝对路径：&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;Xpath =/html/body/div/titan-login/div/div[1]/div[2]/input
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我们可以从最外层开始找，html下面的body下面的div下面的第4个div下面的&amp;hellip;.input标签。通过一级一级的锁定就找到了想要的元素。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Xpath的相对路径：&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;绝对路径的用法往往是在我们迫不得已的时候才用的。大多时候用相对路径更简便。
+3. 元素本身：
+Xpath同样可以利用元素自身的属性：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;Xpath=/html/body/div/titan-login/div/div[1]/div[2]/input[@placeholder=&#39;请输入用户名&#39;]
+Xpath = //*[@placeholder=&#39;请输入用户名]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;//表示某个层级下，*表示某个标签名。@placeholder=&amp;lsquo;请输入用户名&amp;rsquo;表示这个元素有个placeholder等于请输入用户名 。
+元素本身，可以利用的属性就不只局限为于id和name，但要保证这些元素可以唯一的识别一个元素。&lt;/p&gt;
+
+&lt;p&gt;4.找上级：&lt;/p&gt;
+
+&lt;p&gt;当我们要找的元素没有id和name，但是它有父节点，那么同样可以定位到该元素。&lt;/p&gt;
+
+&lt;p&gt;元素的上级属性为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;form name=&amp;quot;f&amp;quot; id=&amp;quot;form&amp;quot; action=&amp;quot;/s&amp;quot; class=&amp;quot;fm&amp;quot; onsubmit=&amp;quot;javascript:F.call(&#39;ps/sug&#39;,&#39;pssubmit&#39;)&amp;quot;&amp;gt;
+　　&amp;lt;span class=&amp;quot;s_kw_wrap&amp;quot; class=&amp;quot;bg s_ipt_wr quickdelete-wrap&amp;quot;&amp;gt;
+  &amp;lt;span class=&amp;quot;soutu-btn&amp;quot;&amp;gt;
+　　　 &amp;lt;input  type=&amp;quot;text&amp;quot; class=&amp;quot;s_ipt&amp;quot; name=&amp;quot;wd&amp;quot; id=&amp;quot;kw&amp;quot; maxlength=&amp;quot;100&amp;quot; autocomplete=&amp;quot;off&amp;quot;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;找父节点：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;xpath = //span[@class=’bg s_ipt_wr’]/input
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果父节点没有唯一的属性，可以找父父节点：
+xpath = //form[@id=’form’]/span/input
+这样一级一级找上去，直到html那么就是一个绝对路径了。&lt;/p&gt;
+
+&lt;h3 id=&#34;2-3-css定位&#34;&gt;2.3 CSS定位&lt;/h3&gt;
+
+&lt;p&gt;CSS的定位更灵活，因为他它用到的更多的匹配符和规格。&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;选择器&lt;/th&gt;
+&lt;th&gt;示例&lt;/th&gt;
+&lt;th&gt;示例描述&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;.class&lt;/td&gt;
+&lt;td&gt;.intro&lt;/td&gt;
+&lt;td&gt;选择 class=&amp;ldquo;intro&amp;rdquo; 的所有元素&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;id&lt;/td&gt;
+&lt;td&gt;firstname&lt;/td&gt;
+&lt;td&gt;选择 id=&amp;ldquo;firstname&amp;rdquo; 的所有元素&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;*&lt;/td&gt;
+&lt;td&gt;*&lt;/td&gt;
+&lt;td&gt;选择所有元素&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;element&lt;/td&gt;
+&lt;td&gt;p&lt;/td&gt;
+&lt;td&gt;选择所有 &lt;p&gt; 元素&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;element.element&lt;/td&gt;
+&lt;td&gt;div.p&lt;/td&gt;
+&lt;td&gt;选择所有 &lt;div&gt; 元素和所有 &lt;p&gt; 元素&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;element&amp;gt;element&lt;/td&gt;
+&lt;td&gt;div&amp;gt;p&lt;/td&gt;
+&lt;td&gt;选择父元素为 &lt;div&gt; 元素的所有 &lt;p&gt; 元素&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;element+element&lt;/td&gt;
+&lt;td&gt;div+p&lt;/td&gt;
+&lt;td&gt;选择紧接在 &lt;div&gt; 元素之后的所有 &lt;p&gt; 元素&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;[attribute]&lt;/td&gt;
+&lt;td&gt;[target]&lt;/td&gt;
+&lt;td&gt;选择带有 target 属性所有元素&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;[attribute=value]&lt;/td&gt;
+&lt;td&gt;[target=_blank]&lt;/td&gt;
+&lt;td&gt;选择 target=&amp;rdquo;_blank&amp;rdquo; 的所有元素&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;[attribute~=value]&lt;/td&gt;
+&lt;td&gt;[title~=flower]&lt;/td&gt;
+&lt;td&gt;选择 title 属性包含单词 &amp;ldquo;flower&amp;rdquo; 的所有元素&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;[attribute=value]&lt;/td&gt;
+&lt;td&gt;[lang=en]&lt;/td&gt;
+&lt;td&gt;选择 lang 属性值以 &amp;ldquo;en&amp;rdquo; 开头的所有元素&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;同样以百度输入框的代码，具体CSS定位如下：&lt;/p&gt;
+
+&lt;p&gt;id定位：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;css=#kw
+
+class定位：
+
+css=.s_ipt
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其它属性：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;css=[name=wd]
+css=[type=text]
+css=[autocomplete=off]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;父子定位：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt; css=span&amp;gt;input
+ css=form&amp;gt;span&amp;gt;input
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;根据标签名定位：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;css=input
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;以Cgntest的登录按钮为例子Robot framework 中的写法：
+方法 | 定位|文本
+&amp;mdash;|&amp;mdash;|&amp;mdash;|
+||Input Text | css=.btn | \\13|
+||Input Text | css=body &amp;gt; div &amp;gt; titan-login &amp;gt; div &amp;gt; div.form &amp;gt; div.btn|\\13|&lt;/p&gt;
+
+&lt;p&gt;同样一个元素，根基CSS的不同规则，可能有几十上百种写法。CSS更灵活强大，但是相比Xpath 的学习成本为更高。但是CSS和Xpath两种定位方式是一定要学会一种，不然你的自动化工作更无法开展。&lt;/p&gt;
+
+&lt;h3 id=&#34;2-4-js定位&#34;&gt;2.4 JS定位&lt;/h3&gt;
+
+&lt;p&gt;当碰到使用上述方法仍无法定位时，可选择JS定位，该方法比较通用，能正常定位到所有元素。&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;方法&lt;/th&gt;
+&lt;th&gt;定位&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Execute JavaScript&lt;/td&gt;
+&lt;td&gt;$(&amp;ldquo;.btn&amp;rdquo;).click()&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+</description>
+    </item>
     
     <item>
       <title>Python Decorator</title>
