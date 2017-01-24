@@ -1,3 +1,9 @@
++++
+draft = false
+date = "2017-01-24T16:50:51+08:00"
+title = "D3 入门教程"
+
++++
 # 1. 数据可视化
 数据可视化，是关于数据视觉表现形式的科学技术研究。为了使复杂的数据和文字变得更容易理解，各种可视化工具因此诞生，其中D3 正是其中的佼佼者。
 ![image](http://www.ourd3js.com/wordpress/wp-content/uploads/2014/06/14.png)
@@ -69,7 +75,7 @@ var svg = d3.select("body")
 ```
 //定义一个数组
 var dataset = [10, 20, 30, 40, 33, 24, 12, 5];
-        
+
 //x轴的比例尺
 var xScale = d3.scale.ordinal()
     .domain(d3.range(dataset.length))
@@ -89,7 +95,7 @@ x 轴使用序数比例尺，y 轴使用线性比例尺。要注意两个比例�
 var xAxis = d3.svg.axis()
     .scale(xScale)
     .orient("bottom");
-        
+
 //定义y轴
 var yAxis = d3.svg.axis()
     .scale(yScale)
@@ -153,8 +159,8 @@ var texts = svg.selectAll(".MyText")
 svg.append("g")
   .attr("class","axis")
   .attr("transform","translate(" + padding.left + "," + (height - padding.bottom) + ")")
-  .call(xAxis); 
-        
+  .call(xAxis);
+
 //添加y轴
 svg.append("g")
   .attr("class","axis")
