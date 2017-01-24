@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on A POEM OF LIFE</title>
+    <title>Post-rsses on Titan Dev Blog</title>
     <link>http://blog.titangroupco.com/post/index.xml</link>
-    <description>Recent content in Posts on A POEM OF LIFE</description>
+    <description>Recent content in Post-rsses on Titan Dev Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <copyright>Powered by [Hugo](//gohugo.io). Theme by [PPOffice](http://github.com/ppoffice).</copyright>
     <lastBuildDate>Sun, 22 Jan 2017 18:11:48 +0800</lastBuildDate>
     <atom:link href="http://blog.titangroupco.com/post/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>前端使用websocket的问题</title>
-      <link>http://blog.titangroupco.com/post/js-client-websocket/</link>
+      <link>http://blog.titangroupco.com/2017/01/22/%E5%89%8D%E7%AB%AF%E4%BD%BF%E7%94%A8websocket%E7%9A%84%E9%97%AE%E9%A2%98</link>
       <pubDate>Sun, 22 Jan 2017 18:11:48 +0800</pubDate>
       
-      <guid>http://blog.titangroupco.com/post/js-client-websocket/</guid>
+      <guid>http://blog.titangroupco.com/2017/01/22/%E5%89%8D%E7%AB%AF%E4%BD%BF%E7%94%A8websocket%E7%9A%84%E9%97%AE%E9%A2%98</guid>
       <description>
 
 &lt;blockquote&gt;
@@ -151,10 +152,10 @@ Module build failed: Error: ENOENT: no such file or directory, open &#39;xx\node
     
     <item>
       <title>自动化测试</title>
-      <link>http://blog.titangroupco.com/post/auto-ui-test/</link>
+      <link>http://blog.titangroupco.com/2017/01/22/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95</link>
       <pubDate>Sun, 22 Jan 2017 17:03:51 +0800</pubDate>
       
-      <guid>http://blog.titangroupco.com/post/auto-ui-test/</guid>
+      <guid>http://blog.titangroupco.com/2017/01/22/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95</guid>
       <description>
 
 &lt;h1 id=&#34;自动化测试&#34;&gt;自动化测试&lt;/h1&gt;
@@ -447,10 +448,10 @@ css=[autocomplete=off]
     
     <item>
       <title>Python Decorator</title>
-      <link>http://blog.titangroupco.com/post/python-decorator/</link>
+      <link>http://blog.titangroupco.com/2017/01/22/python-decorator</link>
       <pubDate>Sun, 22 Jan 2017 13:20:36 +0800</pubDate>
       
-      <guid>http://blog.titangroupco.com/post/python-decorator/</guid>
+      <guid>http://blog.titangroupco.com/2017/01/22/python-decorator</guid>
       <description>
 
 &lt;h2 id=&#34;什么是装饰器&#34;&gt;什么是装饰器&lt;/h2&gt;
@@ -712,10 +713,10 @@ hello
     
     <item>
       <title>Mongo Introduction</title>
-      <link>http://blog.titangroupco.com/post/mongo-introduction/</link>
+      <link>http://blog.titangroupco.com/2017/01/19/mongo-introduction</link>
       <pubDate>Thu, 19 Jan 2017 09:15:18 +0800</pubDate>
       
-      <guid>http://blog.titangroupco.com/post/mongo-introduction/</guid>
+      <guid>http://blog.titangroupco.com/2017/01/19/mongo-introduction</guid>
       <description>
 
 &lt;h1 id=&#34;introdution&#34;&gt;Introdution&lt;/h1&gt;
@@ -1133,10 +1134,10 @@ db.orders.mapReduce(
     
     <item>
       <title>Javascript Prototype</title>
-      <link>http://blog.titangroupco.com/post/js-prototype/</link>
+      <link>http://blog.titangroupco.com/2017/01/05/javascript-prototype</link>
       <pubDate>Thu, 05 Jan 2017 00:00:00 +0800</pubDate>
       
-      <guid>http://blog.titangroupco.com/post/js-prototype/</guid>
+      <guid>http://blog.titangroupco.com/2017/01/05/javascript-prototype</guid>
       <description>
 
 &lt;p&gt;&lt;em&gt;note of &lt;a href=&#34;https://github.com/getify/You-Dont-Know-JS/tree/master/this%20%26%20object%20prototypes&#34;&gt;You Don&amp;rsquo;t know JS&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
@@ -1295,10 +1296,10 @@ c.sayHi();  // &#39;hi!&#39;
     
     <item>
       <title>Introduction to Vue</title>
-      <link>http://blog.titangroupco.com/post/vue-introduction/</link>
+      <link>http://blog.titangroupco.com/2016/10/31/introduction-to-vue</link>
       <pubDate>Mon, 31 Oct 2016 08:42:14 +0800</pubDate>
       
-      <guid>http://blog.titangroupco.com/post/vue-introduction/</guid>
+      <guid>http://blog.titangroupco.com/2016/10/31/introduction-to-vue</guid>
       <description>
 
 &lt;h2 id=&#34;basic&#34;&gt;Basic&lt;/h2&gt;
@@ -1446,10 +1447,10 @@ additional libraries, which is authored and supported by community.&lt;/li&gt;
     
     <item>
       <title>Webpack</title>
-      <link>http://blog.titangroupco.com/post/webpack/</link>
+      <link>http://blog.titangroupco.com/2016/10/28/webpack</link>
       <pubDate>Fri, 28 Oct 2016 08:42:14 +0800</pubDate>
       
-      <guid>http://blog.titangroupco.com/post/webpack/</guid>
+      <guid>http://blog.titangroupco.com/2016/10/28/webpack</guid>
       <description>
 
 &lt;h2 id=&#34;motivation-or-problems&#34;&gt;Motivation or Problems&lt;/h2&gt;
