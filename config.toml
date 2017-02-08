@@ -23,7 +23,7 @@ theme = "hugo-icarus-theme"
     site_description = ""
     copyright  = "Powered by [Hugo](//gohugo.io). Theme by [PPOffice](http://github.com/ppoffice)."
     avatar = "/img/logo.jpeg"
-    logo = "css/images/logo.png"
+    logo = "/img/logo.jpeg"
     disable_mathjax = false # set to true to disable MathJax
 
     # Format dates with Go's time formatting
@@ -56,7 +56,7 @@ theme = "hugo-icarus-theme"
 
 # Enter a link for the follow button on the left
 [params.profile]
-    follow_button = "https://github.com/digitalcraftsman"
+    follow_button = "https://github.com/Titan8"
 
 
 [social]
