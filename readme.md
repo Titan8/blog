@@ -10,6 +10,6 @@ To work locally with this project, you'll have to follow the steps below:
 4. Preview your project.  
   `hugo server -D`
 5. Add content.  
-  `hugo new post/title-of-your-essay`
+  `hugo new post/title-of-your-essay.md`
 6. Have completed your writing, Deploy it.  
   `./deploy.sh`
