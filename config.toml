@@ -1,6 +1,6 @@
 baseurl = "http://blog.titangroupco.com"
 languageCode = "en-us"
-title = "Titan Dev Blog"
+title = ""
 # Enable comments by entering your Disqus shortname
 disqusShortname = ""
 # Enable Google Analytics by entering your tracking code
@@ -25,7 +25,7 @@ theme = "hugo-icarus-theme"
     avatar = "/img/logo.jpeg"
     logo = "/img/logo.jpeg"
     disable_mathjax = false # set to true to disable MathJax
-
+    disable_profile = true
     # Format dates with Go's time formatting
     date_format = "2006-01-02"
 

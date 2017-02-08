@@ -2,7 +2,8 @@
 draft = false
 date = "2016-10-28T08:42:14+08:00"
 title = "Webpack"
-
+tags = ["build"]
+categories = ["frontend"]
 +++
 ## Motivation or Problems
   * There are multiple standards of module system in JS world including CommonJS, AMD, ES6 modules and `<script>` tag style.
