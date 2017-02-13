@@ -10,5 +10,14 @@
 </div>
 
 {{ partial "footer" . }}
+<script>
+    if (navigator.serviceWorker) {
+        navigator.serviceWorker.register('/sw.js').then(registration => {
+            console.log('service Worker 注册成功', registration.scope);
+        }).catch(err => {
+            console.log('service worker 注册失败', err)
+        });
+    }
+</script>
 </body>
 </html>
