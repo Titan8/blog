@@ -2,6 +2,12 @@
 date = "2017-01-22T18:11:48+08:00"
 title = "前端使用websocket的问题"
 draft = false
+
+categories = [
+    "frontend"
+]
+tags = ["JavaScript"]
+
 +++
 
 　　
@@ -17,6 +23,8 @@ IE10以上才支持HTML5，才支持websocket，chrome，火狐，opera等浏览
 
 > WebSocket是HTML5的一种新通信协议，它实现了浏览器与服务器之间的双向通讯。而Socket.IO是一个完全由JavaScript实现、基于Node.js、支持WebSocket的协议用于实时通信、跨平台的开源框架，它包括了**客户端的JavaScript**和**服务器端的Node.js**。
 Socket.IO是一个跨平台，支持多种连接方式，如websocket，flashsocket,ajax等，如果客户端不支持websocket时，可以切换使用其他链接方式，比如ajax轮询等。
+
+<!--more-->
 
 ```
 <script src="/lib/socket.io/socket.io.js"></script>

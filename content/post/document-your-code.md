@@ -16,6 +16,8 @@ images = []
 
 一个典型的python项目的目录结构长啥样？
 
+<!--more-->
+
 [requests](https://github.com/kennethreitz/requests)的一级目录
 
   * AUTHORS.rst  (贡献者名单)

@@ -2,7 +2,7 @@
 draft = false
 date = "2016-10-28T08:42:14+08:00"
 title = "Webpack"
-tags = ["build"]
+tags = ["build", "JavaScript"]
 categories = ["frontend"]
 +++
 ## Motivation or Problems
@@ -18,6 +18,7 @@ Webpack is a module bundler.
 It takes a bunch of files, treating each as a module, figuring out the dependencies between them, and bundle them into static assets that are ready for deployment.
 
 ![what webpack does](https://dtinth.github.io/webpack-docs-images/usage/how-it-works.png)
+<!--more-->
 
 ### Some concepts of Webpack
 * chunk: A batch of modules that bundled into one single file.
