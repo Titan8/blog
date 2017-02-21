@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
-    <title>自动化测试 &middot; </title>
+    <title>Python Web Server Gateway Interface &middot; </title>
     <meta name="generator" content="Hugo 0.17" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -10,7 +10,7 @@
       <meta name="description" content="">
     
     
-    <link rel="canonical" href="http://blog.titangroupco.com/2017/01/22/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95"/>
+    <link rel="canonical" href="http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface"/>
     <link rel="icon" href="http://blog.titangroupco.com/favicon.ico">
     <link rel="apple-touch-icon" href="http://blog.titangroupco.com/apple-touch-icon.png"/>
     <link rel="stylesheet" href="http://blog.titangroupco.com/css/style.css">
@@ -20,33 +20,39 @@
     
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
-    <meta property="og:title" content="自动化测试" />
-<meta property="og:description" content="自动化测试
+    <meta property="og:title" content="Python Web Server Gateway Interface" />
+<meta property="og:description" content="引言
 
-一. UI自动化测试-页面元素定位
+在Python的Web开发界，有着多种多样的框架，比如Flask, Django, Falcon等等，可谓是百花齐放。许多新入门的同学，都会纠结使用哪个框架比较好。在这里 我们不去回答这个问题，而是去寻找它们的共通点，也就是本篇的主题：
 
-1.Robot Framework&#43;selenium做UI自动化测试
+Web Server Gateway Interface (WSGI, 可以分开来读, 也可以读作&#39;wiz-gee&#39;)
 
-2.页面元素定位
 
-2.1 id和name定位
+WSGI是什么
 
-假如把一个元素看作一个人的话，id 和name可以看作一个人的身份证号和姓名。当然，这些属性值是否唯一要看前端工程师如何设计了。
+WSGI不是一个框架，也不是一个Python的库，也不是服务，API或者其他任何类型的软件。它只是服务(Web Server)和应用(Web Application)之间的一种简单通用的接口规范。它定义了服务和应用两端，除此之外还有一种叫中间件(Middleware)的组件，它同时实现了服务端和应用端。
 
-百度搜索框和搜索按钮
 
-&lt;input type=&quot;text&quot; class=&quot;s_ipt&quot; ==name=&quot;wd&quot;== id=&quot;kw&quot; maxlength=&quot;100&quot; autocomplete=&quot;off&quot;&gt;
+如果一个应用满足了WSGI，那么它就能在所有满足WSGI的服务上跑起来。
 
-&lt;input type=&quot;submit&quot; value=&quot;百度一下&quot; ==id=&quot;su&quot;== class=&quot;btn self-btn bg s_btn&quot;&gt;
 
+Application
+
+Application处理请求，并返回处理的结果。它是一个可调用(callable)的对象，可以是一个函数，方法，实现了__call__或者__iter__方法的类。
+
+函数
+
+def app(environ, start_response):
+    start_response(&#39;200 OK&#39;, [(&#39;Content-type&#39;, &#39;text/plain&#39;)])
+    return [&#39;Hello world!&#39;]
 
 
 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.titangroupco.com/2017/01/22/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95" />
+<meta property="og:url" content="http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface" />
 
 
-<meta property="og:updated_time" content="2017-01-22T17:03:51&#43;08:00"/>
+<meta property="og:updated_time" content="2017-02-21T09:15:24&#43;08:00"/>
 
 
 
@@ -59,32 +65,38 @@
 
     
     
-<meta itemprop="name" content="自动化测试">
-<meta itemprop="description" content="自动化测试
+<meta itemprop="name" content="Python Web Server Gateway Interface">
+<meta itemprop="description" content="引言
 
-一. UI自动化测试-页面元素定位
+在Python的Web开发界，有着多种多样的框架，比如Flask, Django, Falcon等等，可谓是百花齐放。许多新入门的同学，都会纠结使用哪个框架比较好。在这里 我们不去回答这个问题，而是去寻找它们的共通点，也就是本篇的主题：
 
-1.Robot Framework&#43;selenium做UI自动化测试
+Web Server Gateway Interface (WSGI, 可以分开来读, 也可以读作&#39;wiz-gee&#39;)
 
-2.页面元素定位
 
-2.1 id和name定位
+WSGI是什么
 
-假如把一个元素看作一个人的话，id 和name可以看作一个人的身份证号和姓名。当然，这些属性值是否唯一要看前端工程师如何设计了。
+WSGI不是一个框架，也不是一个Python的库，也不是服务，API或者其他任何类型的软件。它只是服务(Web Server)和应用(Web Application)之间的一种简单通用的接口规范。它定义了服务和应用两端，除此之外还有一种叫中间件(Middleware)的组件，它同时实现了服务端和应用端。
 
-百度搜索框和搜索按钮
 
-&lt;input type=&quot;text&quot; class=&quot;s_ipt&quot; ==name=&quot;wd&quot;== id=&quot;kw&quot; maxlength=&quot;100&quot; autocomplete=&quot;off&quot;&gt;
+如果一个应用满足了WSGI，那么它就能在所有满足WSGI的服务上跑起来。
 
-&lt;input type=&quot;submit&quot; value=&quot;百度一下&quot; ==id=&quot;su&quot;== class=&quot;btn self-btn bg s_btn&quot;&gt;
 
+Application
+
+Application处理请求，并返回处理的结果。它是一个可调用(callable)的对象，可以是一个函数，方法，实现了__call__或者__iter__方法的类。
+
+函数
+
+def app(environ, start_response):
+    start_response(&#39;200 OK&#39;, [(&#39;Content-type&#39;, &#39;text/plain&#39;)])
+    return [&#39;Hello world!&#39;]
 
 
 ">
 
 
-<meta itemprop="dateModified" content="2017-01-22T17:03:51&#43;08:00" />
-<meta itemprop="wordCount" content="237">
+<meta itemprop="dateModified" content="2017-02-21T09:15:24&#43;08:00" />
+<meta itemprop="wordCount" content="744">
 
 
 
@@ -96,25 +108,31 @@
 
 
 
-<meta name="twitter:title" content="自动化测试"/>
-<meta name="twitter:description" content="自动化测试
+<meta name="twitter:title" content="Python Web Server Gateway Interface"/>
+<meta name="twitter:description" content="引言
 
-一. UI自动化测试-页面元素定位
+在Python的Web开发界，有着多种多样的框架，比如Flask, Django, Falcon等等，可谓是百花齐放。许多新入门的同学，都会纠结使用哪个框架比较好。在这里 我们不去回答这个问题，而是去寻找它们的共通点，也就是本篇的主题：
 
-1.Robot Framework&#43;selenium做UI自动化测试
+Web Server Gateway Interface (WSGI, 可以分开来读, 也可以读作&#39;wiz-gee&#39;)
 
-2.页面元素定位
 
-2.1 id和name定位
+WSGI是什么
 
-假如把一个元素看作一个人的话，id 和name可以看作一个人的身份证号和姓名。当然，这些属性值是否唯一要看前端工程师如何设计了。
+WSGI不是一个框架，也不是一个Python的库，也不是服务，API或者其他任何类型的软件。它只是服务(Web Server)和应用(Web Application)之间的一种简单通用的接口规范。它定义了服务和应用两端，除此之外还有一种叫中间件(Middleware)的组件，它同时实现了服务端和应用端。
 
-百度搜索框和搜索按钮
 
-&lt;input type=&quot;text&quot; class=&quot;s_ipt&quot; ==name=&quot;wd&quot;== id=&quot;kw&quot; maxlength=&quot;100&quot; autocomplete=&quot;off&quot;&gt;
+如果一个应用满足了WSGI，那么它就能在所有满足WSGI的服务上跑起来。
 
-&lt;input type=&quot;submit&quot; value=&quot;百度一下&quot; ==id=&quot;su&quot;== class=&quot;btn self-btn bg s_btn&quot;&gt;
 
+Application
+
+Application处理请求，并返回处理的结果。它是一个可调用(callable)的对象，可以是一个函数，方法，实现了__call__或者__iter__方法的类。
+
+函数
+
+def app(environ, start_response):
+    start_response(&#39;200 OK&#39;, [(&#39;Content-type&#39;, &#39;text/plain&#39;)])
+    return [&#39;Hello world!&#39;]
 
 
 "/>
@@ -231,9 +249,9 @@
             
 
             <header class="article-header">
-    <a href="http://blog.titangroupco.com/2017/01/22/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95">
+    <a href="http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface">
     <h1 class="article-title" itemprop="name">
-        自动化测试
+        Python Web Server Gateway Interface
     </h1>
     </a>
     <div class="article-meta">
@@ -241,12 +259,12 @@
         
         <div class="article-date">
             <i class="fa fa-calendar"></i>
-            <time datetime="2017-01-22 17:03:51 &#43;0800 CST" itemprop="datePublished">2017-01-22</time>
+            <time datetime="2017-02-21 09:15:24 &#43;0800 CST" itemprop="datePublished">2017-02-21</time>
             &middot;
-            237
+            744
             words
             &middot;
-            2
+            4
             minute read
         </div>
         
@@ -257,7 +275,7 @@
                 <i class="fa fa-folder"></i>
                 
                 
-                <a class="article-category-link" href="http://blog.titangroupco.com/categories/test">test</a>
+                <a class="article-category-link" href="http://blog.titangroupco.com/categories/backend">backend</a>
                 
                 
             </div>
@@ -265,300 +283,439 @@
         
 
         
+            
+            
+            <div class="article-category">
+                <i class="fa fa-tags"></i>
+                
+                
+                <a class="article-category-link" href="http://blog.titangroupco.com/tags/python">Python</a>
+                
+                
+            </div>
+            
+        
     </div>
 </header>
 
             <div class="article-entry" itemprop="articleBody">
-                <h1 id="自动化测试">自动化测试</h1>
+                <h1 id="引言">引言</h1>
 
-<h2 id="一-ui自动化测试-页面元素定位">一. UI自动化测试-页面元素定位</h2>
+<p>在Python的Web开发界，有着多种多样的框架，比如Flask, Django, Falcon等等，可谓是百花齐放。许多新入门的同学，都会纠结使用哪个框架比较好。在这里 我们不去回答这个问题，而是去寻找它们的共通点，也就是本篇的主题：</p>
 
-<h3 id="1-robot-framework-selenium做ui自动化测试">1.Robot Framework+selenium做UI自动化测试</h3>
+<pre><code>Web Server Gateway Interface (WSGI, 可以分开来读, 也可以读作'wiz-gee')
+</code></pre>
 
-<h3 id="2-页面元素定位">2.页面元素定位</h3>
+<h1 id="wsgi是什么">WSGI是什么</h1>
 
-<h3 id="2-1-id和name定位">2.1 id和name定位</h3>
+<p>WSGI不是一个框架，也不是一个Python的库，也不是服务，API或者其他任何类型的软件。它只是服务(<code>Web Server</code>)和应用(<code>Web Application</code>)之间的一种简单通用的接口规范。它定义了服务和应用两端，除此之外还有一种叫中间件(<code>Middleware</code>)的组件，它同时实现了服务端和应用端。</p>
 
-<p>假如把一个元素看作一个人的话，id 和name可以看作一个人的身份证号和姓名。当然，这些属性值是否唯一要看前端工程师如何设计了。</p>
+<blockquote>
+<p>如果一个应用满足了WSGI，那么它就能在所有满足WSGI的服务上跑起来。</p>
+</blockquote>
 
-<p>百度搜索框和搜索按钮</p>
+<h3 id="application">Application</h3>
 
-<pre><code class="language-html">&lt;input type=&quot;text&quot; class=&quot;s_ipt&quot; ==name=&quot;wd&quot;== id=&quot;kw&quot; maxlength=&quot;100&quot; autocomplete=&quot;off&quot;&gt;
+<p><code>Application</code>处理请求，并返回处理的结果。它是一个可调用(<code>callable</code>)的对象，可以是一个函数，方法，实现了<code>__call__</code>或者<code>__iter__</code>方法的类。</p>
 
-&lt;input type=&quot;submit&quot; value=&quot;百度一下&quot; ==id=&quot;su&quot;== class=&quot;btn self-btn bg s_btn&quot;&gt;
+<h4 id="函数">函数</h4>
 
+<pre><code class="language-python">def app(environ, start_response):
+    start_response('200 OK', [('Content-type', 'text/plain')])
+    return ['Hello world!']
 </code></pre>
 
 <p></p>
 
-<p>根据上面的例子，百度输入框可以取id 或name进行定位。（前提是id和name的值在当页面上唯一）</p>
+<h4 id="方法">方法</h4>
 
-<pre><code class="language-html">id = su
-name = wd
+<pre><code class="language-python">class Demo(object):
+    def __init__(self):
+        # do something
+        ...
+    
+    def app(self, environ, start_response):
+        start_response('200 OK', [('Content-type', 'text/plain')])
+        return ['Hello world!']
 </code></pre>
 
-<p>在Robot framework 中写法如下：</p>
+<h4 id="call-类">__call__类</h4>
 
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>定位</th>
-<th>文本</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>Input Text</td>
-<td>id=kw</td>
-<td>地图</td>
-</tr>
-
-<tr>
-<td>Input Text</td>
-<td>name=wd</td>
-<td>地图</td>
-</tr>
-</tbody>
-</table>
-
-<p>百度按钮只id数据可以利用：id = su</p>
-
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>定位</th>
-<th>文本</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>Click Button</td>
-<td>id=su</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-
-<p>Click Button是按钮点击的关键字。</p>
-
-<h3 id="2-2-xpath定位">2.2 xpath定位</h3>
-
-<p>假如页面元素。既没有id也没有name
-例如：cgntes的登录页面</p>
-
-<pre><code class="language-html">&lt;input class=&quot;input ng-pristine ng-valid ng-empty ng-touched&quot; autocomplete=&quot;off&quot; ng-change=&quot;vm.loginFailed=false&quot; ng-model=&quot;vm.user.username&quot; placeholder=&quot;请输入用户名&quot; autofocus=&quot;&quot; ng-keyup=&quot;vm.keyUp($event)&quot; tabindex=&quot;1&quot; aria-invalid=&quot;false&quot; style=&quot;&quot;&gt;
+<pre><code class="language-python">class Application(object):
+    def __init__(self):
+        # do something
+        ...
+        
+    def __call__(self, environ, start_response):
+        start_response('200 OK', [('Content-type', 'text/plain')])
+        return ['Hello world!']
 </code></pre>
 
-<ol>
-<li>Xpath的绝对路径：</li>
-</ol>
+<h4 id="iter-类">__iter__类</h4>
 
-<pre><code class="language-html">Xpath =/html/body/div/titan-login/div/div[1]/div[2]/input
+<pre><code class="language-python">class Application(object):
+    def __init__(self, environ, start_response):
+        self.environ = environ
+        self.start_response = start_response
+        
+    def __iter__(self):
+        self.start_response('200 OK', [('Content-type', 'text/plain')])
+        yield 'Hello world!'
 </code></pre>
 
-<p>我们可以从最外层开始找，html下面的body下面的div下面的第4个div下面的&hellip;.input标签。通过一级一级的锁定就找到了想要的元素。</p>
+<h3 id="server">Server</h3>
 
-<ol>
-<li>Xpath的相对路径：</li>
-</ol>
+<p><code>Server</code>接收网络请求，调用<code>Application</code>去处理请求，并把其返回的结果传输给客户端。</p>
 
-<p>绝对路径的用法往往是在我们迫不得已的时候才用的。大多时候用相对路径更简便。
-3. 元素本身：
-Xpath同样可以利用元素自身的属性：</p>
+<pre><code class="language-python">import os, sys
 
-<pre><code class="language-html">Xpath=/html/body/div/titan-login/div/div[1]/div[2]/input[@placeholder='请输入用户名']
-Xpath = //*[@placeholder='请输入用户名]
+def run_with_cgi(application):
+
+    environ = dict(os.environ.items())
+    environ['wsgi.input']        = sys.stdin
+    environ['wsgi.errors']       = sys.stderr
+    environ['wsgi.version']      = (1, 0)
+    environ['wsgi.multithread']  = False
+    environ['wsgi.multiprocess'] = True
+    environ['wsgi.run_once']     = True
+
+    if environ.get('HTTPS', 'off') in ('on', '1'):
+        environ['wsgi.url_scheme'] = 'https'
+    else:
+        environ['wsgi.url_scheme'] = 'http'
+
+    headers_set = []
+    headers_sent = []
+
+    def write(data):
+        if not headers_set:
+             raise AssertionError(&quot;write() before start_response()&quot;)
+
+        elif not headers_sent:
+             # Before the first output, send the stored headers
+             status, response_headers = headers_sent[:] = headers_set
+             sys.stdout.write('Status: %s\r\n' % status)
+             for header in response_headers:
+                 sys.stdout.write('%s: %s\r\n' % header)
+             sys.stdout.write('\r\n')
+
+        sys.stdout.write(data)
+        sys.stdout.flush()
+
+    def start_response(status, response_headers, exc_info=None):
+        if exc_info:
+            try:
+                if headers_sent:
+                    # Re-raise original exception if headers sent
+                    raise exc_info[0], exc_info[1], exc_info[2]
+            finally:
+                exc_info = None     # avoid dangling circular ref
+        elif headers_set:
+            raise AssertionError(&quot;Headers already set!&quot;)
+
+        headers_set[:] = [status, response_headers]
+        return write
+
+    result = application(environ, start_response)
+    try:
+        for data in result:
+            if data:    # don't send headers until body appears
+                write(data)
+        if not headers_sent:
+            write('')   # send headers now if body was empty
+    finally:
+        if hasattr(result, 'close'):
+            result.close()
 </code></pre>
 
-<p>//表示某个层级下，*表示某个标签名。@placeholder=&lsquo;请输入用户名&rsquo;表示这个元素有个placeholder等于请输入用户名 。
-元素本身，可以利用的属性就不只局限为于id和name，但要保证这些元素可以唯一的识别一个元素。</p>
+<h3 id="middleware">Middleware</h3>
 
-<p>4.找上级：</p>
+<p><code>Middleware</code>同时实现了<code>Server</code>和<code>Application</code>两端的功能，它接收上层<code>Server</code>或者<code>Middleware</code>传过来的请求，调用下层<code>Application</code>或者<code>Middleware</code>来处理，处理的结果又返回给上层。在实际场景中，我们会有多个中间件，这样就形成了中间件栈。</p>
 
-<p>当我们要找的元素没有id和name，但是它有父节点，那么同样可以定位到该元素。</p>
+<pre><code class="language-python">def app(environ, start_response):
+    start_response('200 OK', [('Content-type', 'text/plain')])
+    return ['Hello world!']
+    
+class Middleware1(object):
+    def __init__(self, app):
+        self.app = app
+        
+    def __call__(self, environ, start_response)
+        print 'Middleware1'
+        return self.app(environ, start_response)
+        
 
-<p>元素的上级属性为：</p>
+class Middleware2(object):
+    def __init__(self, app):
+        self.app = app
+        
+    def __call__(self, environ, start_response)
+        print 'Middleware2'
+        return self.app(environ, start_response)
+        
 
-<pre><code class="language-html">&lt;form name=&quot;f&quot; id=&quot;form&quot; action=&quot;/s&quot; class=&quot;fm&quot; onsubmit=&quot;javascript:F.call('ps/sug','pssubmit')&quot;&gt;
-　　&lt;span class=&quot;s_kw_wrap&quot; class=&quot;bg s_ipt_wr quickdelete-wrap&quot;&gt;
-  &lt;span class=&quot;soutu-btn&quot;&gt;
-　　　 &lt;input  type=&quot;text&quot; class=&quot;s_ipt&quot; name=&quot;wd&quot; id=&quot;kw&quot; maxlength=&quot;100&quot; autocomplete=&quot;off&quot;&gt;
+app = Middleware1(Middleware2(app))
 </code></pre>
 
-<p>找父节点：</p>
+<p><img src="/img/wsgi.png" alt="image" /></p>
 
-<pre><code class="language-html">xpath = //span[@class=’bg s_ipt_wr’]/input
+<blockquote>
+<p>我们现在常用的框架，如Flask, Django都是应用端的，但是它们提供了简单的服务端运行，这样在开发过程中就可以运行起来。</p>
+
+<p>服务端实现有库wsgiref(内置库), werkzeug, gunicorn, gevent, uwsgi等。</p>
+</blockquote>
+
+<h1 id="一步步写个web">一步步写个Web</h1>
+
+<h3 id="运行hello-world">运行Hello World</h3>
+
+<pre><code class="language-python"># coding=utf-8
+
+from wsgiref.simple_server import make_server
+
+
+def app(environ, start_response):
+    start_response('200 Ok', [('Content-Type', 'text/plain')])
+    return ['Hello World!']
+
+
+if __name__ == '__main__':
+    server = make_server('127.0.0.1', 8080, app)
+    print 'Server start at 127.0.0.1:8080...'
+    server.serve_forever()
+
 </code></pre>
 
-<p>如果父节点没有唯一的属性，可以找父父节点：
-xpath = //form[@id=’form’]/span/input
-这样一级一级找上去，直到html那么就是一个绝对路径了。</p>
+<h3 id="post方法">POST方法</h3>
 
-<h3 id="2-3-css定位">2.3 CSS定位</h3>
+<p><code>environ</code>是一个纯字典，它包含了许多WSGI所需要的变量，如请求参数，请求方法等等。</p>
 
-<p>CSS的定位更灵活，因为他它用到的更多的匹配符和规格。</p>
+<pre><code class="language-python"># coding=utf-8
 
-<table>
-<thead>
-<tr>
-<th>选择器</th>
-<th>示例</th>
-<th>示例描述</th>
-</tr>
-</thead>
+from wsgiref.simple_server import make_server
 
-<tbody>
-<tr>
-<td>.class</td>
-<td>.intro</td>
-<td>选择 class=&ldquo;intro&rdquo; 的所有元素</td>
-</tr>
 
-<tr>
-<td>id</td>
-<td>firstname</td>
-<td>选择 id=&ldquo;firstname&rdquo; 的所有元素</td>
-</tr>
+def app(environ, start_response):
+    if environ['REQUEST_METHOD'] == 'POST':
+        res = 'Post Request.'
+    else:
+        res = 'Hello World!'
+    start_response('200 Ok', [('Content-Type', 'text/plain')])
+    return res
 
-<tr>
-<td>*</td>
-<td>*</td>
-<td>选择所有元素</td>
-</tr>
 
-<tr>
-<td>element</td>
-<td>p</td>
-<td>选择所有 <p> 元素</td>
-</tr>
-
-<tr>
-<td>element.element</td>
-<td>div.p</td>
-<td>选择所有 <div> 元素和所有 <p> 元素</td>
-</tr>
-
-<tr>
-<td>element&gt;element</td>
-<td>div&gt;p</td>
-<td>选择父元素为 <div> 元素的所有 <p> 元素</td>
-</tr>
-
-<tr>
-<td>element+element</td>
-<td>div+p</td>
-<td>选择紧接在 <div> 元素之后的所有 <p> 元素</td>
-</tr>
-
-<tr>
-<td>[attribute]</td>
-<td>[target]</td>
-<td>选择带有 target 属性所有元素</td>
-</tr>
-
-<tr>
-<td>[attribute=value]</td>
-<td>[target=_blank]</td>
-<td>选择 target=&rdquo;_blank&rdquo; 的所有元素</td>
-</tr>
-
-<tr>
-<td>[attribute~=value]</td>
-<td>[title~=flower]</td>
-<td>选择 title 属性包含单词 &ldquo;flower&rdquo; 的所有元素</td>
-</tr>
-
-<tr>
-<td>[attribute=value]</td>
-<td>[lang=en]</td>
-<td>选择 lang 属性值以 &ldquo;en&rdquo; 开头的所有元素</td>
-</tr>
-</tbody>
-</table>
-
-<p>同样以百度输入框的代码，具体CSS定位如下：</p>
-
-<p>id定位：</p>
-
-<pre><code class="language-html">css=#kw
-
-class定位：
-
-css=.s_ipt
+if __name__ == '__main__':
+    server = make_server('127.0.0.1', 8080, app)
+    print 'Server start at 127.0.0.1:8080...'
+    server.serve_forever()
 </code></pre>
 
-<p>其它属性：</p>
+<h3 id="添加route">添加Route</h3>
 
-<pre><code class="language-html">css=[name=wd]
-css=[type=text]
-css=[autocomplete=off]
+<p>上面的例子中，所有的url请求返回的结果都是一样的。如果我们需要根据不同url返回不同的结果，那么就需要添加路由处理。</p>
+
+<pre><code class="language-python"># coding=utf-8
+
+from wsgiref.simple_server import make_server
+
+
+def app(environ, start_response):
+    path = environ['PATH_INFO']
+    if path == '/':
+        res = 'Hello World!'
+    elif path == '/test':
+        res = 'Get /test'
+    else:
+        res = 'Cannot handle url.'
+
+    start_response('200 Ok', [('Content-Type', 'text/plain')])
+    return res
+
+if __name__ == '__main__':
+    server = make_server('127.0.0.1', 8080, app)
+    print 'Server start at 127.0.0.1:8080...'
+    server.serve_forever()
 </code></pre>
 
-<p>父子定位：</p>
+<p>随着我们要处理的url越来越多，app的逻辑会越来越复杂，所以我们用类来重构一下。</p>
 
-<pre><code class="language-html"> css=span&gt;input
- css=form&gt;span&gt;input
+<pre><code class="language-python"># coding=utf-8
+
+from wsgiref.simple_server import make_server
+
+
+def handle_root():
+    return 'Hello World!'
+
+
+def handle_test():
+    return 'Get /test'
+
+
+class Application(object):
+
+    def __init__(self, routes):
+        self.routes = routes
+
+    def __call__(self, environ, start_response):
+        handler = self.routes.get(environ['PATH_INFO'])
+        if handler is None:
+            res = 'Cannot handler url.'
+        else:
+            res = handler()
+        start_response('200 Ok', [('Content-Type', 'text/plain')])
+        return res
+
+
+if __name__ == '__main__':
+    routes = {
+        '/': handle_root,
+        '/test': handle_test
+    }
+    server = make_server('127.0.0.1', 8080, Application(routes))
+    print 'Server start at 127.0.0.1:8080...'
+    server.serve_forever()
+
 </code></pre>
 
-<p>根据标签名定位：</p>
+<p>继续重构，为每个url添加method。</p>
 
-<pre><code class="language-html">css=input
+<pre><code class="language-python"># coding=utf-8
+
+from wsgiref.simple_server import make_server
+
+
+def get_root():
+    return 'Hello World!'
+
+
+def post_root():
+    return 'Post root'
+
+
+def get_test():
+    return 'Get /test'
+
+
+def post_test():
+    return 'Post /test'
+
+
+class Application(object):
+
+    def __init__(self, routes):
+        self.routes = routes
+
+    def __call__(self, environ, start_response):
+        handler = self.routes.get(environ['PATH_INFO'], {}).get(environ['REQUEST_METHOD'])
+        if handler is None:
+            res = 'Cannot handler url.'
+        else:
+            res = handler()
+        start_response('200 Ok', [('Content-Type', 'text/plain')])
+        return res
+
+
+if __name__ == '__main__':
+    routes = {
+        '/': {
+            'GET': get_root,
+            'POST': post_root
+        },
+        '/test': {
+            'GET': get_test,
+            'POST': post_test
+        }
+    }
+    server = make_server('127.0.0.1', 8080, Application(routes))
+    print 'Server start at 127.0.0.1:8080...'
+    server.serve_forever()
 </code></pre>
 
-<p>以Cgntest的登录按钮为例子Robot framework 中的写法：</p>
+<h3 id="日志中间件">日志中间件</h3>
 
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>定位</th>
-<th>文本</th>
-</tr>
-</thead>
+<pre><code class="language-python"># coding=utf-8
 
-<tbody>
-<tr>
-<td>Input Text</td>
-<td>css=.btn</td>
-<td>\\13</td>
-</tr>
+from wsgiref.simple_server import make_server
 
-<tr>
-<td>Input Text</td>
-<td>css=body &gt; div &gt; titan-login &gt; div &gt; div.form &gt; div.btn</td>
-<td>\\13</td>
-</tr>
-</tbody>
-</table>
 
-<p>同样一个元素，根基CSS的不同规则，可能有几十上百种写法。CSS更灵活强大，但是相比Xpath 的学习成本为更高。但是CSS和Xpath两种定位方式是一定要学会一种，不然你的自动化工作更无法开展。</p>
+def handle_root():
+    return 'Hello World!'
 
-<h3 id="2-4-js定位">2.4 JS定位</h3>
 
-<p>当碰到使用上述方法仍无法定位时，可选择JS定位，该方法比较通用，能正常定位到所有元素。</p>
+def handle_test():
+    return 'Get /test'
 
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>定位</th>
-</tr>
-</thead>
 
-<tbody>
-<tr>
-<td>Execute JavaScript</td>
-<td>$(&ldquo;.btn&rdquo;).click()</td>
-</tr>
-</tbody>
-</table>
+class Application(object):
+
+    def __init__(self, routes):
+        self.routes = routes
+
+    def __call__(self, environ, start_response):
+        handler = self.routes.get(environ['PATH_INFO'])
+        if handler is None:
+            res = 'Cannot handler url.'
+        else:
+            res = handler()
+        start_response('200 Ok', [('Content-Type', 'text/plain')])
+        return res
+
+
+class Middleware(object):
+
+    def __init__(self, app):
+        self.app = app
+
+    def __call__(self, environ, start_response):
+        print 'Before request.'
+        res = self.app(environ, start_response)
+        print 'After request.'
+        return res
+
+
+if __name__ == '__main__':
+    routes = {
+        '/': handle_root,
+        '/test': handle_test
+    }
+    server = make_server('127.0.0.1', 8080, Middleware(Application(routes)))
+    print 'Server start at 127.0.0.1:8080...'
+    server.serve_forever()
+
+</code></pre>
+
+<h1 id="总结">总结</h1>
+
+<p>本篇介绍了WSGI的一些相关概念，然后一步步写了一个简单的web后台。当然，实际开发过程中我们根本不需要这么来做，因为现在的框架已经封装了好了一切。</p>
+
+<p>举个Flask的例子：</p>
+
+<pre><code class="language-python"># coding=utf-8
+
+from flask import Flask
+
+
+app = Flask(__name__)
+
+
+@app.route('/')
+def hello():
+    return 'Hello World!'
+
+
+if __name__ == '__main__':
+    app.run()
+</code></pre>
+
+<h1 id="参考">参考</h1>
+
+<p><a href="https://www.python.org/dev/peps/pep-0333/">PEP333</a></p>
+
+<p><a href="https://github.com/mainframer/PEP333-zh-CN">PEP333中文翻译</a></p>
             </div>
             <footer class="article-footer">
-    <a data-url="http://blog.titangroupco.com/2017/01/22/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95" data-id="27ea0a1bd4ea65c44d8474fc1e80bb9a" class="article-share-link">
+    <a data-url="http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface" data-id="0184160168bf8b3e3ef9299d989d130f" class="article-share-link">
         <i class="fa fa-share"></i>
         Share
     </a>
@@ -635,21 +792,14 @@ css=[autocomplete=off]
         
 <nav id="article-nav">
     
-    <a href="http://blog.titangroupco.com/2017/01/22/python-decorator" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="http://blog.titangroupco.com/2017/01/24/d3-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">
           Older
       </strong>
-      <div class="article-nav-title">Python Decorator</div>
+      <div class="article-nav-title">D3 入门教程</div>
     </a>
     
 
-    
-    <a href="http://blog.titangroupco.com/2017/01/22/%E5%89%8D%E7%AB%AF%E4%BD%BF%E7%94%A8websocket%E7%9A%84%E9%97%AE%E9%A2%98" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">
-          Newer
-      </strong>
-      <div class="article-nav-title">前端使用websocket的问题</div>
-    </a>
     
 </nav>
 

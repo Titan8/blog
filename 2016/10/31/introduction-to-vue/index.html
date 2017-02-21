@@ -21,9 +21,20 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
     <meta property="og:title" content="Introduction to Vue" />
-<meta property="og:description" content="Basic &lt;div id=&quot;app&quot;&gt; {{ message }} &lt;/div&gt;  var app = new Vue({ el: &#39;#app&#39;, data: { message: &#39;Hello Vue!&#39; } })  Vue inherits a lot from angular. Both has concept of directives and components.
-We will skip those similarities, but focus on differences here.
-Directive has Modifier and Arguments &lt;input v-model.number=&quot;age&quot; type=&quot;number&quot;&gt; &lt;a v-bind:href=&quot;url&quot;&gt;&lt;/a&gt;   Modifiers are special postfixes denoted by a dot, which indicate that a directive should be bound in some special way." />
+<meta property="og:description" content="Basic
+
+&lt;div id=&quot;app&quot;&gt;
+  {{ message }}
+&lt;/div&gt;
+
+
+var app = new Vue({
+  el: &#39;#app&#39;,
+  data: {
+    message: &#39;Hello Vue!&#39;
+  }
+})
+" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://blog.titangroupco.com/2016/10/31/introduction-to-vue" />
 
@@ -42,9 +53,20 @@ Directive has Modifier and Arguments &lt;input v-model.number=&quot;age&quot; ty
     
     
 <meta itemprop="name" content="Introduction to Vue">
-<meta itemprop="description" content="Basic &lt;div id=&quot;app&quot;&gt; {{ message }} &lt;/div&gt;  var app = new Vue({ el: &#39;#app&#39;, data: { message: &#39;Hello Vue!&#39; } })  Vue inherits a lot from angular. Both has concept of directives and components.
-We will skip those similarities, but focus on differences here.
-Directive has Modifier and Arguments &lt;input v-model.number=&quot;age&quot; type=&quot;number&quot;&gt; &lt;a v-bind:href=&quot;url&quot;&gt;&lt;/a&gt;   Modifiers are special postfixes denoted by a dot, which indicate that a directive should be bound in some special way.">
+<meta itemprop="description" content="Basic
+
+&lt;div id=&quot;app&quot;&gt;
+  {{ message }}
+&lt;/div&gt;
+
+
+var app = new Vue({
+  el: &#39;#app&#39;,
+  data: {
+    message: &#39;Hello Vue!&#39;
+  }
+})
+">
 
 
 <meta itemprop="dateModified" content="2016-10-31T08:42:14&#43;08:00" />
@@ -52,7 +74,7 @@ Directive has Modifier and Arguments &lt;input v-model.number=&quot;age&quot; ty
 
 
 
-<meta itemprop="keywords" content="frontend,build," />
+<meta itemprop="keywords" content="backend,frontend,test,build,database,javascript,python," />
 
     
 
@@ -61,9 +83,20 @@ Directive has Modifier and Arguments &lt;input v-model.number=&quot;age&quot; ty
 
 
 <meta name="twitter:title" content="Introduction to Vue"/>
-<meta name="twitter:description" content="Basic &lt;div id=&quot;app&quot;&gt; {{ message }} &lt;/div&gt;  var app = new Vue({ el: &#39;#app&#39;, data: { message: &#39;Hello Vue!&#39; } })  Vue inherits a lot from angular. Both has concept of directives and components.
-We will skip those similarities, but focus on differences here.
-Directive has Modifier and Arguments &lt;input v-model.number=&quot;age&quot; type=&quot;number&quot;&gt; &lt;a v-bind:href=&quot;url&quot;&gt;&lt;/a&gt;   Modifiers are special postfixes denoted by a dot, which indicate that a directive should be bound in some special way."/>
+<meta name="twitter:description" content="Basic
+
+&lt;div id=&quot;app&quot;&gt;
+  {{ message }}
+&lt;/div&gt;
+
+
+var app = new Vue({
+  el: &#39;#app&#39;,
+  data: {
+    message: &#39;Hello Vue!&#39;
+  }
+})
+"/>
 
 
 
@@ -197,15 +230,37 @@ Directive has Modifier and Arguments &lt;input v-model.number=&quot;age&quot; ty
         </div>
         
         
+            
+            
+            <div class="article-category">
+                <i class="fa fa-folder"></i>
+                
+                
+                <a class="article-category-link" href="http://blog.titangroupco.com/categories/frontend">frontend</a>
+                
+                
+            </div>
+            
+        
 
+        
+            
+            
+            <div class="article-category">
+                <i class="fa fa-tags"></i>
+                
+                
+                <a class="article-category-link" href="http://blog.titangroupco.com/tags/javascript">JavaScript</a>
+                
+                
+            </div>
+            
         
     </div>
 </header>
 
             <div class="article-entry" itemprop="articleBody">
-                
-
-<h2 id="basic">Basic</h2>
+                <h2 id="basic">Basic</h2>
 
 <pre><code class="language-html">&lt;div id=&quot;app&quot;&gt;
   {{ message }}
@@ -220,7 +275,8 @@ Directive has Modifier and Arguments &lt;input v-model.number=&quot;age&quot; ty
 })
 </code></pre>
 
-<p>Vue inherits a lot from angular. Both has concept of <code>directives</code> and <code>components</code>.</p>
+<p>
+Vue inherits a lot from angular. Both has concept of <code>directives</code> and <code>components</code>.</p>
 
 <p>We will skip those similarities, but focus on differences here.</p>
 
@@ -345,7 +401,6 @@ additional libraries, which is authored and supported by community.</li>
 <p><a href="http://vuejs.org/guide/comparison.html">Read more</a> on differences among these front-end Javascript frameworks.</p>
 
 <p>You can use <a href="https://github.com/vuejs/vue-cli">vue-cli</a> to scaffold Vue.js projects.</p>
-
             </div>
             <footer class="article-footer">
     <a data-url="http://blog.titangroupco.com/2016/10/31/introduction-to-vue" data-id="670895f40c825c046cbc0e00b2e57dcf" class="article-share-link">
@@ -462,6 +517,32 @@ additional libraries, which is authored and supported by community.</li>
             
             <li>
                 <div class="item-thumbnail">
+                    <a href="http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface" class="thumbnail">
+                    
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    
+                    </a>
+                </div>
+                <div class="item-inner">
+                    
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/backend">
+                        backend
+                        </a>
+                    </p>
+                    
+                    
+                    <p class="item-title"><a href="http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface" class="title">Python Web Server Gateway Interface</a></p>
+                    <p class="item-date">
+                        <time datetime="2017-02-21 09:15:24 &#43;0800 CST" itemprop="datePublished">2017-02-21</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                <div class="item-thumbnail">
                     <a href="http://blog.titangroupco.com/2017/01/24/d3-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B" class="thumbnail">
                     
                         <span class="thumbnail-image thumbnail-none"></span>
@@ -469,6 +550,15 @@ additional libraries, which is authored and supported by community.</li>
                     </a>
                 </div>
                 <div class="item-inner">
+                    
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/frontend">
+                        frontend
+                        </a>
+                    </p>
+                    
                     
                     <p class="item-title"><a href="http://blog.titangroupco.com/2017/01/24/d3-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B" class="title">D3 入门教程</a></p>
                     <p class="item-date">
@@ -487,6 +577,15 @@ additional libraries, which is authored and supported by community.</li>
                 </div>
                 <div class="item-inner">
                     
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/frontend">
+                        frontend
+                        </a>
+                    </p>
+                    
+                    
                     <p class="item-title"><a href="http://blog.titangroupco.com/2017/01/22/%E5%89%8D%E7%AB%AF%E4%BD%BF%E7%94%A8websocket%E7%9A%84%E9%97%AE%E9%A2%98" class="title">前端使用websocket的问题</a></p>
                     <p class="item-date">
                         <time datetime="2017-01-22 18:11:48 &#43;0800 CST" itemprop="datePublished">2017-01-22</time>
@@ -503,6 +602,15 @@ additional libraries, which is authored and supported by community.</li>
                     </a>
                 </div>
                 <div class="item-inner">
+                    
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/test">
+                        test
+                        </a>
+                    </p>
+                    
                     
                     <p class="item-title"><a href="http://blog.titangroupco.com/2017/01/22/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95" class="title">自动化测试</a></p>
                     <p class="item-date">
@@ -521,26 +629,18 @@ additional libraries, which is authored and supported by community.</li>
                 </div>
                 <div class="item-inner">
                     
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/backend">
+                        backend
+                        </a>
+                    </p>
+                    
+                    
                     <p class="item-title"><a href="http://blog.titangroupco.com/2017/01/22/python-decorator" class="title">Python Decorator</a></p>
                     <p class="item-date">
                         <time datetime="2017-01-22 13:20:36 &#43;0800 CST" itemprop="datePublished">2017-01-22</time>
-                    </p>
-                </div>
-            </li>
-            
-            <li>
-                <div class="item-thumbnail">
-                    <a href="http://blog.titangroupco.com/2017/01/19/mongo-introduction" class="thumbnail">
-                    
-                        <span class="thumbnail-image thumbnail-none"></span>
-                    
-                    </a>
-                </div>
-                <div class="item-inner">
-                    
-                    <p class="item-title"><a href="http://blog.titangroupco.com/2017/01/19/mongo-introduction" class="title">Mongo Introduction</a></p>
-                    <p class="item-date">
-                        <time datetime="2017-01-19 09:15:18 &#43;0800 CST" itemprop="datePublished">2017-01-19</time>
                     </p>
                 </div>
             </li>
@@ -560,8 +660,24 @@ additional libraries, which is authored and supported by community.</li>
             
             <li class="category-list-item">
                 
+                <a class="category-list-link" href="http://blog.titangroupco.com/categories/backend">
+                    backend
+                </a>
+                <span class="category-list-count">3</span>
+            </li>
+            
+            <li class="category-list-item">
+                
                 <a class="category-list-link" href="http://blog.titangroupco.com/categories/frontend">
                     frontend
+                </a>
+                <span class="category-list-count">5</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/categories/test">
+                    test
                 </a>
                 <span class="category-list-count">1</span>
             </li>
@@ -591,6 +707,30 @@ additional libraries, which is authored and supported by community.</li>
                 <span class="category-list-count">1</span>
             </li>
             
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/tags/database">
+                    database
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/tags/javascript">
+                    javascript
+                </a>
+                <span class="category-list-count">5</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/tags/python">
+                    python
+                </a>
+                <span class="category-list-count">2</span>
+            </li>
+            
         </ul>
     </div>
 </div>
@@ -609,6 +749,15 @@ additional libraries, which is authored and supported by community.</li>
         
         
         <a href="http://blog.titangroupco.com/tags/build" style="font-size: 12px;">build</a>
+        
+        
+        <a href="http://blog.titangroupco.com/tags/database" style="font-size: 12px;">database</a>
+        
+        
+        <a href="http://blog.titangroupco.com/tags/javascript" style="font-size: 12px;">javascript</a>
+        
+        
+        <a href="http://blog.titangroupco.com/tags/python" style="font-size: 12px;">python</a>
         
     </div>
 </div>

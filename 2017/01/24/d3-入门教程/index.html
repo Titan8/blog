@@ -21,18 +21,26 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
     <meta property="og:title" content="D3 入门教程" />
-<meta property="og:description" content="1. 数据可视化 数据可视化，是关于数据视觉表现形式的科学技术研究。为了使复杂的数据和文字变得更容易理解，各种可视化工具因此诞生，其中D3 正是其中的佼佼者。 2. D3 简介 D3 的全称是（Data-Driven Documents），字面意思是一个被数据驱动的文档。听名字有点抽象，说简单一点，其实就是一个 JavaScript 的函数库，使用它主要是用来做数据可视化的。
-3. 基本用法 3.1 选择元素 在 D3 中，用于选择元素的函数有两个，函数接收符合CSS选择器条件的字符串： - d3.select()：是选择所有指定元素的第一个 - d3.selectAll()：是选择指定元素的全部
+<meta property="og:description" content="1. 数据可视化
+
+数据可视化，是关于数据视觉表现形式的科学技术研究。为了使复杂的数据和文字变得更容易理解，各种可视化工具因此诞生，其中D3 正是其中的佼佼者。
+
+
+2. D3 简介
+
+D3 的全称是（Data-Driven Documents），字面意思是一个被数据驱动的文档。听名字有点抽象，说简单一点，其实就是一个 JavaScript 的函数库，使用它主要是用来做数据可视化的。
+
+3. 基本用法
+
+3.1 选择元素
+
+在 D3 中，用于选择元素的函数有两个，函数接收符合CSS选择器条件的字符串：
+- d3.select()：是选择所有指定元素的第一个
+- d3.selectAll()：是选择指定元素的全部
+
 这两个函数返回的结果称为选择集。
-3.2 绑定数据 D3 有一个很独特的功能：能将数据绑定到 DOM 上，绑定之后，当需要依靠这个数据才操作元素的时候，会很方便。
-D3 中是通过以下两个函数来绑定数据的：
- datum()：绑定一个数据到选择集上 data()：绑定一个数组到选择集上，数组的各项值分别与选择集的各元素绑定  相对而言，data() 比较常用。
-3.3 插入元素 插入元素涉及的函数有两个：
- append()：在选择集末尾插入元素 insert()：在选择集前面插入元素  3.4 删除元素 对于选择的元素，使用remove()函数
-3.5 比例尺 将某一区域的值映射到另一区域，其大小关系不变。
-比例尺，很像数学中的函数。例如，对于一个一元二次函数，有 x 和 y 两个未知数，当 x 的值确定时，y 的值也就确定了。
-在数学中，x 的范围被称为定义域，y 的范围被称为值域。
-D3 中的比例尺，也有定义域和值域，分别被称为 domain 和 range。开发者需要指定 domain 和 range 的范围，如此即可得到一个计算关系。" />
+
+" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://blog.titangroupco.com/2017/01/24/d3-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B" />
 
@@ -51,18 +59,26 @@ D3 中的比例尺，也有定义域和值域，分别被称为 domain 和 range
     
     
 <meta itemprop="name" content="D3 入门教程">
-<meta itemprop="description" content="1. 数据可视化 数据可视化，是关于数据视觉表现形式的科学技术研究。为了使复杂的数据和文字变得更容易理解，各种可视化工具因此诞生，其中D3 正是其中的佼佼者。 2. D3 简介 D3 的全称是（Data-Driven Documents），字面意思是一个被数据驱动的文档。听名字有点抽象，说简单一点，其实就是一个 JavaScript 的函数库，使用它主要是用来做数据可视化的。
-3. 基本用法 3.1 选择元素 在 D3 中，用于选择元素的函数有两个，函数接收符合CSS选择器条件的字符串： - d3.select()：是选择所有指定元素的第一个 - d3.selectAll()：是选择指定元素的全部
+<meta itemprop="description" content="1. 数据可视化
+
+数据可视化，是关于数据视觉表现形式的科学技术研究。为了使复杂的数据和文字变得更容易理解，各种可视化工具因此诞生，其中D3 正是其中的佼佼者。
+
+
+2. D3 简介
+
+D3 的全称是（Data-Driven Documents），字面意思是一个被数据驱动的文档。听名字有点抽象，说简单一点，其实就是一个 JavaScript 的函数库，使用它主要是用来做数据可视化的。
+
+3. 基本用法
+
+3.1 选择元素
+
+在 D3 中，用于选择元素的函数有两个，函数接收符合CSS选择器条件的字符串：
+- d3.select()：是选择所有指定元素的第一个
+- d3.selectAll()：是选择指定元素的全部
+
 这两个函数返回的结果称为选择集。
-3.2 绑定数据 D3 有一个很独特的功能：能将数据绑定到 DOM 上，绑定之后，当需要依靠这个数据才操作元素的时候，会很方便。
-D3 中是通过以下两个函数来绑定数据的：
- datum()：绑定一个数据到选择集上 data()：绑定一个数组到选择集上，数组的各项值分别与选择集的各元素绑定  相对而言，data() 比较常用。
-3.3 插入元素 插入元素涉及的函数有两个：
- append()：在选择集末尾插入元素 insert()：在选择集前面插入元素  3.4 删除元素 对于选择的元素，使用remove()函数
-3.5 比例尺 将某一区域的值映射到另一区域，其大小关系不变。
-比例尺，很像数学中的函数。例如，对于一个一元二次函数，有 x 和 y 两个未知数，当 x 的值确定时，y 的值也就确定了。
-在数学中，x 的范围被称为定义域，y 的范围被称为值域。
-D3 中的比例尺，也有定义域和值域，分别被称为 domain 和 range。开发者需要指定 domain 和 range 的范围，如此即可得到一个计算关系。">
+
+">
 
 
 <meta itemprop="dateModified" content="2017-01-24T16:50:51&#43;08:00" />
@@ -70,7 +86,7 @@ D3 中的比例尺，也有定义域和值域，分别被称为 domain 和 range
 
 
 
-<meta itemprop="keywords" content="frontend,build," />
+<meta itemprop="keywords" content="backend,frontend,test,build,database,javascript,python," />
 
     
 
@@ -79,18 +95,26 @@ D3 中的比例尺，也有定义域和值域，分别被称为 domain 和 range
 
 
 <meta name="twitter:title" content="D3 入门教程"/>
-<meta name="twitter:description" content="1. 数据可视化 数据可视化，是关于数据视觉表现形式的科学技术研究。为了使复杂的数据和文字变得更容易理解，各种可视化工具因此诞生，其中D3 正是其中的佼佼者。 2. D3 简介 D3 的全称是（Data-Driven Documents），字面意思是一个被数据驱动的文档。听名字有点抽象，说简单一点，其实就是一个 JavaScript 的函数库，使用它主要是用来做数据可视化的。
-3. 基本用法 3.1 选择元素 在 D3 中，用于选择元素的函数有两个，函数接收符合CSS选择器条件的字符串： - d3.select()：是选择所有指定元素的第一个 - d3.selectAll()：是选择指定元素的全部
+<meta name="twitter:description" content="1. 数据可视化
+
+数据可视化，是关于数据视觉表现形式的科学技术研究。为了使复杂的数据和文字变得更容易理解，各种可视化工具因此诞生，其中D3 正是其中的佼佼者。
+
+
+2. D3 简介
+
+D3 的全称是（Data-Driven Documents），字面意思是一个被数据驱动的文档。听名字有点抽象，说简单一点，其实就是一个 JavaScript 的函数库，使用它主要是用来做数据可视化的。
+
+3. 基本用法
+
+3.1 选择元素
+
+在 D3 中，用于选择元素的函数有两个，函数接收符合CSS选择器条件的字符串：
+- d3.select()：是选择所有指定元素的第一个
+- d3.selectAll()：是选择指定元素的全部
+
 这两个函数返回的结果称为选择集。
-3.2 绑定数据 D3 有一个很独特的功能：能将数据绑定到 DOM 上，绑定之后，当需要依靠这个数据才操作元素的时候，会很方便。
-D3 中是通过以下两个函数来绑定数据的：
- datum()：绑定一个数据到选择集上 data()：绑定一个数组到选择集上，数组的各项值分别与选择集的各元素绑定  相对而言，data() 比较常用。
-3.3 插入元素 插入元素涉及的函数有两个：
- append()：在选择集末尾插入元素 insert()：在选择集前面插入元素  3.4 删除元素 对于选择的元素，使用remove()函数
-3.5 比例尺 将某一区域的值映射到另一区域，其大小关系不变。
-比例尺，很像数学中的函数。例如，对于一个一元二次函数，有 x 和 y 两个未知数，当 x 的值确定时，y 的值也就确定了。
-在数学中，x 的范围被称为定义域，y 的范围被称为值域。
-D3 中的比例尺，也有定义域和值域，分别被称为 domain 和 range。开发者需要指定 domain 和 range 的范围，如此即可得到一个计算关系。"/>
+
+"/>
 
 
 
@@ -224,15 +248,37 @@ D3 中的比例尺，也有定义域和值域，分别被称为 domain 和 range
         </div>
         
         
+            
+            
+            <div class="article-category">
+                <i class="fa fa-folder"></i>
+                
+                
+                <a class="article-category-link" href="http://blog.titangroupco.com/categories/frontend">frontend</a>
+                
+                
+            </div>
+            
+        
 
+        
+            
+            
+            <div class="article-category">
+                <i class="fa fa-tags"></i>
+                
+                
+                <a class="article-category-link" href="http://blog.titangroupco.com/tags/javascript">JavaScript</a>
+                
+                
+            </div>
+            
         
     </div>
 </header>
 
             <div class="article-entry" itemprop="articleBody">
-                
-
-<h1 id="1-数据可视化">1. 数据可视化</h1>
+                <h1 id="1-数据可视化">1. 数据可视化</h1>
 
 <p>数据可视化，是关于数据视觉表现形式的科学技术研究。为了使复杂的数据和文字变得更容易理解，各种可视化工具因此诞生，其中D3 正是其中的佼佼者。
 <img src="http://www.ourd3js.com/wordpress/wp-content/uploads/2014/06/14.png" alt="image" /></p>
@@ -250,6 +296,8 @@ D3 中的比例尺，也有定义域和值域，分别被称为 domain 和 range
 - d3.selectAll()：是选择指定元素的全部</p>
 
 <p>这两个函数返回的结果称为选择集。</p>
+
+<p></p>
 
 <h2 id="3-2-绑定数据">3.2 绑定数据</h2>
 
@@ -427,7 +475,6 @@ svg.append(&quot;g&quot;)
 <li>选择 D3：如果希望开发脑海中任意想象到的图表；</li>
 <li>选择 Highcharts、Echarts 等：如果希望开发几种固定种类的、十分大众化的图表。</li>
 </ul>
-
             </div>
             <footer class="article-footer">
     <a data-url="http://blog.titangroupco.com/2017/01/24/d3-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B" data-id="c2646908c9faa64e3ef86b8baefb1810" class="article-share-link">
@@ -516,6 +563,13 @@ svg.append(&quot;g&quot;)
     
 
     
+    <a href="http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Newer
+      </strong>
+      <div class="article-nav-title">Python Web Server Gateway Interface</div>
+    </a>
+    
 </nav>
 
 
@@ -537,6 +591,32 @@ svg.append(&quot;g&quot;)
             
             <li>
                 <div class="item-thumbnail">
+                    <a href="http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface" class="thumbnail">
+                    
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    
+                    </a>
+                </div>
+                <div class="item-inner">
+                    
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/backend">
+                        backend
+                        </a>
+                    </p>
+                    
+                    
+                    <p class="item-title"><a href="http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface" class="title">Python Web Server Gateway Interface</a></p>
+                    <p class="item-date">
+                        <time datetime="2017-02-21 09:15:24 &#43;0800 CST" itemprop="datePublished">2017-02-21</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                <div class="item-thumbnail">
                     <a href="http://blog.titangroupco.com/2017/01/24/d3-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B" class="thumbnail">
                     
                         <span class="thumbnail-image thumbnail-none"></span>
@@ -544,6 +624,15 @@ svg.append(&quot;g&quot;)
                     </a>
                 </div>
                 <div class="item-inner">
+                    
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/frontend">
+                        frontend
+                        </a>
+                    </p>
+                    
                     
                     <p class="item-title"><a href="http://blog.titangroupco.com/2017/01/24/d3-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B" class="title">D3 入门教程</a></p>
                     <p class="item-date">
@@ -562,6 +651,15 @@ svg.append(&quot;g&quot;)
                 </div>
                 <div class="item-inner">
                     
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/frontend">
+                        frontend
+                        </a>
+                    </p>
+                    
+                    
                     <p class="item-title"><a href="http://blog.titangroupco.com/2017/01/22/%E5%89%8D%E7%AB%AF%E4%BD%BF%E7%94%A8websocket%E7%9A%84%E9%97%AE%E9%A2%98" class="title">前端使用websocket的问题</a></p>
                     <p class="item-date">
                         <time datetime="2017-01-22 18:11:48 &#43;0800 CST" itemprop="datePublished">2017-01-22</time>
@@ -578,6 +676,15 @@ svg.append(&quot;g&quot;)
                     </a>
                 </div>
                 <div class="item-inner">
+                    
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/test">
+                        test
+                        </a>
+                    </p>
+                    
                     
                     <p class="item-title"><a href="http://blog.titangroupco.com/2017/01/22/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95" class="title">自动化测试</a></p>
                     <p class="item-date">
@@ -596,26 +703,18 @@ svg.append(&quot;g&quot;)
                 </div>
                 <div class="item-inner">
                     
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/backend">
+                        backend
+                        </a>
+                    </p>
+                    
+                    
                     <p class="item-title"><a href="http://blog.titangroupco.com/2017/01/22/python-decorator" class="title">Python Decorator</a></p>
                     <p class="item-date">
                         <time datetime="2017-01-22 13:20:36 &#43;0800 CST" itemprop="datePublished">2017-01-22</time>
-                    </p>
-                </div>
-            </li>
-            
-            <li>
-                <div class="item-thumbnail">
-                    <a href="http://blog.titangroupco.com/2017/01/19/mongo-introduction" class="thumbnail">
-                    
-                        <span class="thumbnail-image thumbnail-none"></span>
-                    
-                    </a>
-                </div>
-                <div class="item-inner">
-                    
-                    <p class="item-title"><a href="http://blog.titangroupco.com/2017/01/19/mongo-introduction" class="title">Mongo Introduction</a></p>
-                    <p class="item-date">
-                        <time datetime="2017-01-19 09:15:18 &#43;0800 CST" itemprop="datePublished">2017-01-19</time>
                     </p>
                 </div>
             </li>
@@ -635,8 +734,24 @@ svg.append(&quot;g&quot;)
             
             <li class="category-list-item">
                 
+                <a class="category-list-link" href="http://blog.titangroupco.com/categories/backend">
+                    backend
+                </a>
+                <span class="category-list-count">3</span>
+            </li>
+            
+            <li class="category-list-item">
+                
                 <a class="category-list-link" href="http://blog.titangroupco.com/categories/frontend">
                     frontend
+                </a>
+                <span class="category-list-count">5</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/categories/test">
+                    test
                 </a>
                 <span class="category-list-count">1</span>
             </li>
@@ -666,6 +781,30 @@ svg.append(&quot;g&quot;)
                 <span class="category-list-count">1</span>
             </li>
             
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/tags/database">
+                    database
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/tags/javascript">
+                    javascript
+                </a>
+                <span class="category-list-count">5</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/tags/python">
+                    python
+                </a>
+                <span class="category-list-count">2</span>
+            </li>
+            
         </ul>
     </div>
 </div>
@@ -684,6 +823,15 @@ svg.append(&quot;g&quot;)
         
         
         <a href="http://blog.titangroupco.com/tags/build" style="font-size: 12px;">build</a>
+        
+        
+        <a href="http://blog.titangroupco.com/tags/database" style="font-size: 12px;">database</a>
+        
+        
+        <a href="http://blog.titangroupco.com/tags/javascript" style="font-size: 12px;">javascript</a>
+        
+        
+        <a href="http://blog.titangroupco.com/tags/python" style="font-size: 12px;">python</a>
         
     </div>
 </div>

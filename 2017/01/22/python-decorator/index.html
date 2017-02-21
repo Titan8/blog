@@ -21,12 +21,19 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
     <meta property="og:title" content="Python Decorator" />
-<meta property="og:description" content="什么是装饰器 在coding的时候，你经常会需要计算一个函数的执行时间，最容易想到的方法是在每个函数内部进行计算。
-def hello(): start = time.time() print &#39;Hello&#39; print &#39;Spend &#39;, time.time() - start  也有可能是在函数外部计算时间。
-def hello(): print &#39;Hello&#39; start = time.time() hello() print &#39;Spend &#39;, time.time() - start  但是，一个hello还好，如果还有hello1、 hello2、hello3，甚至更多的时候你就懵了。这时候，你就会想有没有不需要写这么多重复代码的方法。
-要解决这个问题，你首先需要知道在Python中，function is the first class。有一种意译是，“函数是一等公民”。你想啊，函数都是一等公民了，那它肯定可以像基本类型那样作为函数参数喽。于是呢，就有了下面这种方法。
-def spend(func): def _spend(): start = time.time() func() print &#39;Spend &#39;, time.time() - start return _spend def hello(): print &#39;Hello&#39; hello = spend(hello) hello()  这样是不是少写了很多代码，但是呢，还有一个问题，一旦需要计算时间的函数多了，就有可能漏掉一个两个。那么，将时间计算写在函数定义的时候总不会漏了吧。于是乎，Python从2.4版本开始引入一个特殊的语法糖标记@。
-@spend def hello(): print &#39;Hello&#39;  这个spend呢，我们就将其称之为装饰器（Decorator）。" />
+<meta property="og:description" content="什么是装饰器
+
+在coding的时候，你经常会需要计算一个函数的执行时间，最容易想到的方法是在每个函数内部进行计算。
+
+def hello():
+    start = time.time()
+    print &#39;Hello&#39;
+    print &#39;Spend &#39;, time.time() - start
+
+
+也有可能是在函数外部计算时间。
+
+" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://blog.titangroupco.com/2017/01/22/python-decorator" />
 
@@ -45,12 +52,19 @@ def spend(func): def _spend(): start = time.time() func() print &#39;Spend &#39;
     
     
 <meta itemprop="name" content="Python Decorator">
-<meta itemprop="description" content="什么是装饰器 在coding的时候，你经常会需要计算一个函数的执行时间，最容易想到的方法是在每个函数内部进行计算。
-def hello(): start = time.time() print &#39;Hello&#39; print &#39;Spend &#39;, time.time() - start  也有可能是在函数外部计算时间。
-def hello(): print &#39;Hello&#39; start = time.time() hello() print &#39;Spend &#39;, time.time() - start  但是，一个hello还好，如果还有hello1、 hello2、hello3，甚至更多的时候你就懵了。这时候，你就会想有没有不需要写这么多重复代码的方法。
-要解决这个问题，你首先需要知道在Python中，function is the first class。有一种意译是，“函数是一等公民”。你想啊，函数都是一等公民了，那它肯定可以像基本类型那样作为函数参数喽。于是呢，就有了下面这种方法。
-def spend(func): def _spend(): start = time.time() func() print &#39;Spend &#39;, time.time() - start return _spend def hello(): print &#39;Hello&#39; hello = spend(hello) hello()  这样是不是少写了很多代码，但是呢，还有一个问题，一旦需要计算时间的函数多了，就有可能漏掉一个两个。那么，将时间计算写在函数定义的时候总不会漏了吧。于是乎，Python从2.4版本开始引入一个特殊的语法糖标记@。
-@spend def hello(): print &#39;Hello&#39;  这个spend呢，我们就将其称之为装饰器（Decorator）。">
+<meta itemprop="description" content="什么是装饰器
+
+在coding的时候，你经常会需要计算一个函数的执行时间，最容易想到的方法是在每个函数内部进行计算。
+
+def hello():
+    start = time.time()
+    print &#39;Hello&#39;
+    print &#39;Spend &#39;, time.time() - start
+
+
+也有可能是在函数外部计算时间。
+
+">
 
 
 <meta itemprop="dateModified" content="2017-01-22T13:20:36&#43;08:00" />
@@ -58,7 +72,7 @@ def spend(func): def _spend(): start = time.time() func() print &#39;Spend &#39;
 
 
 
-<meta itemprop="keywords" content="frontend,build," />
+<meta itemprop="keywords" content="backend,frontend,test,build,database,javascript,python," />
 
     
 
@@ -67,12 +81,19 @@ def spend(func): def _spend(): start = time.time() func() print &#39;Spend &#39;
 
 
 <meta name="twitter:title" content="Python Decorator"/>
-<meta name="twitter:description" content="什么是装饰器 在coding的时候，你经常会需要计算一个函数的执行时间，最容易想到的方法是在每个函数内部进行计算。
-def hello(): start = time.time() print &#39;Hello&#39; print &#39;Spend &#39;, time.time() - start  也有可能是在函数外部计算时间。
-def hello(): print &#39;Hello&#39; start = time.time() hello() print &#39;Spend &#39;, time.time() - start  但是，一个hello还好，如果还有hello1、 hello2、hello3，甚至更多的时候你就懵了。这时候，你就会想有没有不需要写这么多重复代码的方法。
-要解决这个问题，你首先需要知道在Python中，function is the first class。有一种意译是，“函数是一等公民”。你想啊，函数都是一等公民了，那它肯定可以像基本类型那样作为函数参数喽。于是呢，就有了下面这种方法。
-def spend(func): def _spend(): start = time.time() func() print &#39;Spend &#39;, time.time() - start return _spend def hello(): print &#39;Hello&#39; hello = spend(hello) hello()  这样是不是少写了很多代码，但是呢，还有一个问题，一旦需要计算时间的函数多了，就有可能漏掉一个两个。那么，将时间计算写在函数定义的时候总不会漏了吧。于是乎，Python从2.4版本开始引入一个特殊的语法糖标记@。
-@spend def hello(): print &#39;Hello&#39;  这个spend呢，我们就将其称之为装饰器（Decorator）。"/>
+<meta name="twitter:description" content="什么是装饰器
+
+在coding的时候，你经常会需要计算一个函数的执行时间，最容易想到的方法是在每个函数内部进行计算。
+
+def hello():
+    start = time.time()
+    print &#39;Hello&#39;
+    print &#39;Spend &#39;, time.time() - start
+
+
+也有可能是在函数外部计算时间。
+
+"/>
 
 
 
@@ -206,15 +227,37 @@ def spend(func): def _spend(): start = time.time() func() print &#39;Spend &#39;
         </div>
         
         
+            
+            
+            <div class="article-category">
+                <i class="fa fa-folder"></i>
+                
+                
+                <a class="article-category-link" href="http://blog.titangroupco.com/categories/backend">backend</a>
+                
+                
+            </div>
+            
+        
 
+        
+            
+            
+            <div class="article-category">
+                <i class="fa fa-tags"></i>
+                
+                
+                <a class="article-category-link" href="http://blog.titangroupco.com/tags/python">Python</a>
+                
+                
+            </div>
+            
         
     </div>
 </header>
 
             <div class="article-entry" itemprop="articleBody">
-                
-
-<h2 id="什么是装饰器">什么是装饰器</h2>
+                <h2 id="什么是装饰器">什么是装饰器</h2>
 
 <p>在coding的时候，你经常会需要计算一个函数的执行时间，最容易想到的方法是在每个函数内部进行计算。</p>
 
@@ -225,6 +268,8 @@ def spend(func): def _spend(): start = time.time() func() print &#39;Spend &#39;
 </code></pre>
 
 <p>也有可能是在函数外部计算时间。</p>
+
+<p></p>
 
 <pre><code class="language-python">def hello():
     print 'Hello'
@@ -468,7 +513,6 @@ hello
 <p>假如有新的功能需要实现，但是又不想改变已有的逻辑代码，这时候就需要考虑考虑装饰器了。</p>
 
 <p>参考： <a href="https://www.python.org/dev/peps/pep-0318/#warningwarningwarning">PEP 318 &ndash; Decorators for Functions and Methods</a></p>
-
             </div>
             <footer class="article-footer">
     <a data-url="http://blog.titangroupco.com/2017/01/22/python-decorator" data-id="7acf560587b0e608f3e26a708e46951c" class="article-share-link">
@@ -585,6 +629,32 @@ hello
             
             <li>
                 <div class="item-thumbnail">
+                    <a href="http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface" class="thumbnail">
+                    
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    
+                    </a>
+                </div>
+                <div class="item-inner">
+                    
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/backend">
+                        backend
+                        </a>
+                    </p>
+                    
+                    
+                    <p class="item-title"><a href="http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface" class="title">Python Web Server Gateway Interface</a></p>
+                    <p class="item-date">
+                        <time datetime="2017-02-21 09:15:24 &#43;0800 CST" itemprop="datePublished">2017-02-21</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                <div class="item-thumbnail">
                     <a href="http://blog.titangroupco.com/2017/01/24/d3-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B" class="thumbnail">
                     
                         <span class="thumbnail-image thumbnail-none"></span>
@@ -592,6 +662,15 @@ hello
                     </a>
                 </div>
                 <div class="item-inner">
+                    
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/frontend">
+                        frontend
+                        </a>
+                    </p>
+                    
                     
                     <p class="item-title"><a href="http://blog.titangroupco.com/2017/01/24/d3-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B" class="title">D3 入门教程</a></p>
                     <p class="item-date">
@@ -610,6 +689,15 @@ hello
                 </div>
                 <div class="item-inner">
                     
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/frontend">
+                        frontend
+                        </a>
+                    </p>
+                    
+                    
                     <p class="item-title"><a href="http://blog.titangroupco.com/2017/01/22/%E5%89%8D%E7%AB%AF%E4%BD%BF%E7%94%A8websocket%E7%9A%84%E9%97%AE%E9%A2%98" class="title">前端使用websocket的问题</a></p>
                     <p class="item-date">
                         <time datetime="2017-01-22 18:11:48 &#43;0800 CST" itemprop="datePublished">2017-01-22</time>
@@ -626,6 +714,15 @@ hello
                     </a>
                 </div>
                 <div class="item-inner">
+                    
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/test">
+                        test
+                        </a>
+                    </p>
+                    
                     
                     <p class="item-title"><a href="http://blog.titangroupco.com/2017/01/22/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95" class="title">自动化测试</a></p>
                     <p class="item-date">
@@ -644,26 +741,18 @@ hello
                 </div>
                 <div class="item-inner">
                     
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/backend">
+                        backend
+                        </a>
+                    </p>
+                    
+                    
                     <p class="item-title"><a href="http://blog.titangroupco.com/2017/01/22/python-decorator" class="title">Python Decorator</a></p>
                     <p class="item-date">
                         <time datetime="2017-01-22 13:20:36 &#43;0800 CST" itemprop="datePublished">2017-01-22</time>
-                    </p>
-                </div>
-            </li>
-            
-            <li>
-                <div class="item-thumbnail">
-                    <a href="http://blog.titangroupco.com/2017/01/19/mongo-introduction" class="thumbnail">
-                    
-                        <span class="thumbnail-image thumbnail-none"></span>
-                    
-                    </a>
-                </div>
-                <div class="item-inner">
-                    
-                    <p class="item-title"><a href="http://blog.titangroupco.com/2017/01/19/mongo-introduction" class="title">Mongo Introduction</a></p>
-                    <p class="item-date">
-                        <time datetime="2017-01-19 09:15:18 &#43;0800 CST" itemprop="datePublished">2017-01-19</time>
                     </p>
                 </div>
             </li>
@@ -683,8 +772,24 @@ hello
             
             <li class="category-list-item">
                 
+                <a class="category-list-link" href="http://blog.titangroupco.com/categories/backend">
+                    backend
+                </a>
+                <span class="category-list-count">3</span>
+            </li>
+            
+            <li class="category-list-item">
+                
                 <a class="category-list-link" href="http://blog.titangroupco.com/categories/frontend">
                     frontend
+                </a>
+                <span class="category-list-count">5</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/categories/test">
+                    test
                 </a>
                 <span class="category-list-count">1</span>
             </li>
@@ -714,6 +819,30 @@ hello
                 <span class="category-list-count">1</span>
             </li>
             
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/tags/database">
+                    database
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/tags/javascript">
+                    javascript
+                </a>
+                <span class="category-list-count">5</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/tags/python">
+                    python
+                </a>
+                <span class="category-list-count">2</span>
+            </li>
+            
         </ul>
     </div>
 </div>
@@ -732,6 +861,15 @@ hello
         
         
         <a href="http://blog.titangroupco.com/tags/build" style="font-size: 12px;">build</a>
+        
+        
+        <a href="http://blog.titangroupco.com/tags/database" style="font-size: 12px;">database</a>
+        
+        
+        <a href="http://blog.titangroupco.com/tags/javascript" style="font-size: 12px;">javascript</a>
+        
+        
+        <a href="http://blog.titangroupco.com/tags/python" style="font-size: 12px;">python</a>
         
     </div>
 </div>

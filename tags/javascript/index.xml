@@ -2,12 +2,12 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title></title>
-    <link>http://blog.titangroupco.com/categories/frontend/index.xml</link>
+    <link>http://blog.titangroupco.com/tags/javascript/index.xml</link>
     <description>Recent content on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Powered by [Hugo](//gohugo.io). Theme by [PPOffice](http://github.com/ppoffice).</copyright>
-    <atom:link href="http://blog.titangroupco.com/categories/frontend/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://blog.titangroupco.com/tags/javascript/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>D3 入门教程</title>

@@ -7,8 +7,430 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Powered by [Hugo](//gohugo.io). Theme by [PPOffice](http://github.com/ppoffice).</copyright>
-    <lastBuildDate>Tue, 24 Jan 2017 16:50:51 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 21 Feb 2017 09:15:24 +0800</lastBuildDate>
     <atom:link href="http://blog.titangroupco.com/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Python Web Server Gateway Interface</title>
+      <link>http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface</link>
+      <pubDate>Tue, 21 Feb 2017 09:15:24 +0800</pubDate>
+      
+      <guid>http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface</guid>
+      <description>&lt;h1 id=&#34;引言&#34;&gt;引言&lt;/h1&gt;
+
+&lt;p&gt;在Python的Web开发界，有着多种多样的框架，比如Flask, Django, Falcon等等，可谓是百花齐放。许多新入门的同学，都会纠结使用哪个框架比较好。在这里 我们不去回答这个问题，而是去寻找它们的共通点，也就是本篇的主题：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Web Server Gateway Interface (WSGI, 可以分开来读, 也可以读作&#39;wiz-gee&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;wsgi是什么&#34;&gt;WSGI是什么&lt;/h1&gt;
+
+&lt;p&gt;WSGI不是一个框架，也不是一个Python的库，也不是服务，API或者其他任何类型的软件。它只是服务(&lt;code&gt;Web Server&lt;/code&gt;)和应用(&lt;code&gt;Web Application&lt;/code&gt;)之间的一种简单通用的接口规范。它定义了服务和应用两端，除此之外还有一种叫中间件(&lt;code&gt;Middleware&lt;/code&gt;)的组件，它同时实现了服务端和应用端。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;如果一个应用满足了WSGI，那么它就能在所有满足WSGI的服务上跑起来。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&#34;application&#34;&gt;Application&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;Application&lt;/code&gt;处理请求，并返回处理的结果。它是一个可调用(&lt;code&gt;callable&lt;/code&gt;)的对象，可以是一个函数，方法，实现了&lt;code&gt;__call__&lt;/code&gt;或者&lt;code&gt;__iter__&lt;/code&gt;方法的类。&lt;/p&gt;
+
+&lt;h4 id=&#34;函数&#34;&gt;函数&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def app(environ, start_response):
+    start_response(&#39;200 OK&#39;, [(&#39;Content-type&#39;, &#39;text/plain&#39;)])
+    return [&#39;Hello world!&#39;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;方法&#34;&gt;方法&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;class Demo(object):
+    def __init__(self):
+        # do something
+        ...
+    
+    def app(self, environ, start_response):
+        start_response(&#39;200 OK&#39;, [(&#39;Content-type&#39;, &#39;text/plain&#39;)])
+        return [&#39;Hello world!&#39;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;call-类&#34;&gt;__call__类&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;class Application(object):
+    def __init__(self):
+        # do something
+        ...
+        
+    def __call__(self, environ, start_response):
+        start_response(&#39;200 OK&#39;, [(&#39;Content-type&#39;, &#39;text/plain&#39;)])
+        return [&#39;Hello world!&#39;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;iter-类&#34;&gt;__iter__类&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;class Application(object):
+    def __init__(self, environ, start_response):
+        self.environ = environ
+        self.start_response = start_response
+        
+    def __iter__(self):
+        self.start_response(&#39;200 OK&#39;, [(&#39;Content-type&#39;, &#39;text/plain&#39;)])
+        yield &#39;Hello world!&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;server&#34;&gt;Server&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;Server&lt;/code&gt;接收网络请求，调用&lt;code&gt;Application&lt;/code&gt;去处理请求，并把其返回的结果传输给客户端。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;import os, sys
+
+def run_with_cgi(application):
+
+    environ = dict(os.environ.items())
+    environ[&#39;wsgi.input&#39;]        = sys.stdin
+    environ[&#39;wsgi.errors&#39;]       = sys.stderr
+    environ[&#39;wsgi.version&#39;]      = (1, 0)
+    environ[&#39;wsgi.multithread&#39;]  = False
+    environ[&#39;wsgi.multiprocess&#39;] = True
+    environ[&#39;wsgi.run_once&#39;]     = True
+
+    if environ.get(&#39;HTTPS&#39;, &#39;off&#39;) in (&#39;on&#39;, &#39;1&#39;):
+        environ[&#39;wsgi.url_scheme&#39;] = &#39;https&#39;
+    else:
+        environ[&#39;wsgi.url_scheme&#39;] = &#39;http&#39;
+
+    headers_set = []
+    headers_sent = []
+
+    def write(data):
+        if not headers_set:
+             raise AssertionError(&amp;quot;write() before start_response()&amp;quot;)
+
+        elif not headers_sent:
+             # Before the first output, send the stored headers
+             status, response_headers = headers_sent[:] = headers_set
+             sys.stdout.write(&#39;Status: %s\r\n&#39; % status)
+             for header in response_headers:
+                 sys.stdout.write(&#39;%s: %s\r\n&#39; % header)
+             sys.stdout.write(&#39;\r\n&#39;)
+
+        sys.stdout.write(data)
+        sys.stdout.flush()
+
+    def start_response(status, response_headers, exc_info=None):
+        if exc_info:
+            try:
+                if headers_sent:
+                    # Re-raise original exception if headers sent
+                    raise exc_info[0], exc_info[1], exc_info[2]
+            finally:
+                exc_info = None     # avoid dangling circular ref
+        elif headers_set:
+            raise AssertionError(&amp;quot;Headers already set!&amp;quot;)
+
+        headers_set[:] = [status, response_headers]
+        return write
+
+    result = application(environ, start_response)
+    try:
+        for data in result:
+            if data:    # don&#39;t send headers until body appears
+                write(data)
+        if not headers_sent:
+            write(&#39;&#39;)   # send headers now if body was empty
+    finally:
+        if hasattr(result, &#39;close&#39;):
+            result.close()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;middleware&#34;&gt;Middleware&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;Middleware&lt;/code&gt;同时实现了&lt;code&gt;Server&lt;/code&gt;和&lt;code&gt;Application&lt;/code&gt;两端的功能，它接收上层&lt;code&gt;Server&lt;/code&gt;或者&lt;code&gt;Middleware&lt;/code&gt;传过来的请求，调用下层&lt;code&gt;Application&lt;/code&gt;或者&lt;code&gt;Middleware&lt;/code&gt;来处理，处理的结果又返回给上层。在实际场景中，我们会有多个中间件，这样就形成了中间件栈。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def app(environ, start_response):
+    start_response(&#39;200 OK&#39;, [(&#39;Content-type&#39;, &#39;text/plain&#39;)])
+    return [&#39;Hello world!&#39;]
+    
+class Middleware1(object):
+    def __init__(self, app):
+        self.app = app
+        
+    def __call__(self, environ, start_response)
+        print &#39;Middleware1&#39;
+        return self.app(environ, start_response)
+        
+
+class Middleware2(object):
+    def __init__(self, app):
+        self.app = app
+        
+    def __call__(self, environ, start_response)
+        print &#39;Middleware2&#39;
+        return self.app(environ, start_response)
+        
+
+app = Middleware1(Middleware2(app))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://blog.titangroupco.com/img/wsgi.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;我们现在常用的框架，如Flask, Django都是应用端的，但是它们提供了简单的服务端运行，这样在开发过程中就可以运行起来。&lt;/p&gt;
+
+&lt;p&gt;服务端实现有库wsgiref(内置库), werkzeug, gunicorn, gevent, uwsgi等。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&#34;一步步写个web&#34;&gt;一步步写个Web&lt;/h1&gt;
+
+&lt;h3 id=&#34;运行hello-world&#34;&gt;运行Hello World&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# coding=utf-8
+
+from wsgiref.simple_server import make_server
+
+
+def app(environ, start_response):
+    start_response(&#39;200 Ok&#39;, [(&#39;Content-Type&#39;, &#39;text/plain&#39;)])
+    return [&#39;Hello World!&#39;]
+
+
+if __name__ == &#39;__main__&#39;:
+    server = make_server(&#39;127.0.0.1&#39;, 8080, app)
+    print &#39;Server start at 127.0.0.1:8080...&#39;
+    server.serve_forever()
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;post方法&#34;&gt;POST方法&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;environ&lt;/code&gt;是一个纯字典，它包含了许多WSGI所需要的变量，如请求参数，请求方法等等。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# coding=utf-8
+
+from wsgiref.simple_server import make_server
+
+
+def app(environ, start_response):
+    if environ[&#39;REQUEST_METHOD&#39;] == &#39;POST&#39;:
+        res = &#39;Post Request.&#39;
+    else:
+        res = &#39;Hello World!&#39;
+    start_response(&#39;200 Ok&#39;, [(&#39;Content-Type&#39;, &#39;text/plain&#39;)])
+    return res
+
+
+if __name__ == &#39;__main__&#39;:
+    server = make_server(&#39;127.0.0.1&#39;, 8080, app)
+    print &#39;Server start at 127.0.0.1:8080...&#39;
+    server.serve_forever()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;添加route&#34;&gt;添加Route&lt;/h3&gt;
+
+&lt;p&gt;上面的例子中，所有的url请求返回的结果都是一样的。如果我们需要根据不同url返回不同的结果，那么就需要添加路由处理。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# coding=utf-8
+
+from wsgiref.simple_server import make_server
+
+
+def app(environ, start_response):
+    path = environ[&#39;PATH_INFO&#39;]
+    if path == &#39;/&#39;:
+        res = &#39;Hello World!&#39;
+    elif path == &#39;/test&#39;:
+        res = &#39;Get /test&#39;
+    else:
+        res = &#39;Cannot handle url.&#39;
+
+    start_response(&#39;200 Ok&#39;, [(&#39;Content-Type&#39;, &#39;text/plain&#39;)])
+    return res
+
+if __name__ == &#39;__main__&#39;:
+    server = make_server(&#39;127.0.0.1&#39;, 8080, app)
+    print &#39;Server start at 127.0.0.1:8080...&#39;
+    server.serve_forever()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;随着我们要处理的url越来越多，app的逻辑会越来越复杂，所以我们用类来重构一下。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# coding=utf-8
+
+from wsgiref.simple_server import make_server
+
+
+def handle_root():
+    return &#39;Hello World!&#39;
+
+
+def handle_test():
+    return &#39;Get /test&#39;
+
+
+class Application(object):
+
+    def __init__(self, routes):
+        self.routes = routes
+
+    def __call__(self, environ, start_response):
+        handler = self.routes.get(environ[&#39;PATH_INFO&#39;])
+        if handler is None:
+            res = &#39;Cannot handler url.&#39;
+        else:
+            res = handler()
+        start_response(&#39;200 Ok&#39;, [(&#39;Content-Type&#39;, &#39;text/plain&#39;)])
+        return res
+
+
+if __name__ == &#39;__main__&#39;:
+    routes = {
+        &#39;/&#39;: handle_root,
+        &#39;/test&#39;: handle_test
+    }
+    server = make_server(&#39;127.0.0.1&#39;, 8080, Application(routes))
+    print &#39;Server start at 127.0.0.1:8080...&#39;
+    server.serve_forever()
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;继续重构，为每个url添加method。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# coding=utf-8
+
+from wsgiref.simple_server import make_server
+
+
+def get_root():
+    return &#39;Hello World!&#39;
+
+
+def post_root():
+    return &#39;Post root&#39;
+
+
+def get_test():
+    return &#39;Get /test&#39;
+
+
+def post_test():
+    return &#39;Post /test&#39;
+
+
+class Application(object):
+
+    def __init__(self, routes):
+        self.routes = routes
+
+    def __call__(self, environ, start_response):
+        handler = self.routes.get(environ[&#39;PATH_INFO&#39;], {}).get(environ[&#39;REQUEST_METHOD&#39;])
+        if handler is None:
+            res = &#39;Cannot handler url.&#39;
+        else:
+            res = handler()
+        start_response(&#39;200 Ok&#39;, [(&#39;Content-Type&#39;, &#39;text/plain&#39;)])
+        return res
+
+
+if __name__ == &#39;__main__&#39;:
+    routes = {
+        &#39;/&#39;: {
+            &#39;GET&#39;: get_root,
+            &#39;POST&#39;: post_root
+        },
+        &#39;/test&#39;: {
+            &#39;GET&#39;: get_test,
+            &#39;POST&#39;: post_test
+        }
+    }
+    server = make_server(&#39;127.0.0.1&#39;, 8080, Application(routes))
+    print &#39;Server start at 127.0.0.1:8080...&#39;
+    server.serve_forever()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;日志中间件&#34;&gt;日志中间件&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# coding=utf-8
+
+from wsgiref.simple_server import make_server
+
+
+def handle_root():
+    return &#39;Hello World!&#39;
+
+
+def handle_test():
+    return &#39;Get /test&#39;
+
+
+class Application(object):
+
+    def __init__(self, routes):
+        self.routes = routes
+
+    def __call__(self, environ, start_response):
+        handler = self.routes.get(environ[&#39;PATH_INFO&#39;])
+        if handler is None:
+            res = &#39;Cannot handler url.&#39;
+        else:
+            res = handler()
+        start_response(&#39;200 Ok&#39;, [(&#39;Content-Type&#39;, &#39;text/plain&#39;)])
+        return res
+
+
+class Middleware(object):
+
+    def __init__(self, app):
+        self.app = app
+
+    def __call__(self, environ, start_response):
+        print &#39;Before request.&#39;
+        res = self.app(environ, start_response)
+        print &#39;After request.&#39;
+        return res
+
+
+if __name__ == &#39;__main__&#39;:
+    routes = {
+        &#39;/&#39;: handle_root,
+        &#39;/test&#39;: handle_test
+    }
+    server = make_server(&#39;127.0.0.1&#39;, 8080, Middleware(Application(routes)))
+    print &#39;Server start at 127.0.0.1:8080...&#39;
+    server.serve_forever()
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;总结&#34;&gt;总结&lt;/h1&gt;
+
+&lt;p&gt;本篇介绍了WSGI的一些相关概念，然后一步步写了一个简单的web后台。当然，实际开发过程中我们根本不需要这么来做，因为现在的框架已经封装了好了一切。&lt;/p&gt;
+
+&lt;p&gt;举个Flask的例子：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# coding=utf-8
+
+from flask import Flask
+
+
+app = Flask(__name__)
+
+
+@app.route(&#39;/&#39;)
+def hello():
+    return &#39;Hello World!&#39;
+
+
+if __name__ == &#39;__main__&#39;:
+    app.run()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;参考&#34;&gt;参考&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.python.org/dev/peps/pep-0333/&#34;&gt;PEP333&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/mainframer/PEP333-zh-CN&#34;&gt;PEP333中文翻译&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>D3 入门教程</title>
@@ -16,9 +438,7 @@
       <pubDate>Tue, 24 Jan 2017 16:50:51 +0800</pubDate>
       
       <guid>http://blog.titangroupco.com/2017/01/24/d3-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B</guid>
-      <description>
-
-&lt;h1 id=&#34;1-数据可视化&#34;&gt;1. 数据可视化&lt;/h1&gt;
+      <description>&lt;h1 id=&#34;1-数据可视化&#34;&gt;1. 数据可视化&lt;/h1&gt;
 
 &lt;p&gt;数据可视化，是关于数据视觉表现形式的科学技术研究。为了使复杂的数据和文字变得更容易理解，各种可视化工具因此诞生，其中D3 正是其中的佼佼者。
 &lt;img src=&#34;http://www.ourd3js.com/wordpress/wp-content/uploads/2014/06/14.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
@@ -36,6 +456,8 @@
 - d3.selectAll()：是选择指定元素的全部&lt;/p&gt;
 
 &lt;p&gt;这两个函数返回的结果称为选择集。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;3-2-绑定数据&#34;&gt;3.2 绑定数据&lt;/h2&gt;
 
@@ -212,8 +634,7 @@ svg.append(&amp;quot;g&amp;quot;)
 &lt;ul&gt;
 &lt;li&gt;选择 D3：如果希望开发脑海中任意想象到的图表；&lt;/li&gt;
 &lt;li&gt;选择 Highcharts、Echarts 等：如果希望开发几种固定种类的、十分大众化的图表。&lt;/li&gt;
-&lt;/ul&gt;
-</description>
+&lt;/ul&gt;</description>
     </item>
     
     <item>
@@ -222,9 +643,7 @@ svg.append(&amp;quot;g&amp;quot;)
       <pubDate>Sun, 22 Jan 2017 18:11:48 +0800</pubDate>
       
       <guid>http://blog.titangroupco.com/2017/01/22/%E5%89%8D%E7%AB%AF%E4%BD%BF%E7%94%A8websocket%E7%9A%84%E9%97%AE%E9%A2%98</guid>
-      <description>
-
-&lt;blockquote&gt;
+      <description>&lt;blockquote&gt;
 &lt;p&gt;websocket相关概念&lt;/p&gt;
 &lt;/blockquote&gt;
 
@@ -245,6 +664,8 @@ IE10以上才支持HTML5，才支持websocket，chrome，火狐，opera等浏览
 &lt;p&gt;WebSocket是HTML5的一种新通信协议，它实现了浏览器与服务器之间的双向通讯。而Socket.IO是一个完全由JavaScript实现、基于Node.js、支持WebSocket的协议用于实时通信、跨平台的开源框架，它包括了&lt;strong&gt;客户端的JavaScript&lt;/strong&gt;和&lt;strong&gt;服务器端的Node.js&lt;/strong&gt;。
 Socket.IO是一个跨平台，支持多种连接方式，如websocket，flashsocket,ajax等，如果客户端不支持websocket时，可以切换使用其他链接方式，比如ajax轮询等。&lt;/p&gt;
 &lt;/blockquote&gt;
+
+&lt;p&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;&amp;lt;script src=&amp;quot;/lib/socket.io/socket.io.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
 &amp;lt;script&amp;gt;
@@ -352,8 +773,7 @@ Module build failed: Error: ENOENT: no such file or directory, open &#39;xx\node
 
 &lt;p&gt;笔者对比了成功建立ws链接时的url，&lt;code&gt;ws://192.168.0.239:9000/ws&lt;/code&gt;，然后用工具测试了下，只有path是&lt;code&gt;/ws&lt;/code&gt;，即ws://192.168.0.239:9000/ws?EIO=3&amp;amp;transport=websocket&lt;code&gt;这样的url才能成功建立ws链接，这里报301的错误，是因为socketio会在path后面添加&lt;/code&gt;/?EIO=3&amp;amp;transport=websocket`这样一串参数，这样导致了服务端路由匹配不上，导致出现了404或301的情况，所以这里需要服务端配合调整一下路由规则，即可。&lt;/p&gt;
 
-&lt;p&gt;最终，结合当前的实际情况还是采用了原生的websocket，Socket.IO对url的格式有一定的规范要求，目前查阅了socketio的相关api文档，尚未找到可以自定义url格式的方法，比较适合客户端和服务端都同时可控的情况。&lt;/p&gt;
-</description>
+&lt;p&gt;最终，结合当前的实际情况还是采用了原生的websocket，Socket.IO对url的格式有一定的规范要求，目前查阅了socketio的相关api文档，尚未找到可以自定义url格式的方法，比较适合客户端和服务端都同时可控的情况。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -362,9 +782,7 @@ Module build failed: Error: ENOENT: no such file or directory, open &#39;xx\node
       <pubDate>Sun, 22 Jan 2017 17:03:51 +0800</pubDate>
       
       <guid>http://blog.titangroupco.com/2017/01/22/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95</guid>
-      <description>
-
-&lt;h1 id=&#34;自动化测试&#34;&gt;自动化测试&lt;/h1&gt;
+      <description>&lt;h1 id=&#34;自动化测试&#34;&gt;自动化测试&lt;/h1&gt;
 
 &lt;h2 id=&#34;一-ui自动化测试-页面元素定位&#34;&gt;一. UI自动化测试-页面元素定位&lt;/h2&gt;
 
@@ -383,6 +801,8 @@ Module build failed: Error: ENOENT: no such file or directory, open &#39;xx\node
 &amp;lt;input type=&amp;quot;submit&amp;quot; value=&amp;quot;百度一下&amp;quot; ==id=&amp;quot;su&amp;quot;== class=&amp;quot;btn self-btn bg s_btn&amp;quot;&amp;gt;
 
 &lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;
 
 &lt;p&gt;根据上面的例子，百度输入框可以取id 或name进行定位。（前提是id和name的值在当页面上唯一）&lt;/p&gt;
 
@@ -648,8 +1068,7 @@ css=[autocomplete=off]
 &lt;td&gt;$(&amp;ldquo;.btn&amp;rdquo;).click()&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
-&lt;/table&gt;
-</description>
+&lt;/table&gt;</description>
     </item>
     
     <item>
@@ -658,9 +1077,7 @@ css=[autocomplete=off]
       <pubDate>Sun, 22 Jan 2017 13:20:36 +0800</pubDate>
       
       <guid>http://blog.titangroupco.com/2017/01/22/python-decorator</guid>
-      <description>
-
-&lt;h2 id=&#34;什么是装饰器&#34;&gt;什么是装饰器&lt;/h2&gt;
+      <description>&lt;h2 id=&#34;什么是装饰器&#34;&gt;什么是装饰器&lt;/h2&gt;
 
 &lt;p&gt;在coding的时候，你经常会需要计算一个函数的执行时间，最容易想到的方法是在每个函数内部进行计算。&lt;/p&gt;
 
@@ -671,6 +1088,8 @@ css=[autocomplete=off]
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;也有可能是在函数外部计算时间。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def hello():
     print &#39;Hello&#39;
@@ -913,8 +1332,7 @@ hello
 
 &lt;p&gt;假如有新的功能需要实现，但是又不想改变已有的逻辑代码，这时候就需要考虑考虑装饰器了。&lt;/p&gt;
 
-&lt;p&gt;参考： &lt;a href=&#34;https://www.python.org/dev/peps/pep-0318/#warningwarningwarning&#34;&gt;PEP 318 &amp;ndash; Decorators for Functions and Methods&lt;/a&gt;&lt;/p&gt;
-</description>
+&lt;p&gt;参考： &lt;a href=&#34;https://www.python.org/dev/peps/pep-0318/#warningwarningwarning&#34;&gt;PEP 318 &amp;ndash; Decorators for Functions and Methods&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -923,9 +1341,7 @@ hello
       <pubDate>Thu, 19 Jan 2017 09:15:18 +0800</pubDate>
       
       <guid>http://blog.titangroupco.com/2017/01/19/mongo-introduction</guid>
-      <description>
-
-&lt;h1 id=&#34;introdution&#34;&gt;Introdution&lt;/h1&gt;
+      <description>&lt;h1 id=&#34;introdution&#34;&gt;Introdution&lt;/h1&gt;
 
 &lt;ol&gt;
 &lt;li&gt;&lt;a href=&#34;https://zh.wikipedia.org/wiki/NoSQL&#34;&gt;NoSQL&lt;/a&gt;&lt;/li&gt;
@@ -933,6 +1349,8 @@ hello
 &lt;li&gt;No Need For ORM( Object Relational Mapping)&lt;/li&gt;
 &lt;li&gt;Document(Record)&lt;/li&gt;
 &lt;/ol&gt;
+
+&lt;p&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;{
    &amp;quot;_id&amp;quot; : ObjectId(&amp;quot;54c955492b7c8eb21818bd09&amp;quot;),
@@ -1334,8 +1752,7 @@ db.orders.mapReduce(
                      reduceFunction1,
                      { out: &amp;quot;map_reduce_example&amp;quot; }
                    )
-&lt;/code&gt;&lt;/pre&gt;
-</description>
+&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     
     <item>
@@ -1344,9 +1761,7 @@ db.orders.mapReduce(
       <pubDate>Thu, 05 Jan 2017 00:00:00 +0800</pubDate>
       
       <guid>http://blog.titangroupco.com/2017/01/05/javascript-prototype</guid>
-      <description>
-
-&lt;p&gt;&lt;em&gt;note of &lt;a href=&#34;https://github.com/getify/You-Dont-Know-JS/tree/master/this%20%26%20object%20prototypes&#34;&gt;You Don&amp;rsquo;t know JS&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+      <description>&lt;p&gt;&lt;em&gt;note of &lt;a href=&#34;https://github.com/getify/You-Dont-Know-JS/tree/master/this%20%26%20object%20prototypes&#34;&gt;You Don&amp;rsquo;t know JS&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;data-types-in-javascript&#34;&gt;Data types in Javascript&lt;/h2&gt;
 
@@ -1378,7 +1793,8 @@ Object.prototype.toString.call(/[a-zA-Z]+/)  // &#39;[object RegExp]&#39;
 
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;code&gt;null&lt;/code&gt; is not an object for it has no any property.&lt;/p&gt;
+&lt;p&gt;
+&lt;code&gt;null&lt;/code&gt; is not an object for it has no any property.&lt;/p&gt;
 
 &lt;p&gt;for why &lt;code&gt;typeof null === &#39;object&#39;&lt;/code&gt; see details &lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof#null&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
 
@@ -1496,8 +1912,7 @@ c.sayHi();  // &#39;hi!&#39;
 
 &lt;p&gt;So, when u create an object use &lt;code&gt;new&lt;/code&gt; operator and a function say &lt;em&gt;fn&lt;/em&gt;, the prototype of this created object is &lt;code&gt;fn.prototype&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;code&gt;You Dont Know JS&lt;/code&gt; advocates prototype pattern which is the foundation of JS, objects OO simulation.&lt;/p&gt;
-</description>
+&lt;p&gt;&lt;code&gt;You Dont Know JS&lt;/code&gt; advocates prototype pattern which is the foundation of JS, objects OO simulation.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -1506,9 +1921,7 @@ c.sayHi();  // &#39;hi!&#39;
       <pubDate>Mon, 31 Oct 2016 08:42:14 +0800</pubDate>
       
       <guid>http://blog.titangroupco.com/2016/10/31/introduction-to-vue</guid>
-      <description>
-
-&lt;h2 id=&#34;basic&#34;&gt;Basic&lt;/h2&gt;
+      <description>&lt;h2 id=&#34;basic&#34;&gt;Basic&lt;/h2&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;div id=&amp;quot;app&amp;quot;&amp;gt;
   {{ message }}
@@ -1523,7 +1936,8 @@ c.sayHi();  // &#39;hi!&#39;
 })
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;Vue inherits a lot from angular. Both has concept of &lt;code&gt;directives&lt;/code&gt; and &lt;code&gt;components&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;
+Vue inherits a lot from angular. Both has concept of &lt;code&gt;directives&lt;/code&gt; and &lt;code&gt;components&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;We will skip those similarities, but focus on differences here.&lt;/p&gt;
 
@@ -1647,8 +2061,7 @@ additional libraries, which is authored and supported by community.&lt;/li&gt;
 
 &lt;p&gt;&lt;a href=&#34;http://vuejs.org/guide/comparison.html&#34;&gt;Read more&lt;/a&gt; on differences among these front-end Javascript frameworks.&lt;/p&gt;
 
-&lt;p&gt;You can use &lt;a href=&#34;https://github.com/vuejs/vue-cli&#34;&gt;vue-cli&lt;/a&gt; to scaffold Vue.js projects.&lt;/p&gt;
-</description>
+&lt;p&gt;You can use &lt;a href=&#34;https://github.com/vuejs/vue-cli&#34;&gt;vue-cli&lt;/a&gt; to scaffold Vue.js projects.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -1657,9 +2070,7 @@ additional libraries, which is authored and supported by community.&lt;/li&gt;
       <pubDate>Fri, 28 Oct 2016 08:42:14 +0800</pubDate>
       
       <guid>http://blog.titangroupco.com/2016/10/28/webpack</guid>
-      <description>
-
-&lt;h2 id=&#34;motivation-or-problems&#34;&gt;Motivation or Problems&lt;/h2&gt;
+      <description>&lt;h2 id=&#34;motivation-or-problems&#34;&gt;Motivation or Problems&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;There are multiple standards of module system in JS world including CommonJS, AMD, ES6 modules and &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; tag style.&lt;/li&gt;
@@ -1678,7 +2089,8 @@ additional libraries, which is authored and supported by community.&lt;/li&gt;
 
 &lt;p&gt;It takes a bunch of files, treating each as a module, figuring out the dependencies between them, and bundle them into static assets that are ready for deployment.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://dtinth.github.io/webpack-docs-images/usage/how-it-works.png&#34; alt=&#34;what webpack does&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://dtinth.github.io/webpack-docs-images/usage/how-it-works.png&#34; alt=&#34;what webpack does&#34; /&gt;
+&lt;/p&gt;
 
 &lt;h3 id=&#34;some-concepts-of-webpack&#34;&gt;Some concepts of Webpack&lt;/h3&gt;
 
@@ -1727,8 +2139,7 @@ additional libraries, which is authored and supported by community.&lt;/li&gt;
     ]
   }
 }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
+&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     
   </channel>

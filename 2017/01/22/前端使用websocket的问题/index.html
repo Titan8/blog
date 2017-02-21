@@ -21,12 +21,29 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
     <meta property="og:title" content="前端使用websocket的问题" />
-<meta property="og:description" content="websocket相关概念
-  websocket   随着互联网的发展，传统的HTTP协议已经很难满足Web应用日益复杂的需求了。近年来，随着HTML5的诞生，WebSocket协议被提出，它实现了浏览器与服务器的全双工通信，扩展了浏览器与服务端的通信功能，使服务端也能主动向客户端发送数据。 IE10以上才支持HTML5，才支持websocket，chrome，火狐，opera等浏览器支持较好。
-  Socket.IO   WebSocket是HTML5的一种新通信协议，它实现了浏览器与服务器之间的双向通讯。而Socket.IO是一个完全由JavaScript实现、基于Node.js、支持WebSocket的协议用于实时通信、跨平台的开源框架，它包括了客户端的JavaScript和服务器端的Node.js。 Socket.IO是一个跨平台，支持多种连接方式，如websocket，flashsocket,ajax等，如果客户端不支持websocket时，可以切换使用其他链接方式，比如ajax轮询等。
- &lt;script src=&quot;/lib/socket.io/socket.io.js&quot;&gt;&lt;/script&gt; &lt;script&gt; var socket = io(); socket.on(&#39;connect&#39;, function() { /* 具体操作 */ }); &lt;/script&gt;  最近笔者新参与的一个web项目，拟定采用vue2.0来编写，期间遇到有关使用websocket的问题，记录一下，个中遇到的一些问题和解决方法，分享给有需要的人。
-当前服务端采用了websocket的方式，这需要客户端也相应的采用websocket来与客户端建立ws连接，这样客户端和服务端就可以双向的发送数据。笔者当时一拿到这个就会觉得是不是又需要npm安装什么包似的，因为这个功能是从另一个项目（暂且称其为项目B）的功能迁移过来的，而项目B前端是用的angularjs开发的，前端直接用的angularjs的一个websocket的包（angular-websocke），然后几行代码就敲定了，创建连接，发送数据，接收数据，很是方便。当前项目采用的是vue框架，很自然的就去搜有木有vue的websocket包，很快找到了vue-websocket，安装好后，调试，直接报错： XMLHttpRequest cannot load http://192.168.0.239:9000/socket.io/?EIO=3&amp;transport=polling&amp;t=LbjddEK. No &#39;Access-Control-Allow-Origin&#39; header is present on the requested resource. Origin &#39;http://localhost:8080&#39; is therefore not allowed access. The response had HTTP status code 404.  笔者对比了项目B，同样在客户端启动本地server，能正常创建到服务端的ws连接，不会像http请求一样有跨域的问题，同时另一问题就是，明明是要创建ws连接，为何浏览器的控制台里会提示是http的连接？vue-websocket没有调试成功，马上去找找有没有通用的包，于是在github找了js相关的websocket的相关包，比如ws，笔者对照了angularjs-websocket包，它也是依赖的ws。于是按照ws的说明文档，安装，然后webpack直接报错了：
-ERROR in ./~/ws/lib/WebSocketServer.js Module not found: Error: Cannot resolve module &#39;tls&#39; in xx\node_modules\ws\lib @ ." />
+<meta property="og:description" content="
+websocket相关概念
+
+
+
+websocket
+
+
+
+随着互联网的发展，传统的HTTP协议已经很难满足Web应用日益复杂的需求了。近年来，随着HTML5的诞生，WebSocket协议被提出，它实现了浏览器与服务器的全双工通信，扩展了浏览器与服务端的通信功能，使服务端也能主动向客户端发送数据。
+IE10以上才支持HTML5，才支持websocket，chrome，火狐，opera等浏览器支持较好。
+
+
+
+Socket.IO
+
+
+
+WebSocket是HTML5的一种新通信协议，它实现了浏览器与服务器之间的双向通讯。而Socket.IO是一个完全由JavaScript实现、基于Node.js、支持WebSocket的协议用于实时通信、跨平台的开源框架，它包括了客户端的JavaScript和服务器端的Node.js。
+Socket.IO是一个跨平台，支持多种连接方式，如websocket，flashsocket,ajax等，如果客户端不支持websocket时，可以切换使用其他链接方式，比如ajax轮询等。
+
+
+" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://blog.titangroupco.com/2017/01/22/%E5%89%8D%E7%AB%AF%E4%BD%BF%E7%94%A8websocket%E7%9A%84%E9%97%AE%E9%A2%98" />
 
@@ -45,12 +62,29 @@ ERROR in ./~/ws/lib/WebSocketServer.js Module not found: Error: Cannot resolve m
     
     
 <meta itemprop="name" content="前端使用websocket的问题">
-<meta itemprop="description" content="websocket相关概念
-  websocket   随着互联网的发展，传统的HTTP协议已经很难满足Web应用日益复杂的需求了。近年来，随着HTML5的诞生，WebSocket协议被提出，它实现了浏览器与服务器的全双工通信，扩展了浏览器与服务端的通信功能，使服务端也能主动向客户端发送数据。 IE10以上才支持HTML5，才支持websocket，chrome，火狐，opera等浏览器支持较好。
-  Socket.IO   WebSocket是HTML5的一种新通信协议，它实现了浏览器与服务器之间的双向通讯。而Socket.IO是一个完全由JavaScript实现、基于Node.js、支持WebSocket的协议用于实时通信、跨平台的开源框架，它包括了客户端的JavaScript和服务器端的Node.js。 Socket.IO是一个跨平台，支持多种连接方式，如websocket，flashsocket,ajax等，如果客户端不支持websocket时，可以切换使用其他链接方式，比如ajax轮询等。
- &lt;script src=&quot;/lib/socket.io/socket.io.js&quot;&gt;&lt;/script&gt; &lt;script&gt; var socket = io(); socket.on(&#39;connect&#39;, function() { /* 具体操作 */ }); &lt;/script&gt;  最近笔者新参与的一个web项目，拟定采用vue2.0来编写，期间遇到有关使用websocket的问题，记录一下，个中遇到的一些问题和解决方法，分享给有需要的人。
-当前服务端采用了websocket的方式，这需要客户端也相应的采用websocket来与客户端建立ws连接，这样客户端和服务端就可以双向的发送数据。笔者当时一拿到这个就会觉得是不是又需要npm安装什么包似的，因为这个功能是从另一个项目（暂且称其为项目B）的功能迁移过来的，而项目B前端是用的angularjs开发的，前端直接用的angularjs的一个websocket的包（angular-websocke），然后几行代码就敲定了，创建连接，发送数据，接收数据，很是方便。当前项目采用的是vue框架，很自然的就去搜有木有vue的websocket包，很快找到了vue-websocket，安装好后，调试，直接报错： XMLHttpRequest cannot load http://192.168.0.239:9000/socket.io/?EIO=3&amp;transport=polling&amp;t=LbjddEK. No &#39;Access-Control-Allow-Origin&#39; header is present on the requested resource. Origin &#39;http://localhost:8080&#39; is therefore not allowed access. The response had HTTP status code 404.  笔者对比了项目B，同样在客户端启动本地server，能正常创建到服务端的ws连接，不会像http请求一样有跨域的问题，同时另一问题就是，明明是要创建ws连接，为何浏览器的控制台里会提示是http的连接？vue-websocket没有调试成功，马上去找找有没有通用的包，于是在github找了js相关的websocket的相关包，比如ws，笔者对照了angularjs-websocket包，它也是依赖的ws。于是按照ws的说明文档，安装，然后webpack直接报错了：
-ERROR in ./~/ws/lib/WebSocketServer.js Module not found: Error: Cannot resolve module &#39;tls&#39; in xx\node_modules\ws\lib @ .">
+<meta itemprop="description" content="
+websocket相关概念
+
+
+
+websocket
+
+
+
+随着互联网的发展，传统的HTTP协议已经很难满足Web应用日益复杂的需求了。近年来，随着HTML5的诞生，WebSocket协议被提出，它实现了浏览器与服务器的全双工通信，扩展了浏览器与服务端的通信功能，使服务端也能主动向客户端发送数据。
+IE10以上才支持HTML5，才支持websocket，chrome，火狐，opera等浏览器支持较好。
+
+
+
+Socket.IO
+
+
+
+WebSocket是HTML5的一种新通信协议，它实现了浏览器与服务器之间的双向通讯。而Socket.IO是一个完全由JavaScript实现、基于Node.js、支持WebSocket的协议用于实时通信、跨平台的开源框架，它包括了客户端的JavaScript和服务器端的Node.js。
+Socket.IO是一个跨平台，支持多种连接方式，如websocket，flashsocket,ajax等，如果客户端不支持websocket时，可以切换使用其他链接方式，比如ajax轮询等。
+
+
+">
 
 
 <meta itemprop="dateModified" content="2017-01-22T18:11:48&#43;08:00" />
@@ -58,7 +92,7 @@ ERROR in ./~/ws/lib/WebSocketServer.js Module not found: Error: Cannot resolve m
 
 
 
-<meta itemprop="keywords" content="frontend,build," />
+<meta itemprop="keywords" content="backend,frontend,test,build,database,javascript,python," />
 
     
 
@@ -67,12 +101,29 @@ ERROR in ./~/ws/lib/WebSocketServer.js Module not found: Error: Cannot resolve m
 
 
 <meta name="twitter:title" content="前端使用websocket的问题"/>
-<meta name="twitter:description" content="websocket相关概念
-  websocket   随着互联网的发展，传统的HTTP协议已经很难满足Web应用日益复杂的需求了。近年来，随着HTML5的诞生，WebSocket协议被提出，它实现了浏览器与服务器的全双工通信，扩展了浏览器与服务端的通信功能，使服务端也能主动向客户端发送数据。 IE10以上才支持HTML5，才支持websocket，chrome，火狐，opera等浏览器支持较好。
-  Socket.IO   WebSocket是HTML5的一种新通信协议，它实现了浏览器与服务器之间的双向通讯。而Socket.IO是一个完全由JavaScript实现、基于Node.js、支持WebSocket的协议用于实时通信、跨平台的开源框架，它包括了客户端的JavaScript和服务器端的Node.js。 Socket.IO是一个跨平台，支持多种连接方式，如websocket，flashsocket,ajax等，如果客户端不支持websocket时，可以切换使用其他链接方式，比如ajax轮询等。
- &lt;script src=&quot;/lib/socket.io/socket.io.js&quot;&gt;&lt;/script&gt; &lt;script&gt; var socket = io(); socket.on(&#39;connect&#39;, function() { /* 具体操作 */ }); &lt;/script&gt;  最近笔者新参与的一个web项目，拟定采用vue2.0来编写，期间遇到有关使用websocket的问题，记录一下，个中遇到的一些问题和解决方法，分享给有需要的人。
-当前服务端采用了websocket的方式，这需要客户端也相应的采用websocket来与客户端建立ws连接，这样客户端和服务端就可以双向的发送数据。笔者当时一拿到这个就会觉得是不是又需要npm安装什么包似的，因为这个功能是从另一个项目（暂且称其为项目B）的功能迁移过来的，而项目B前端是用的angularjs开发的，前端直接用的angularjs的一个websocket的包（angular-websocke），然后几行代码就敲定了，创建连接，发送数据，接收数据，很是方便。当前项目采用的是vue框架，很自然的就去搜有木有vue的websocket包，很快找到了vue-websocket，安装好后，调试，直接报错： XMLHttpRequest cannot load http://192.168.0.239:9000/socket.io/?EIO=3&amp;transport=polling&amp;t=LbjddEK. No &#39;Access-Control-Allow-Origin&#39; header is present on the requested resource. Origin &#39;http://localhost:8080&#39; is therefore not allowed access. The response had HTTP status code 404.  笔者对比了项目B，同样在客户端启动本地server，能正常创建到服务端的ws连接，不会像http请求一样有跨域的问题，同时另一问题就是，明明是要创建ws连接，为何浏览器的控制台里会提示是http的连接？vue-websocket没有调试成功，马上去找找有没有通用的包，于是在github找了js相关的websocket的相关包，比如ws，笔者对照了angularjs-websocket包，它也是依赖的ws。于是按照ws的说明文档，安装，然后webpack直接报错了：
-ERROR in ./~/ws/lib/WebSocketServer.js Module not found: Error: Cannot resolve module &#39;tls&#39; in xx\node_modules\ws\lib @ ."/>
+<meta name="twitter:description" content="
+websocket相关概念
+
+
+
+websocket
+
+
+
+随着互联网的发展，传统的HTTP协议已经很难满足Web应用日益复杂的需求了。近年来，随着HTML5的诞生，WebSocket协议被提出，它实现了浏览器与服务器的全双工通信，扩展了浏览器与服务端的通信功能，使服务端也能主动向客户端发送数据。
+IE10以上才支持HTML5，才支持websocket，chrome，火狐，opera等浏览器支持较好。
+
+
+
+Socket.IO
+
+
+
+WebSocket是HTML5的一种新通信协议，它实现了浏览器与服务器之间的双向通讯。而Socket.IO是一个完全由JavaScript实现、基于Node.js、支持WebSocket的协议用于实时通信、跨平台的开源框架，它包括了客户端的JavaScript和服务器端的Node.js。
+Socket.IO是一个跨平台，支持多种连接方式，如websocket，flashsocket,ajax等，如果客户端不支持websocket时，可以切换使用其他链接方式，比如ajax轮询等。
+
+
+"/>
 
 
 
@@ -206,15 +257,37 @@ ERROR in ./~/ws/lib/WebSocketServer.js Module not found: Error: Cannot resolve m
         </div>
         
         
+            
+            
+            <div class="article-category">
+                <i class="fa fa-folder"></i>
+                
+                
+                <a class="article-category-link" href="http://blog.titangroupco.com/categories/frontend">frontend</a>
+                
+                
+            </div>
+            
+        
 
+        
+            
+            
+            <div class="article-category">
+                <i class="fa fa-tags"></i>
+                
+                
+                <a class="article-category-link" href="http://blog.titangroupco.com/tags/javascript">JavaScript</a>
+                
+                
+            </div>
+            
         
     </div>
 </header>
 
             <div class="article-entry" itemprop="articleBody">
-                
-
-<blockquote>
+                <blockquote>
 <p>websocket相关概念</p>
 </blockquote>
 
@@ -235,6 +308,8 @@ IE10以上才支持HTML5，才支持websocket，chrome，火狐，opera等浏览
 <p>WebSocket是HTML5的一种新通信协议，它实现了浏览器与服务器之间的双向通讯。而Socket.IO是一个完全由JavaScript实现、基于Node.js、支持WebSocket的协议用于实时通信、跨平台的开源框架，它包括了<strong>客户端的JavaScript</strong>和<strong>服务器端的Node.js</strong>。
 Socket.IO是一个跨平台，支持多种连接方式，如websocket，flashsocket,ajax等，如果客户端不支持websocket时，可以切换使用其他链接方式，比如ajax轮询等。</p>
 </blockquote>
+
+<p></p>
 
 <pre><code>&lt;script src=&quot;/lib/socket.io/socket.io.js&quot;&gt;&lt;/script&gt;
 &lt;script&gt;
@@ -343,7 +418,6 @@ Module build failed: Error: ENOENT: no such file or directory, open 'xx\node_mod
 <p>笔者对比了成功建立ws链接时的url，<code>ws://192.168.0.239:9000/ws</code>，然后用工具测试了下，只有path是<code>/ws</code>，即ws://192.168.0.239:9000/ws?EIO=3&amp;transport=websocket<code>这样的url才能成功建立ws链接，这里报301的错误，是因为socketio会在path后面添加</code>/?EIO=3&amp;transport=websocket`这样一串参数，这样导致了服务端路由匹配不上，导致出现了404或301的情况，所以这里需要服务端配合调整一下路由规则，即可。</p>
 
 <p>最终，结合当前的实际情况还是采用了原生的websocket，Socket.IO对url的格式有一定的规范要求，目前查阅了socketio的相关api文档，尚未找到可以自定义url格式的方法，比较适合客户端和服务端都同时可控的情况。</p>
-
             </div>
             <footer class="article-footer">
     <a data-url="http://blog.titangroupco.com/2017/01/22/%E5%89%8D%E7%AB%AF%E4%BD%BF%E7%94%A8websocket%E7%9A%84%E9%97%AE%E9%A2%98" data-id="4e0549df2e1a535233637caad5193a83" class="article-share-link">
@@ -460,6 +534,32 @@ Module build failed: Error: ENOENT: no such file or directory, open 'xx\node_mod
             
             <li>
                 <div class="item-thumbnail">
+                    <a href="http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface" class="thumbnail">
+                    
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    
+                    </a>
+                </div>
+                <div class="item-inner">
+                    
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/backend">
+                        backend
+                        </a>
+                    </p>
+                    
+                    
+                    <p class="item-title"><a href="http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface" class="title">Python Web Server Gateway Interface</a></p>
+                    <p class="item-date">
+                        <time datetime="2017-02-21 09:15:24 &#43;0800 CST" itemprop="datePublished">2017-02-21</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                <div class="item-thumbnail">
                     <a href="http://blog.titangroupco.com/2017/01/24/d3-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B" class="thumbnail">
                     
                         <span class="thumbnail-image thumbnail-none"></span>
@@ -467,6 +567,15 @@ Module build failed: Error: ENOENT: no such file or directory, open 'xx\node_mod
                     </a>
                 </div>
                 <div class="item-inner">
+                    
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/frontend">
+                        frontend
+                        </a>
+                    </p>
+                    
                     
                     <p class="item-title"><a href="http://blog.titangroupco.com/2017/01/24/d3-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B" class="title">D3 入门教程</a></p>
                     <p class="item-date">
@@ -485,6 +594,15 @@ Module build failed: Error: ENOENT: no such file or directory, open 'xx\node_mod
                 </div>
                 <div class="item-inner">
                     
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/frontend">
+                        frontend
+                        </a>
+                    </p>
+                    
+                    
                     <p class="item-title"><a href="http://blog.titangroupco.com/2017/01/22/%E5%89%8D%E7%AB%AF%E4%BD%BF%E7%94%A8websocket%E7%9A%84%E9%97%AE%E9%A2%98" class="title">前端使用websocket的问题</a></p>
                     <p class="item-date">
                         <time datetime="2017-01-22 18:11:48 &#43;0800 CST" itemprop="datePublished">2017-01-22</time>
@@ -501,6 +619,15 @@ Module build failed: Error: ENOENT: no such file or directory, open 'xx\node_mod
                     </a>
                 </div>
                 <div class="item-inner">
+                    
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/test">
+                        test
+                        </a>
+                    </p>
+                    
                     
                     <p class="item-title"><a href="http://blog.titangroupco.com/2017/01/22/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95" class="title">自动化测试</a></p>
                     <p class="item-date">
@@ -519,26 +646,18 @@ Module build failed: Error: ENOENT: no such file or directory, open 'xx\node_mod
                 </div>
                 <div class="item-inner">
                     
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/backend">
+                        backend
+                        </a>
+                    </p>
+                    
+                    
                     <p class="item-title"><a href="http://blog.titangroupco.com/2017/01/22/python-decorator" class="title">Python Decorator</a></p>
                     <p class="item-date">
                         <time datetime="2017-01-22 13:20:36 &#43;0800 CST" itemprop="datePublished">2017-01-22</time>
-                    </p>
-                </div>
-            </li>
-            
-            <li>
-                <div class="item-thumbnail">
-                    <a href="http://blog.titangroupco.com/2017/01/19/mongo-introduction" class="thumbnail">
-                    
-                        <span class="thumbnail-image thumbnail-none"></span>
-                    
-                    </a>
-                </div>
-                <div class="item-inner">
-                    
-                    <p class="item-title"><a href="http://blog.titangroupco.com/2017/01/19/mongo-introduction" class="title">Mongo Introduction</a></p>
-                    <p class="item-date">
-                        <time datetime="2017-01-19 09:15:18 &#43;0800 CST" itemprop="datePublished">2017-01-19</time>
                     </p>
                 </div>
             </li>
@@ -558,8 +677,24 @@ Module build failed: Error: ENOENT: no such file or directory, open 'xx\node_mod
             
             <li class="category-list-item">
                 
+                <a class="category-list-link" href="http://blog.titangroupco.com/categories/backend">
+                    backend
+                </a>
+                <span class="category-list-count">3</span>
+            </li>
+            
+            <li class="category-list-item">
+                
                 <a class="category-list-link" href="http://blog.titangroupco.com/categories/frontend">
                     frontend
+                </a>
+                <span class="category-list-count">5</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/categories/test">
+                    test
                 </a>
                 <span class="category-list-count">1</span>
             </li>
@@ -589,6 +724,30 @@ Module build failed: Error: ENOENT: no such file or directory, open 'xx\node_mod
                 <span class="category-list-count">1</span>
             </li>
             
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/tags/database">
+                    database
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/tags/javascript">
+                    javascript
+                </a>
+                <span class="category-list-count">5</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/tags/python">
+                    python
+                </a>
+                <span class="category-list-count">2</span>
+            </li>
+            
         </ul>
     </div>
 </div>
@@ -607,6 +766,15 @@ Module build failed: Error: ENOENT: no such file or directory, open 'xx\node_mod
         
         
         <a href="http://blog.titangroupco.com/tags/build" style="font-size: 12px;">build</a>
+        
+        
+        <a href="http://blog.titangroupco.com/tags/database" style="font-size: 12px;">database</a>
+        
+        
+        <a href="http://blog.titangroupco.com/tags/javascript" style="font-size: 12px;">javascript</a>
+        
+        
+        <a href="http://blog.titangroupco.com/tags/python" style="font-size: 12px;">python</a>
         
     </div>
 </div>

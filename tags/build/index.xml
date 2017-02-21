@@ -15,9 +15,7 @@
       <pubDate>Fri, 28 Oct 2016 08:42:14 +0800</pubDate>
       
       <guid>http://blog.titangroupco.com/2016/10/28/webpack</guid>
-      <description>
-
-&lt;h2 id=&#34;motivation-or-problems&#34;&gt;Motivation or Problems&lt;/h2&gt;
+      <description>&lt;h2 id=&#34;motivation-or-problems&#34;&gt;Motivation or Problems&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;There are multiple standards of module system in JS world including CommonJS, AMD, ES6 modules and &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; tag style.&lt;/li&gt;
@@ -36,7 +34,8 @@
 
 &lt;p&gt;It takes a bunch of files, treating each as a module, figuring out the dependencies between them, and bundle them into static assets that are ready for deployment.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://dtinth.github.io/webpack-docs-images/usage/how-it-works.png&#34; alt=&#34;what webpack does&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://dtinth.github.io/webpack-docs-images/usage/how-it-works.png&#34; alt=&#34;what webpack does&#34; /&gt;
+&lt;/p&gt;
 
 &lt;h3 id=&#34;some-concepts-of-webpack&#34;&gt;Some concepts of Webpack&lt;/h3&gt;
 
@@ -85,8 +84,7 @@
     ]
   }
 }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
+&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     
   </channel>

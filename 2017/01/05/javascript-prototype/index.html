@@ -22,7 +22,36 @@
     <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
     <meta property="og:title" content="Javascript Prototype" />
 <meta property="og:description" content="note of You Don&rsquo;t know JS
-Data types in Javascript // Javascript has 6 primitive data(immutable) types typeof 3.14 // &#39;number&#39;; typeof &#39;bla&#39; // &#39;string&#39;; typeof true // &#39;boolean&#39; typeof Symbol.iterator // &#39;symbol&#39; typeof undefined // &#39;undefined&#39; typeof null // &#39;object&#39; // and object typeof {a:1} // &#39;object&#39; typeof function fn(){} // &#39;function&#39;, it&#39;s in fact an object with special type tag // object has sub type Object.prototype.toString.call(fn) // &#39;[object Function]&#39; // primitive types have object equivalent that wrap around them." />
+
+Data types in Javascript
+
+// Javascript has 6 primitive data(immutable) types
+typeof 3.14  // &#39;number&#39;;
+typeof &#39;bla&#39;  // &#39;string&#39;;
+typeof true  // &#39;boolean&#39;
+typeof Symbol.iterator  // &#39;symbol&#39;
+typeof undefined  // &#39;undefined&#39;
+typeof null  // &#39;object&#39;
+
+// and object
+typeof {a:1}  // &#39;object&#39;
+typeof function fn(){}  // &#39;function&#39;, it&#39;s in fact an object with special type tag
+
+
+// object has sub type
+Object.prototype.toString.call(fn)  // &#39;[object Function]&#39;
+
+// primitive types have object equivalent that wrap around them.
+Object.prototype.toString.call(3.14)  // &#39;[object Number]&#39;
+Object.prototype.toString.call(&#39;bla&#39;)  // &#39;[object String]&#39;
+Object.prototype.toString.call(true)  // &#39;[object Boolean]&#39;
+Object.prototype.toString.call(Symbol.iterator)  // &#39;[object Symbol]&#39;
+
+Object.prototype.toString.call({})  // &#39;[object Object]&#39;
+Object.prototype.toString.call([])  // &#39;[object Array]&#39;
+Object.prototype.toString.call(/[a-zA-Z]&#43;/)  // &#39;[object RegExp]&#39;
+
+" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="http://blog.titangroupco.com/2017/01/05/javascript-prototype" />
 
@@ -42,7 +71,36 @@ Data types in Javascript // Javascript has 6 primitive data(immutable) types typ
     
 <meta itemprop="name" content="Javascript Prototype">
 <meta itemprop="description" content="note of You Don&rsquo;t know JS
-Data types in Javascript // Javascript has 6 primitive data(immutable) types typeof 3.14 // &#39;number&#39;; typeof &#39;bla&#39; // &#39;string&#39;; typeof true // &#39;boolean&#39; typeof Symbol.iterator // &#39;symbol&#39; typeof undefined // &#39;undefined&#39; typeof null // &#39;object&#39; // and object typeof {a:1} // &#39;object&#39; typeof function fn(){} // &#39;function&#39;, it&#39;s in fact an object with special type tag // object has sub type Object.prototype.toString.call(fn) // &#39;[object Function]&#39; // primitive types have object equivalent that wrap around them.">
+
+Data types in Javascript
+
+// Javascript has 6 primitive data(immutable) types
+typeof 3.14  // &#39;number&#39;;
+typeof &#39;bla&#39;  // &#39;string&#39;;
+typeof true  // &#39;boolean&#39;
+typeof Symbol.iterator  // &#39;symbol&#39;
+typeof undefined  // &#39;undefined&#39;
+typeof null  // &#39;object&#39;
+
+// and object
+typeof {a:1}  // &#39;object&#39;
+typeof function fn(){}  // &#39;function&#39;, it&#39;s in fact an object with special type tag
+
+
+// object has sub type
+Object.prototype.toString.call(fn)  // &#39;[object Function]&#39;
+
+// primitive types have object equivalent that wrap around them.
+Object.prototype.toString.call(3.14)  // &#39;[object Number]&#39;
+Object.prototype.toString.call(&#39;bla&#39;)  // &#39;[object String]&#39;
+Object.prototype.toString.call(true)  // &#39;[object Boolean]&#39;
+Object.prototype.toString.call(Symbol.iterator)  // &#39;[object Symbol]&#39;
+
+Object.prototype.toString.call({})  // &#39;[object Object]&#39;
+Object.prototype.toString.call([])  // &#39;[object Array]&#39;
+Object.prototype.toString.call(/[a-zA-Z]&#43;/)  // &#39;[object RegExp]&#39;
+
+">
 
 
 <meta itemprop="dateModified" content="2017-01-05T00:00:00&#43;08:00" />
@@ -50,7 +108,7 @@ Data types in Javascript // Javascript has 6 primitive data(immutable) types typ
 
 
 
-<meta itemprop="keywords" content="frontend,build," />
+<meta itemprop="keywords" content="backend,frontend,test,build,database,javascript,python," />
 
     
 
@@ -60,7 +118,36 @@ Data types in Javascript // Javascript has 6 primitive data(immutable) types typ
 
 <meta name="twitter:title" content="Javascript Prototype"/>
 <meta name="twitter:description" content="note of You Don&rsquo;t know JS
-Data types in Javascript // Javascript has 6 primitive data(immutable) types typeof 3.14 // &#39;number&#39;; typeof &#39;bla&#39; // &#39;string&#39;; typeof true // &#39;boolean&#39; typeof Symbol.iterator // &#39;symbol&#39; typeof undefined // &#39;undefined&#39; typeof null // &#39;object&#39; // and object typeof {a:1} // &#39;object&#39; typeof function fn(){} // &#39;function&#39;, it&#39;s in fact an object with special type tag // object has sub type Object.prototype.toString.call(fn) // &#39;[object Function]&#39; // primitive types have object equivalent that wrap around them."/>
+
+Data types in Javascript
+
+// Javascript has 6 primitive data(immutable) types
+typeof 3.14  // &#39;number&#39;;
+typeof &#39;bla&#39;  // &#39;string&#39;;
+typeof true  // &#39;boolean&#39;
+typeof Symbol.iterator  // &#39;symbol&#39;
+typeof undefined  // &#39;undefined&#39;
+typeof null  // &#39;object&#39;
+
+// and object
+typeof {a:1}  // &#39;object&#39;
+typeof function fn(){}  // &#39;function&#39;, it&#39;s in fact an object with special type tag
+
+
+// object has sub type
+Object.prototype.toString.call(fn)  // &#39;[object Function]&#39;
+
+// primitive types have object equivalent that wrap around them.
+Object.prototype.toString.call(3.14)  // &#39;[object Number]&#39;
+Object.prototype.toString.call(&#39;bla&#39;)  // &#39;[object String]&#39;
+Object.prototype.toString.call(true)  // &#39;[object Boolean]&#39;
+Object.prototype.toString.call(Symbol.iterator)  // &#39;[object Symbol]&#39;
+
+Object.prototype.toString.call({})  // &#39;[object Object]&#39;
+Object.prototype.toString.call([])  // &#39;[object Array]&#39;
+Object.prototype.toString.call(/[a-zA-Z]&#43;/)  // &#39;[object RegExp]&#39;
+
+"/>
 
 
 
@@ -194,15 +281,37 @@ Data types in Javascript // Javascript has 6 primitive data(immutable) types typ
         </div>
         
         
+            
+            
+            <div class="article-category">
+                <i class="fa fa-folder"></i>
+                
+                
+                <a class="article-category-link" href="http://blog.titangroupco.com/categories/frontend">frontend</a>
+                
+                
+            </div>
+            
+        
 
+        
+            
+            
+            <div class="article-category">
+                <i class="fa fa-tags"></i>
+                
+                
+                <a class="article-category-link" href="http://blog.titangroupco.com/tags/javascript">JavaScript</a>
+                
+                
+            </div>
+            
         
     </div>
 </header>
 
             <div class="article-entry" itemprop="articleBody">
-                
-
-<p><em>note of <a href="https://github.com/getify/You-Dont-Know-JS/tree/master/this%20%26%20object%20prototypes">You Don&rsquo;t know JS</a></em></p>
+                <p><em>note of <a href="https://github.com/getify/You-Dont-Know-JS/tree/master/this%20%26%20object%20prototypes">You Don&rsquo;t know JS</a></em></p>
 
 <h2 id="data-types-in-javascript">Data types in Javascript</h2>
 
@@ -234,7 +343,8 @@ Object.prototype.toString.call(/[a-zA-Z]+/)  // '[object RegExp]'
 
 </code></pre>
 
-<p><code>null</code> is not an object for it has no any property.</p>
+<p>
+<code>null</code> is not an object for it has no any property.</p>
 
 <p>for why <code>typeof null === 'object'</code> see details <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof#null">here</a></p>
 
@@ -353,7 +463,6 @@ c.sayHi();  // 'hi!'
 <p>So, when u create an object use <code>new</code> operator and a function say <em>fn</em>, the prototype of this created object is <code>fn.prototype</code></p>
 
 <p><code>You Dont Know JS</code> advocates prototype pattern which is the foundation of JS, objects OO simulation.</p>
-
             </div>
             <footer class="article-footer">
     <a data-url="http://blog.titangroupco.com/2017/01/05/javascript-prototype" data-id="c62e96ef5ce2c56547e3f201b67965ed" class="article-share-link">
@@ -470,6 +579,32 @@ c.sayHi();  // 'hi!'
             
             <li>
                 <div class="item-thumbnail">
+                    <a href="http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface" class="thumbnail">
+                    
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    
+                    </a>
+                </div>
+                <div class="item-inner">
+                    
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/backend">
+                        backend
+                        </a>
+                    </p>
+                    
+                    
+                    <p class="item-title"><a href="http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface" class="title">Python Web Server Gateway Interface</a></p>
+                    <p class="item-date">
+                        <time datetime="2017-02-21 09:15:24 &#43;0800 CST" itemprop="datePublished">2017-02-21</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                <div class="item-thumbnail">
                     <a href="http://blog.titangroupco.com/2017/01/24/d3-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B" class="thumbnail">
                     
                         <span class="thumbnail-image thumbnail-none"></span>
@@ -477,6 +612,15 @@ c.sayHi();  // 'hi!'
                     </a>
                 </div>
                 <div class="item-inner">
+                    
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/frontend">
+                        frontend
+                        </a>
+                    </p>
+                    
                     
                     <p class="item-title"><a href="http://blog.titangroupco.com/2017/01/24/d3-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B" class="title">D3 入门教程</a></p>
                     <p class="item-date">
@@ -495,6 +639,15 @@ c.sayHi();  // 'hi!'
                 </div>
                 <div class="item-inner">
                     
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/frontend">
+                        frontend
+                        </a>
+                    </p>
+                    
+                    
                     <p class="item-title"><a href="http://blog.titangroupco.com/2017/01/22/%E5%89%8D%E7%AB%AF%E4%BD%BF%E7%94%A8websocket%E7%9A%84%E9%97%AE%E9%A2%98" class="title">前端使用websocket的问题</a></p>
                     <p class="item-date">
                         <time datetime="2017-01-22 18:11:48 &#43;0800 CST" itemprop="datePublished">2017-01-22</time>
@@ -511,6 +664,15 @@ c.sayHi();  // 'hi!'
                     </a>
                 </div>
                 <div class="item-inner">
+                    
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/test">
+                        test
+                        </a>
+                    </p>
+                    
                     
                     <p class="item-title"><a href="http://blog.titangroupco.com/2017/01/22/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95" class="title">自动化测试</a></p>
                     <p class="item-date">
@@ -529,26 +691,18 @@ c.sayHi();  // 'hi!'
                 </div>
                 <div class="item-inner">
                     
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/backend">
+                        backend
+                        </a>
+                    </p>
+                    
+                    
                     <p class="item-title"><a href="http://blog.titangroupco.com/2017/01/22/python-decorator" class="title">Python Decorator</a></p>
                     <p class="item-date">
                         <time datetime="2017-01-22 13:20:36 &#43;0800 CST" itemprop="datePublished">2017-01-22</time>
-                    </p>
-                </div>
-            </li>
-            
-            <li>
-                <div class="item-thumbnail">
-                    <a href="http://blog.titangroupco.com/2017/01/19/mongo-introduction" class="thumbnail">
-                    
-                        <span class="thumbnail-image thumbnail-none"></span>
-                    
-                    </a>
-                </div>
-                <div class="item-inner">
-                    
-                    <p class="item-title"><a href="http://blog.titangroupco.com/2017/01/19/mongo-introduction" class="title">Mongo Introduction</a></p>
-                    <p class="item-date">
-                        <time datetime="2017-01-19 09:15:18 &#43;0800 CST" itemprop="datePublished">2017-01-19</time>
                     </p>
                 </div>
             </li>
@@ -568,8 +722,24 @@ c.sayHi();  // 'hi!'
             
             <li class="category-list-item">
                 
+                <a class="category-list-link" href="http://blog.titangroupco.com/categories/backend">
+                    backend
+                </a>
+                <span class="category-list-count">3</span>
+            </li>
+            
+            <li class="category-list-item">
+                
                 <a class="category-list-link" href="http://blog.titangroupco.com/categories/frontend">
                     frontend
+                </a>
+                <span class="category-list-count">5</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/categories/test">
+                    test
                 </a>
                 <span class="category-list-count">1</span>
             </li>
@@ -599,6 +769,30 @@ c.sayHi();  // 'hi!'
                 <span class="category-list-count">1</span>
             </li>
             
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/tags/database">
+                    database
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/tags/javascript">
+                    javascript
+                </a>
+                <span class="category-list-count">5</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/tags/python">
+                    python
+                </a>
+                <span class="category-list-count">2</span>
+            </li>
+            
         </ul>
     </div>
 </div>
@@ -617,6 +811,15 @@ c.sayHi();  // 'hi!'
         
         
         <a href="http://blog.titangroupco.com/tags/build" style="font-size: 12px;">build</a>
+        
+        
+        <a href="http://blog.titangroupco.com/tags/database" style="font-size: 12px;">database</a>
+        
+        
+        <a href="http://blog.titangroupco.com/tags/javascript" style="font-size: 12px;">javascript</a>
+        
+        
+        <a href="http://blog.titangroupco.com/tags/python" style="font-size: 12px;">python</a>
         
     </div>
 </div>
