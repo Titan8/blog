@@ -1,16 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <title>Python Web Server Gateway Interface &middot; </title>
+    <meta name="generator" content="Hugo 0.18.1" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Titan Developers">
+    
+      <meta name="description" content="">
+    
+    
+    <link rel="canonical" href="http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface"/>
+    <link rel="icon" href="http://blog.titangroupco.com/favicon.ico">
+    <link rel="apple-touch-icon" href="http://blog.titangroupco.com/apple-touch-icon.png"/>
+    <link rel="stylesheet" href="http://blog.titangroupco.com/css/style.css">
+    <link rel="stylesheet" href="http://blog.titangroupco.com/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://blog.titangroupco.com/css/monokai.css">
+    <link rel="stylesheet" href="http://blog.titangroupco.com/fancybox/jquery.fancybox.css">
+    
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
+    <meta property="og:title" content="Python Web Server Gateway Interface" />
+<meta property="og:description" content="引言
+
+在Python的Web开发界，有着多种多样的框架，比如Flask, Django, Falcon等等，可谓是百花齐放。许多新入门的同学，都会纠结使用哪个框架比较好。在这里 我们不去回答这个问题，而是去寻找它们的共通点，也就是本篇的主题：
+
+Web Server Gateway Interface (WSGI, 可以分开来读, 也可以读作&#39;wiz-gee&#39;)
+
+
+WSGI是什么
+
+WSGI不是一个框架，也不是一个Python的库，也不是服务，API或者其他任何类型的软件。它只是服务(Web Server)和应用(Web Application)之间的一种简单通用的接口规范。它定义了服务和应用两端，除此之外还有一种叫中间件(Middleware)的组件，它同时实现了服务端和应用端。
+
+
+如果一个应用满足了WSGI，那么它就能在所有满足WSGI的服务上跑起来。
+
+
+Application
+
+Application处理请求，并返回处理的结果。它是一个可调用(callable)的对象，可以是一个函数，方法，实现了__call__或者__iter__方法的类。
+
+函数
+
+def app(environ, start_response):
+    start_response(&#39;200 OK&#39;, [(&#39;Content-type&#39;, &#39;text/plain&#39;)])
+    return [&#39;Hello world!&#39;]
+
+
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface" />
+
+
+<meta property="og:updated_time" content="2017-02-21T09:15:24&#43;08:00"/>
+
+
+
+
+
+
+
+
+
+
+    
+    
+<meta itemprop="name" content="Python Web Server Gateway Interface">
+<meta itemprop="description" content="引言
+
+在Python的Web开发界，有着多种多样的框架，比如Flask, Django, Falcon等等，可谓是百花齐放。许多新入门的同学，都会纠结使用哪个框架比较好。在这里 我们不去回答这个问题，而是去寻找它们的共通点，也就是本篇的主题：
+
+Web Server Gateway Interface (WSGI, 可以分开来读, 也可以读作&#39;wiz-gee&#39;)
+
+
+WSGI是什么
+
+WSGI不是一个框架，也不是一个Python的库，也不是服务，API或者其他任何类型的软件。它只是服务(Web Server)和应用(Web Application)之间的一种简单通用的接口规范。它定义了服务和应用两端，除此之外还有一种叫中间件(Middleware)的组件，它同时实现了服务端和应用端。
+
+
+如果一个应用满足了WSGI，那么它就能在所有满足WSGI的服务上跑起来。
+
+
+Application
+
+Application处理请求，并返回处理的结果。它是一个可调用(callable)的对象，可以是一个函数，方法，实现了__call__或者__iter__方法的类。
+
+函数
+
+def app(environ, start_response):
+    start_response(&#39;200 OK&#39;, [(&#39;Content-type&#39;, &#39;text/plain&#39;)])
+    return [&#39;Hello world!&#39;]
+
+
+">
+
+
+<meta itemprop="dateModified" content="2017-02-21T09:15:24&#43;08:00" />
+<meta itemprop="wordCount" content="744">
+
+
+
+<meta itemprop="keywords" content="backend,frontend,test,autotest,build,database,javascript,python," />
+
+    
+
+  <meta name="twitter:card" content="summary"/>
+
+
+
+<meta name="twitter:title" content="Python Web Server Gateway Interface"/>
+<meta name="twitter:description" content="引言
+
+在Python的Web开发界，有着多种多样的框架，比如Flask, Django, Falcon等等，可谓是百花齐放。许多新入门的同学，都会纠结使用哪个框架比较好。在这里 我们不去回答这个问题，而是去寻找它们的共通点，也就是本篇的主题：
+
+Web Server Gateway Interface (WSGI, 可以分开来读, 也可以读作&#39;wiz-gee&#39;)
+
+
+WSGI是什么
+
+WSGI不是一个框架，也不是一个Python的库，也不是服务，API或者其他任何类型的软件。它只是服务(Web Server)和应用(Web Application)之间的一种简单通用的接口规范。它定义了服务和应用两端，除此之外还有一种叫中间件(Middleware)的组件，它同时实现了服务端和应用端。
+
+
+如果一个应用满足了WSGI，那么它就能在所有满足WSGI的服务上跑起来。
+
+
+Application
+
+Application处理请求，并返回处理的结果。它是一个可调用(callable)的对象，可以是一个函数，方法，实现了__call__或者__iter__方法的类。
+
+函数
+
+def app(environ, start_response):
+    start_response(&#39;200 OK&#39;, [(&#39;Content-type&#39;, &#39;text/plain&#39;)])
+    return [&#39;Hello world!&#39;]
+
+
+"/>
+
+
+
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body>
+<div class="container">
 
 
 <div id="container">
-	
+	<header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="http://blog.titangroupco.com" id="logo">
+          
+          <i class="logo" style="background-image: url('http://blog.titangroupco.com/img/logo.jpeg')"></i>
+          
+          <span class="site-title"></span>
+      </a>
+      <nav id="main-nav">
+          
+          
+          <a class="main-nav-link" href="http://blog.titangroupco.com/">Home</a>
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <a class="main-nav-link" href="http://blog.titangroupco.com/tags/">Tags</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://blog.titangroupco.com/categories/">Categories</a>
+          
+          
+      </nav>
+        <nav id="sub-nav">
+          <div class="profile" id="profile-nav">
+            <a id="profile-anchor" href="javascript:;"><img class="avatar" src="http://blog.titangroupco.com/img/logo.jpeg"><i class="fa fa-caret-down"></i></a>
+          </div>
+        </nav>
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form">
+              <input type="search" name="q" class="search-form-input" placeholder="Search">
+              <button type="submit" class="search-form-submit">
+              </button>
+              <input type="hidden" name="sitesearch" value="http://blog.titangroupco.com" />
+         </form>
+        </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tbody>
+          <tr>
+          
+          
+          <td><a class="main-nav-link" href="http://blog.titangroupco.com/">Home</a></td>
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <td><a class="main-nav-link" href="http://blog.titangroupco.com/tags/">Tags</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://blog.titangroupco.com/categories/">Categories</a></td>
+          
+          
+          <td>
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form">
+          <input type="search" name="q" class="search-form-input" placeholder="Search">
+          <input type="hidden" name="sitesearch" value="http://blog.titangroupco.com" />
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</header>
+
    	
    	<div class="outer">
 	    
+<section id="main">
+
+    <article id="page-undefined" class="article article-type-page" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+
+            <header class="article-header">
+    <a href="http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface">
+    <h1 class="article-title" itemprop="name">
+        Python Web Server Gateway Interface
+    </h1>
+    </a>
+    <div class="article-meta">
+
+        
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2017-02-21 09:15:24 &#43;0800 CST" itemprop="datePublished">2017-02-21</time>
+            &middot;
+            744
+            words
+            &middot;
+            4
+            minute read
+        </div>
+        
+        
+            
+            
+            <div class="article-category">
+                <i class="fa fa-folder"></i>
+                
+                
+                <a class="article-category-link" href="http://blog.titangroupco.com/categories/backend">backend</a>
+                
+                
+            </div>
+            
+        
+
+        
+            
+            
+            <div class="article-category">
+                <i class="fa fa-tags"></i>
+                
+                
+                <a class="article-category-link" href="http://blog.titangroupco.com/tags/python">Python</a>
+                
+                
+            </div>
+            
+        
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                <h1 id="引言">引言</h1>
+
+<p>在Python的Web开发界，有着多种多样的框架，比如Flask, Django, Falcon等等，可谓是百花齐放。许多新入门的同学，都会纠结使用哪个框架比较好。在这里 我们不去回答这个问题，而是去寻找它们的共通点，也就是本篇的主题：</p>
+
+<pre><code>Web Server Gateway Interface (WSGI, 可以分开来读, 也可以读作'wiz-gee')
+</code></pre>
+
+<h1 id="wsgi是什么">WSGI是什么</h1>
+
+<p>WSGI不是一个框架，也不是一个Python的库，也不是服务，API或者其他任何类型的软件。它只是服务(<code>Web Server</code>)和应用(<code>Web Application</code>)之间的一种简单通用的接口规范。它定义了服务和应用两端，除此之外还有一种叫中间件(<code>Middleware</code>)的组件，它同时实现了服务端和应用端。</p>
+
+<blockquote>
+<p>如果一个应用满足了WSGI，那么它就能在所有满足WSGI的服务上跑起来。</p>
+</blockquote>
+
+<h3 id="application">Application</h3>
+
+<p><code>Application</code>处理请求，并返回处理的结果。它是一个可调用(<code>callable</code>)的对象，可以是一个函数，方法，实现了<code>__call__</code>或者<code>__iter__</code>方法的类。</p>
+
+<h4 id="函数">函数</h4>
+
+<pre><code class="language-python">def app(environ, start_response):
+    start_response('200 OK', [('Content-type', 'text/plain')])
+    return ['Hello world!']
+</code></pre>
+
+<p></p>
+
+<h4 id="方法">方法</h4>
+
+<pre><code class="language-python">class Demo(object):
+    def __init__(self):
+        # do something
+        ...
+    
+    def app(self, environ, start_response):
+        start_response('200 OK', [('Content-type', 'text/plain')])
+        return ['Hello world!']
+</code></pre>
+
+<h4 id="call-类">__call__类</h4>
+
+<pre><code class="language-python">class Application(object):
+    def __init__(self):
+        # do something
+        ...
+        
+    def __call__(self, environ, start_response):
+        start_response('200 OK', [('Content-type', 'text/plain')])
+        return ['Hello world!']
+</code></pre>
+
+<h4 id="iter-类">__iter__类</h4>
+
+<pre><code class="language-python">class Application(object):
+    def __init__(self, environ, start_response):
+        self.environ = environ
+        self.start_response = start_response
+        
+    def __iter__(self):
+        self.start_response('200 OK', [('Content-type', 'text/plain')])
+        yield 'Hello world!'
+</code></pre>
+
+<h3 id="server">Server</h3>
+
+<p><code>Server</code>接收网络请求，调用<code>Application</code>去处理请求，并把其返回的结果传输给客户端。</p>
+
+<pre><code class="language-python">import os, sys
+
+def run_with_cgi(application):
+
+    environ = dict(os.environ.items())
+    environ['wsgi.input']        = sys.stdin
+    environ['wsgi.errors']       = sys.stderr
+    environ['wsgi.version']      = (1, 0)
+    environ['wsgi.multithread']  = False
+    environ['wsgi.multiprocess'] = True
+    environ['wsgi.run_once']     = True
+
+    if environ.get('HTTPS', 'off') in ('on', '1'):
+        environ['wsgi.url_scheme'] = 'https'
+    else:
+        environ['wsgi.url_scheme'] = 'http'
+
+    headers_set = []
+    headers_sent = []
+
+    def write(data):
+        if not headers_set:
+             raise AssertionError(&quot;write() before start_response()&quot;)
+
+        elif not headers_sent:
+             # Before the first output, send the stored headers
+             status, response_headers = headers_sent[:] = headers_set
+             sys.stdout.write('Status: %s\r\n' % status)
+             for header in response_headers:
+                 sys.stdout.write('%s: %s\r\n' % header)
+             sys.stdout.write('\r\n')
+
+        sys.stdout.write(data)
+        sys.stdout.flush()
+
+    def start_response(status, response_headers, exc_info=None):
+        if exc_info:
+            try:
+                if headers_sent:
+                    # Re-raise original exception if headers sent
+                    raise exc_info[0], exc_info[1], exc_info[2]
+            finally:
+                exc_info = None     # avoid dangling circular ref
+        elif headers_set:
+            raise AssertionError(&quot;Headers already set!&quot;)
+
+        headers_set[:] = [status, response_headers]
+        return write
+
+    result = application(environ, start_response)
+    try:
+        for data in result:
+            if data:    # don't send headers until body appears
+                write(data)
+        if not headers_sent:
+            write('')   # send headers now if body was empty
+    finally:
+        if hasattr(result, 'close'):
+            result.close()
+</code></pre>
+
+<h3 id="middleware">Middleware</h3>
+
+<p><code>Middleware</code>同时实现了<code>Server</code>和<code>Application</code>两端的功能，它接收上层<code>Server</code>或者<code>Middleware</code>传过来的请求，调用下层<code>Application</code>或者<code>Middleware</code>来处理，处理的结果又返回给上层。在实际场景中，我们会有多个中间件，这样就形成了中间件栈。</p>
+
+<pre><code class="language-python">def app(environ, start_response):
+    start_response('200 OK', [('Content-type', 'text/plain')])
+    return ['Hello world!']
+    
+class Middleware1(object):
+    def __init__(self, app):
+        self.app = app
+        
+    def __call__(self, environ, start_response)
+        print 'Middleware1'
+        return self.app(environ, start_response)
+        
+
+class Middleware2(object):
+    def __init__(self, app):
+        self.app = app
+        
+    def __call__(self, environ, start_response)
+        print 'Middleware2'
+        return self.app(environ, start_response)
+        
+
+app = Middleware1(Middleware2(app))
+</code></pre>
+
+<p><img src="/img/wsgi.png" alt="image" /></p>
+
+<blockquote>
+<p>我们现在常用的框架，如Flask, Django都是应用端的，但是它们提供了简单的服务端运行，这样在开发过程中就可以运行起来。</p>
+
+<p>服务端实现有库wsgiref(内置库), werkzeug, gunicorn, gevent, uwsgi等。</p>
+</blockquote>
+
+<h1 id="一步步写个web">一步步写个Web</h1>
+
+<h3 id="运行hello-world">运行Hello World</h3>
+
+<pre><code class="language-python"># coding=utf-8
+
+from wsgiref.simple_server import make_server
+
+
+def app(environ, start_response):
+    start_response('200 Ok', [('Content-Type', 'text/plain')])
+    return ['Hello World!']
+
+
+if __name__ == '__main__':
+    server = make_server('127.0.0.1', 8080, app)
+    print 'Server start at 127.0.0.1:8080...'
+    server.serve_forever()
+
+</code></pre>
+
+<h3 id="post方法">POST方法</h3>
+
+<p><code>environ</code>是一个纯字典，它包含了许多WSGI所需要的变量，如请求参数，请求方法等等。</p>
+
+<pre><code class="language-python"># coding=utf-8
+
+from wsgiref.simple_server import make_server
+
+
+def app(environ, start_response):
+    if environ['REQUEST_METHOD'] == 'POST':
+        res = 'Post Request.'
+    else:
+        res = 'Hello World!'
+    start_response('200 Ok', [('Content-Type', 'text/plain')])
+    return res
+
+
+if __name__ == '__main__':
+    server = make_server('127.0.0.1', 8080, app)
+    print 'Server start at 127.0.0.1:8080...'
+    server.serve_forever()
+</code></pre>
+
+<h3 id="添加route">添加Route</h3>
+
+<p>上面的例子中，所有的url请求返回的结果都是一样的。如果我们需要根据不同url返回不同的结果，那么就需要添加路由处理。</p>
+
+<pre><code class="language-python"># coding=utf-8
+
+from wsgiref.simple_server import make_server
+
+
+def app(environ, start_response):
+    path = environ['PATH_INFO']
+    if path == '/':
+        res = 'Hello World!'
+    elif path == '/test':
+        res = 'Get /test'
+    else:
+        res = 'Cannot handle url.'
+
+    start_response('200 Ok', [('Content-Type', 'text/plain')])
+    return res
+
+if __name__ == '__main__':
+    server = make_server('127.0.0.1', 8080, app)
+    print 'Server start at 127.0.0.1:8080...'
+    server.serve_forever()
+</code></pre>
+
+<p>随着我们要处理的url越来越多，app的逻辑会越来越复杂，所以我们用类来重构一下。</p>
+
+<pre><code class="language-python"># coding=utf-8
+
+from wsgiref.simple_server import make_server
+
+
+def handle_root():
+    return 'Hello World!'
+
+
+def handle_test():
+    return 'Get /test'
+
+
+class Application(object):
+
+    def __init__(self, routes):
+        self.routes = routes
+
+    def __call__(self, environ, start_response):
+        handler = self.routes.get(environ['PATH_INFO'])
+        if handler is None:
+            res = 'Cannot handler url.'
+        else:
+            res = handler()
+        start_response('200 Ok', [('Content-Type', 'text/plain')])
+        return res
+
+
+if __name__ == '__main__':
+    routes = {
+        '/': handle_root,
+        '/test': handle_test
+    }
+    server = make_server('127.0.0.1', 8080, Application(routes))
+    print 'Server start at 127.0.0.1:8080...'
+    server.serve_forever()
+
+</code></pre>
+
+<p>继续重构，为每个url添加method。</p>
+
+<pre><code class="language-python"># coding=utf-8
+
+from wsgiref.simple_server import make_server
+
+
+def get_root():
+    return 'Hello World!'
+
+
+def post_root():
+    return 'Post root'
+
+
+def get_test():
+    return 'Get /test'
+
+
+def post_test():
+    return 'Post /test'
+
+
+class Application(object):
+
+    def __init__(self, routes):
+        self.routes = routes
+
+    def __call__(self, environ, start_response):
+        handler = self.routes.get(environ['PATH_INFO'], {}).get(environ['REQUEST_METHOD'])
+        if handler is None:
+            res = 'Cannot handler url.'
+        else:
+            res = handler()
+        start_response('200 Ok', [('Content-Type', 'text/plain')])
+        return res
+
+
+if __name__ == '__main__':
+    routes = {
+        '/': {
+            'GET': get_root,
+            'POST': post_root
+        },
+        '/test': {
+            'GET': get_test,
+            'POST': post_test
+        }
+    }
+    server = make_server('127.0.0.1', 8080, Application(routes))
+    print 'Server start at 127.0.0.1:8080...'
+    server.serve_forever()
+</code></pre>
+
+<h3 id="日志中间件">日志中间件</h3>
+
+<pre><code class="language-python"># coding=utf-8
+
+from wsgiref.simple_server import make_server
+
+
+def handle_root():
+    return 'Hello World!'
+
+
+def handle_test():
+    return 'Get /test'
+
+
+class Application(object):
+
+    def __init__(self, routes):
+        self.routes = routes
+
+    def __call__(self, environ, start_response):
+        handler = self.routes.get(environ['PATH_INFO'])
+        if handler is None:
+            res = 'Cannot handler url.'
+        else:
+            res = handler()
+        start_response('200 Ok', [('Content-Type', 'text/plain')])
+        return res
+
+
+class Middleware(object):
+
+    def __init__(self, app):
+        self.app = app
+
+    def __call__(self, environ, start_response):
+        print 'Before request.'
+        res = self.app(environ, start_response)
+        print 'After request.'
+        return res
+
+
+if __name__ == '__main__':
+    routes = {
+        '/': handle_root,
+        '/test': handle_test
+    }
+    server = make_server('127.0.0.1', 8080, Middleware(Application(routes)))
+    print 'Server start at 127.0.0.1:8080...'
+    server.serve_forever()
+
+</code></pre>
+
+<h1 id="总结">总结</h1>
+
+<p>本篇介绍了WSGI的一些相关概念，然后一步步写了一个简单的web后台。当然，实际开发过程中我们根本不需要这么来做，因为现在的框架已经封装了好了一切。</p>
+
+<p>举个Flask的例子：</p>
+
+<pre><code class="language-python"># coding=utf-8
+
+from flask import Flask
+
+
+app = Flask(__name__)
+
+
+@app.route('/')
+def hello():
+    return 'Hello World!'
+
+
+if __name__ == '__main__':
+    app.run()
+</code></pre>
+
+<h1 id="参考">参考</h1>
+
+<p><a href="https://www.python.org/dev/peps/pep-0333/">PEP333</a></p>
+
+<p><a href="https://github.com/mainframer/PEP333-zh-CN">PEP333中文翻译</a></p>
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface" data-id="0184160168bf8b3e3ef9299d989d130f" class="article-share-link">
+        <i class="fa fa-share"></i>
+        Share
+    </a>
+    
+
+    <script>
+    (function ($) {
+        
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+    </script>
+</footer>
+
+        </div>
+
+        
+<nav id="article-nav">
+    
+    <a href="http://blog.titangroupco.com/2017/01/24/d3-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Older
+      </strong>
+      <div class="article-nav-title">D3 入门教程</div>
+    </a>
+    
+
+    
+</nav>
+
+
+    </article>
+
+    
+</section>
+
 
 	    
-	    
+	    <aside id="sidebar">
+    
+<div class="widget-wrap">
+    <h3 class="widget-title">
+        Recents
+    </h3>
+    <div class="widget">
+        <ul id="recent-post">
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href="http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface" class="thumbnail">
+                    
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    
+                    </a>
+                </div>
+                <div class="item-inner">
+                    
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/backend">
+                        backend
+                        </a>
+                    </p>
+                    
+                    
+                    <p class="item-title"><a href="http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface" class="title">Python Web Server Gateway Interface</a></p>
+                    <p class="item-date">
+                        <time datetime="2017-02-21 09:15:24 &#43;0800 CST" itemprop="datePublished">2017-02-21</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href="http://blog.titangroupco.com/2017/01/24/d3-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B" class="thumbnail">
+                    
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    
+                    </a>
+                </div>
+                <div class="item-inner">
+                    
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/frontend">
+                        frontend
+                        </a>
+                    </p>
+                    
+                    
+                    <p class="item-title"><a href="http://blog.titangroupco.com/2017/01/24/d3-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B" class="title">D3 入门教程</a></p>
+                    <p class="item-date">
+                        <time datetime="2017-01-24 16:50:51 &#43;0800 CST" itemprop="datePublished">2017-01-24</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href="http://blog.titangroupco.com/2017/01/22/%E5%89%8D%E7%AB%AF%E4%BD%BF%E7%94%A8websocket%E7%9A%84%E9%97%AE%E9%A2%98" class="thumbnail">
+                    
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    
+                    </a>
+                </div>
+                <div class="item-inner">
+                    
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/frontend">
+                        frontend
+                        </a>
+                    </p>
+                    
+                    
+                    <p class="item-title"><a href="http://blog.titangroupco.com/2017/01/22/%E5%89%8D%E7%AB%AF%E4%BD%BF%E7%94%A8websocket%E7%9A%84%E9%97%AE%E9%A2%98" class="title">前端使用websocket的问题</a></p>
+                    <p class="item-date">
+                        <time datetime="2017-01-22 18:11:48 &#43;0800 CST" itemprop="datePublished">2017-01-22</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href="http://blog.titangroupco.com/2017/01/22/rf%E4%B8%AD%E9%A1%B5%E9%9D%A2%E5%85%83%E7%B4%A0%E5%AE%9A%E4%BD%8D" class="thumbnail">
+                    
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    
+                    </a>
+                </div>
+                <div class="item-inner">
+                    
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/test">
+                        test
+                        </a>
+                    </p>
+                    
+                    
+                    <p class="item-title"><a href="http://blog.titangroupco.com/2017/01/22/rf%E4%B8%AD%E9%A1%B5%E9%9D%A2%E5%85%83%E7%B4%A0%E5%AE%9A%E4%BD%8D" class="title">RF中页面元素定位</a></p>
+                    <p class="item-date">
+                        <time datetime="2017-01-22 17:03:51 &#43;0800 CST" itemprop="datePublished">2017-01-22</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href="http://blog.titangroupco.com/2017/01/22/python-decorator" class="thumbnail">
+                    
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    
+                    </a>
+                </div>
+                <div class="item-inner">
+                    
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/backend">
+                        backend
+                        </a>
+                    </p>
+                    
+                    
+                    <p class="item-title"><a href="http://blog.titangroupco.com/2017/01/22/python-decorator" class="title">Python Decorator</a></p>
+                    <p class="item-date">
+                        <time datetime="2017-01-22 13:20:36 &#43;0800 CST" itemprop="datePublished">2017-01-22</time>
+                    </p>
+                </div>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+
+    
+
+
+<div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+        <ul class="category-list">
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/categories/backend">
+                    backend
+                </a>
+                <span class="category-list-count">3</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/categories/frontend">
+                    frontend
+                </a>
+                <span class="category-list-count">5</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/categories/test">
+                    test
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+
+
+
+    
+
+
+<div class="widget-wrap">
+    <h3 class="widget-title">
+        Tags
+    </h3>
+    <div class="widget">
+        <ul class="category-list">
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/tags/autotest">
+                    autotest
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/tags/build">
+                    build
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/tags/database">
+                    database
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/tags/javascript">
+                    javascript
+                </a>
+                <span class="category-list-count">5</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/tags/python">
+                    python
+                </a>
+                <span class="category-list-count">2</span>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+
+
+
+    
+
+
+<div class="widget-wrap">
+    <h3 class="widget-title">
+        Tag cloud
+    </h3>
+    <div class="widget tagcloud">
+        
+        
+        <a href="http://blog.titangroupco.com/tags/autotest" style="font-size: 12px;">autotest</a>
+        
+        
+        <a href="http://blog.titangroupco.com/tags/build" style="font-size: 12px;">build</a>
+        
+        
+        <a href="http://blog.titangroupco.com/tags/database" style="font-size: 12px;">database</a>
+        
+        
+        <a href="http://blog.titangroupco.com/tags/javascript" style="font-size: 12px;">javascript</a>
+        
+        
+        <a href="http://blog.titangroupco.com/tags/python" style="font-size: 12px;">python</a>
+        
+    </div>
+</div>
+
+
+
+
+
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
 	    
 	</div>
 </div>
+
+<footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017
+      Powered by <a href="//gohugo.io">Hugo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>.
+    </div>
+  </div>
+</footer>
+
+
+<script src="http://blog.titangroupco.com/fancybox/jquery.fancybox.pack.js"></script>
+<script src="http://blog.titangroupco.com/js/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']]}
+  });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
 
 
 </body>

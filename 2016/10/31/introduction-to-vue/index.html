@@ -1,16 +1,815 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <title>Introduction to Vue &middot; </title>
+    <meta name="generator" content="Hugo 0.18.1" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Titan Developers">
+    
+      <meta name="description" content="">
+    
+    
+    <link rel="canonical" href="http://blog.titangroupco.com/2016/10/31/introduction-to-vue"/>
+    <link rel="icon" href="http://blog.titangroupco.com/favicon.ico">
+    <link rel="apple-touch-icon" href="http://blog.titangroupco.com/apple-touch-icon.png"/>
+    <link rel="stylesheet" href="http://blog.titangroupco.com/css/style.css">
+    <link rel="stylesheet" href="http://blog.titangroupco.com/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://blog.titangroupco.com/css/monokai.css">
+    <link rel="stylesheet" href="http://blog.titangroupco.com/fancybox/jquery.fancybox.css">
+    
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
+    <meta property="og:title" content="Introduction to Vue" />
+<meta property="og:description" content="Basic
+
+&lt;div id=&quot;app&quot;&gt;
+  {{ message }}
+&lt;/div&gt;
+
+
+var app = new Vue({
+  el: &#39;#app&#39;,
+  data: {
+    message: &#39;Hello Vue!&#39;
+  }
+})
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://blog.titangroupco.com/2016/10/31/introduction-to-vue" />
+
+
+<meta property="og:updated_time" content="2016-10-31T08:42:14&#43;08:00"/>
+
+
+
+
+
+
+
+
+
+
+    
+    
+<meta itemprop="name" content="Introduction to Vue">
+<meta itemprop="description" content="Basic
+
+&lt;div id=&quot;app&quot;&gt;
+  {{ message }}
+&lt;/div&gt;
+
+
+var app = new Vue({
+  el: &#39;#app&#39;,
+  data: {
+    message: &#39;Hello Vue!&#39;
+  }
+})
+">
+
+
+<meta itemprop="dateModified" content="2016-10-31T08:42:14&#43;08:00" />
+<meta itemprop="wordCount" content="272">
+
+
+
+<meta itemprop="keywords" content="backend,frontend,test,autotest,build,database,javascript,python," />
+
+    
+
+  <meta name="twitter:card" content="summary"/>
+
+
+
+<meta name="twitter:title" content="Introduction to Vue"/>
+<meta name="twitter:description" content="Basic
+
+&lt;div id=&quot;app&quot;&gt;
+  {{ message }}
+&lt;/div&gt;
+
+
+var app = new Vue({
+  el: &#39;#app&#39;,
+  data: {
+    message: &#39;Hello Vue!&#39;
+  }
+})
+"/>
+
+
+
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body>
+<div class="container">
 
 
 <div id="container">
-	
+	<header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="http://blog.titangroupco.com" id="logo">
+          
+          <i class="logo" style="background-image: url('http://blog.titangroupco.com/img/logo.jpeg')"></i>
+          
+          <span class="site-title"></span>
+      </a>
+      <nav id="main-nav">
+          
+          
+          <a class="main-nav-link" href="http://blog.titangroupco.com/">Home</a>
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <a class="main-nav-link" href="http://blog.titangroupco.com/tags/">Tags</a>
+          
+          
+          
+          <a class="main-nav-link" href="http://blog.titangroupco.com/categories/">Categories</a>
+          
+          
+      </nav>
+        <nav id="sub-nav">
+          <div class="profile" id="profile-nav">
+            <a id="profile-anchor" href="javascript:;"><img class="avatar" src="http://blog.titangroupco.com/img/logo.jpeg"><i class="fa fa-caret-down"></i></a>
+          </div>
+        </nav>
+        <div id="search-form-wrap">
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form">
+              <input type="search" name="q" class="search-form-input" placeholder="Search">
+              <button type="submit" class="search-form-submit">
+              </button>
+              <input type="hidden" name="sitesearch" value="http://blog.titangroupco.com" />
+         </form>
+        </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tbody>
+          <tr>
+          
+          
+          <td><a class="main-nav-link" href="http://blog.titangroupco.com/">Home</a></td>
+          
+          
+          
+          
+          
+          
+
+          
+
+          
+          
+          
+          
+          <td><a class="main-nav-link" href="http://blog.titangroupco.com/tags/">Tags</a></td>
+          
+          
+          
+          <td><a class="main-nav-link" href="http://blog.titangroupco.com/categories/">Categories</a></td>
+          
+          
+          <td>
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form">
+          <input type="search" name="q" class="search-form-input" placeholder="Search">
+          <input type="hidden" name="sitesearch" value="http://blog.titangroupco.com" />
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</header>
+
    	
    	<div class="outer">
 	    
+<section id="main">
+
+    <article id="page-undefined" class="article article-type-page" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+
+            <header class="article-header">
+    <a href="http://blog.titangroupco.com/2016/10/31/introduction-to-vue">
+    <h1 class="article-title" itemprop="name">
+        Introduction to Vue
+    </h1>
+    </a>
+    <div class="article-meta">
+
+        
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2016-10-31 08:42:14 &#43;0800 CST" itemprop="datePublished">2016-10-31</time>
+            &middot;
+            272
+            words
+            &middot;
+            2
+            minute read
+        </div>
+        
+        
+            
+            
+            <div class="article-category">
+                <i class="fa fa-folder"></i>
+                
+                
+                <a class="article-category-link" href="http://blog.titangroupco.com/categories/frontend">frontend</a>
+                
+                
+            </div>
+            
+        
+
+        
+            
+            
+            <div class="article-category">
+                <i class="fa fa-tags"></i>
+                
+                
+                <a class="article-category-link" href="http://blog.titangroupco.com/tags/javascript">JavaScript</a>
+                
+                
+            </div>
+            
+        
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                <h2 id="basic">Basic</h2>
+
+<pre><code class="language-html">&lt;div id=&quot;app&quot;&gt;
+  {{ message }}
+&lt;/div&gt;
+</code></pre>
+
+<pre><code class="language-javascript">var app = new Vue({
+  el: '#app',
+  data: {
+    message: 'Hello Vue!'
+  }
+})
+</code></pre>
+
+<p>
+Vue inherits a lot from angular. Both has concept of <code>directives</code> and <code>components</code>.</p>
+
+<p>We will skip those similarities, but focus on differences here.</p>
+
+<h3 id="directive-has-modifier-and-arguments">Directive has Modifier and Arguments</h3>
+
+<pre><code class="language-html">&lt;input v-model.number=&quot;age&quot; type=&quot;number&quot;&gt;
+&lt;a v-bind:href=&quot;url&quot;&gt;&lt;/a&gt;
+</code></pre>
+
+<ul>
+<li>Modifiers are special postfixes denoted by a dot, which indicate that a directive should be bound in some special way.</li>
+<li>Some directives can take an “argument”, denoted by a colon after the directive name.</li>
+</ul>
+
+<h3 id="component-has-slots">Component has slots</h3>
+
+<p><img src="http://p1.bpimg.com/567571/d8c7009a5bc6f77a.jpg" alt="slot" /></p>
+
+<p>The API for a Vue component comes in three parts - props, events, and slots:</p>
+
+<ol>
+<li>Props allow the external environment to pass data into the component</li>
+<li>Events allow the component to trigger side effects in the external environment</li>
+<li>Slots allow the external environment to compose the component with extra content.</li>
+</ol>
+
+<pre><code class="language-html">&lt;my-component
+  v-bind:foo=&quot;baz&quot;
+  v-bind:bar=&quot;qux&quot;
+  v-on:event-a=&quot;doThis&quot;
+  v-on:event-b=&quot;doThat&quot;
+&gt;
+  &lt;img slot=&quot;icon&quot; src=&quot;...&quot;&gt;
+  &lt;p slot=&quot;main-text&quot;&gt;Hello!&lt;/p&gt;
+&lt;/my-component&gt;
+</code></pre>
+
+<h2 id="vue-ecosystem">Vue Ecosystem</h2>
+
+<ul>
+<li><p><a href="http://router.vuejs.org/">vue-router</a> is officially-supported</p></li>
+
+<li><p><a href="http://vuex.vuejs.org/">vuex</a> is a state management pattern + library for Vue.js applications.</p></li>
+</ul>
+
+<h2 id="comparison">Comparison</h2>
+
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th align="center">Angular</th>
+<th align="center">Angular 2</th>
+<th align="center">React</th>
+<th align="right">Vue</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Star(Github)</td>
+<td align="center">53015</td>
+<td align="center">17748</td>
+<td align="center">52844</td>
+<td align="right">32113</td>
+</tr>
+
+<tr>
+<td>Fork(Github)</td>
+<td align="center">26177</td>
+<td align="center">4525</td>
+<td align="center">9306</td>
+<td align="right">3645</td>
+</tr>
+
+<tr>
+<td>Issue(on/off)</td>
+<td align="center"><sup>674</sup>&frasl;<sub>7460</sub></td>
+<td align="center"><sup>811</sup>&frasl;<sub>6964</sub></td>
+<td align="center"><sup>484</sup>&frasl;<sub>3336</sub></td>
+<td align="right"><sup>66</sup>&frasl;<sub>3069</sub></td>
+</tr>
+
+<tr>
+<td>Size</td>
+<td align="center">156K</td>
+<td align="center">636K</td>
+<td align="center">150K</td>
+<td align="right">64K</td>
+</tr>
+
+<tr>
+<td>LOC(TodoMVC)</td>
+<td align="center">442</td>
+<td align="center">198</td>
+<td align="center">520</td>
+<td align="right">221</td>
+</tr>
+
+<tr>
+<td>Size(TodoMVC)</td>
+<td align="center">1.1M</td>
+<td align="center">1.6M</td>
+<td align="center">1.2M</td>
+<td align="right">294K</td>
+</tr>
+</tbody>
+</table>
+
+<p><em>created on 10/31/2016</em></p>
+
+<p><strong>PS:</strong></p>
+
+<ul>
+<li>Angular 2 requires Typescript while others require Javascript.</li>
+<li>Angular 2, React and Vue support cross-platform programming.</li>
+<li>Angular offer more features. But React and Vue get enhancement from
+additional libraries, which is authored and supported by community.</li>
+<li>From the metric above, Vue has the smallest community.</li>
+</ul>
+
+<p><a href="http://vuejs.org/guide/comparison.html">Read more</a> on differences among these front-end Javascript frameworks.</p>
+
+<p>You can use <a href="https://github.com/vuejs/vue-cli">vue-cli</a> to scaffold Vue.js projects.</p>
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://blog.titangroupco.com/2016/10/31/introduction-to-vue" data-id="670895f40c825c046cbc0e00b2e57dcf" class="article-share-link">
+        <i class="fa fa-share"></i>
+        Share
+    </a>
+    
+
+    <script>
+    (function ($) {
+        
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+    </script>
+</footer>
+
+        </div>
+
+        
+<nav id="article-nav">
+    
+    <a href="http://blog.titangroupco.com/2016/10/28/webpack" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Older
+      </strong>
+      <div class="article-nav-title">Webpack</div>
+    </a>
+    
+
+    
+    <a href="http://blog.titangroupco.com/2017/01/05/javascript-prototype" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">
+          Newer
+      </strong>
+      <div class="article-nav-title">Javascript Prototype</div>
+    </a>
+    
+</nav>
+
+
+    </article>
+
+    
+</section>
+
 
 	    
-	    
+	    <aside id="sidebar">
+    
+<div class="widget-wrap">
+    <h3 class="widget-title">
+        Recents
+    </h3>
+    <div class="widget">
+        <ul id="recent-post">
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href="http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface" class="thumbnail">
+                    
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    
+                    </a>
+                </div>
+                <div class="item-inner">
+                    
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/backend">
+                        backend
+                        </a>
+                    </p>
+                    
+                    
+                    <p class="item-title"><a href="http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface" class="title">Python Web Server Gateway Interface</a></p>
+                    <p class="item-date">
+                        <time datetime="2017-02-21 09:15:24 &#43;0800 CST" itemprop="datePublished">2017-02-21</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href="http://blog.titangroupco.com/2017/01/24/d3-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B" class="thumbnail">
+                    
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    
+                    </a>
+                </div>
+                <div class="item-inner">
+                    
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/frontend">
+                        frontend
+                        </a>
+                    </p>
+                    
+                    
+                    <p class="item-title"><a href="http://blog.titangroupco.com/2017/01/24/d3-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B" class="title">D3 入门教程</a></p>
+                    <p class="item-date">
+                        <time datetime="2017-01-24 16:50:51 &#43;0800 CST" itemprop="datePublished">2017-01-24</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href="http://blog.titangroupco.com/2017/01/22/%E5%89%8D%E7%AB%AF%E4%BD%BF%E7%94%A8websocket%E7%9A%84%E9%97%AE%E9%A2%98" class="thumbnail">
+                    
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    
+                    </a>
+                </div>
+                <div class="item-inner">
+                    
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/frontend">
+                        frontend
+                        </a>
+                    </p>
+                    
+                    
+                    <p class="item-title"><a href="http://blog.titangroupco.com/2017/01/22/%E5%89%8D%E7%AB%AF%E4%BD%BF%E7%94%A8websocket%E7%9A%84%E9%97%AE%E9%A2%98" class="title">前端使用websocket的问题</a></p>
+                    <p class="item-date">
+                        <time datetime="2017-01-22 18:11:48 &#43;0800 CST" itemprop="datePublished">2017-01-22</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href="http://blog.titangroupco.com/2017/01/22/rf%E4%B8%AD%E9%A1%B5%E9%9D%A2%E5%85%83%E7%B4%A0%E5%AE%9A%E4%BD%8D" class="thumbnail">
+                    
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    
+                    </a>
+                </div>
+                <div class="item-inner">
+                    
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/test">
+                        test
+                        </a>
+                    </p>
+                    
+                    
+                    <p class="item-title"><a href="http://blog.titangroupco.com/2017/01/22/rf%E4%B8%AD%E9%A1%B5%E9%9D%A2%E5%85%83%E7%B4%A0%E5%AE%9A%E4%BD%8D" class="title">RF中页面元素定位</a></p>
+                    <p class="item-date">
+                        <time datetime="2017-01-22 17:03:51 &#43;0800 CST" itemprop="datePublished">2017-01-22</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href="http://blog.titangroupco.com/2017/01/22/python-decorator" class="thumbnail">
+                    
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    
+                    </a>
+                </div>
+                <div class="item-inner">
+                    
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/backend">
+                        backend
+                        </a>
+                    </p>
+                    
+                    
+                    <p class="item-title"><a href="http://blog.titangroupco.com/2017/01/22/python-decorator" class="title">Python Decorator</a></p>
+                    <p class="item-date">
+                        <time datetime="2017-01-22 13:20:36 &#43;0800 CST" itemprop="datePublished">2017-01-22</time>
+                    </p>
+                </div>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+
+    
+
+
+<div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+        <ul class="category-list">
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/categories/backend">
+                    backend
+                </a>
+                <span class="category-list-count">3</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/categories/frontend">
+                    frontend
+                </a>
+                <span class="category-list-count">5</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/categories/test">
+                    test
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+
+
+
+    
+
+
+<div class="widget-wrap">
+    <h3 class="widget-title">
+        Tags
+    </h3>
+    <div class="widget">
+        <ul class="category-list">
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/tags/autotest">
+                    autotest
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/tags/build">
+                    build
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/tags/database">
+                    database
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/tags/javascript">
+                    javascript
+                </a>
+                <span class="category-list-count">5</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/tags/python">
+                    python
+                </a>
+                <span class="category-list-count">2</span>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+
+
+
+    
+
+
+<div class="widget-wrap">
+    <h3 class="widget-title">
+        Tag cloud
+    </h3>
+    <div class="widget tagcloud">
+        
+        
+        <a href="http://blog.titangroupco.com/tags/autotest" style="font-size: 12px;">autotest</a>
+        
+        
+        <a href="http://blog.titangroupco.com/tags/build" style="font-size: 12px;">build</a>
+        
+        
+        <a href="http://blog.titangroupco.com/tags/database" style="font-size: 12px;">database</a>
+        
+        
+        <a href="http://blog.titangroupco.com/tags/javascript" style="font-size: 12px;">javascript</a>
+        
+        
+        <a href="http://blog.titangroupco.com/tags/python" style="font-size: 12px;">python</a>
+        
+    </div>
+</div>
+
+
+
+
+
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
 	    
 	</div>
 </div>
+
+<footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017
+      Powered by <a href="//gohugo.io">Hugo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>.
+    </div>
+  </div>
+</footer>
+
+
+<script src="http://blog.titangroupco.com/fancybox/jquery.fancybox.pack.js"></script>
+<script src="http://blog.titangroupco.com/js/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']]}
+  });
+</script>
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
 
 
 </body>
