@@ -777,14 +777,12 @@ Module build failed: Error: ENOENT: no such file or directory, open &#39;xx\node
     </item>
     
     <item>
-      <title>自动化测试</title>
-      <link>http://blog.titangroupco.com/2017/01/22/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95</link>
+      <title>RF中页面元素定位</title>
+      <link>http://blog.titangroupco.com/2017/01/22/rf%E4%B8%AD%E9%A1%B5%E9%9D%A2%E5%85%83%E7%B4%A0%E5%AE%9A%E4%BD%8D</link>
       <pubDate>Sun, 22 Jan 2017 17:03:51 +0800</pubDate>
       
-      <guid>http://blog.titangroupco.com/2017/01/22/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95</guid>
-      <description>&lt;h1 id=&#34;自动化测试&#34;&gt;自动化测试&lt;/h1&gt;
-
-&lt;h2 id=&#34;一-ui自动化测试-页面元素定位&#34;&gt;一. UI自动化测试-页面元素定位&lt;/h2&gt;
+      <guid>http://blog.titangroupco.com/2017/01/22/rf%E4%B8%AD%E9%A1%B5%E9%9D%A2%E5%85%83%E7%B4%A0%E5%AE%9A%E4%BD%8D</guid>
+      <description>&lt;h1 id=&#34;rf中页面元素定位&#34;&gt;RF中页面元素定位&lt;/h1&gt;
 
 &lt;h3 id=&#34;1-robot-framework-selenium做ui自动化测试&#34;&gt;1.Robot Framework+selenium做UI自动化测试&lt;/h3&gt;
 
