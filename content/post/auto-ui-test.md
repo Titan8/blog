@@ -1,12 +1,11 @@
 +++
 draft = false
 date = "2017-01-22T17:03:51+08:00"
-title = "自动化测试"
+title = "RF中页面元素定位"
 
 +++
 
-# 自动化测试
-## 一. UI自动化测试-页面元素定位
+# RF中页面元素定位
 ### 1.Robot Framework+selenium做UI自动化测试
 
 ### 2.页面元素定位
