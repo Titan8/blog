@@ -3,6 +3,11 @@ draft = false
 date = "2017-01-19T09:15:18+08:00"
 title = "Mongo Introduction"
 
+categories = [
+    "backend"
+]
+tags = ["Database"]
+
 +++
 
 # Introdution
@@ -12,6 +17,7 @@ title = "Mongo Introduction"
 3. No Need For ORM( Object Relational Mapping)
 4. Document(Record)
 
+<!--more-->
 ```javascript
 {
    "_id" : ObjectId("54c955492b7c8eb21818bd09"),

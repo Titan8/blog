@@ -3,6 +3,11 @@ draft = false
 date = "2016-10-31T08:42:14+08:00"
 title = "Introduction to Vue"
 
+categories = [
+    "frontend"
+]
+tags = ["JavaScript"]
+
 +++
 ## Basic
 ```html
@@ -19,6 +24,8 @@ var app = new Vue({
   }
 })
 ```
+
+<!--more-->
 Vue inherits a lot from angular. Both has concept of `directives` and `components`.
 
 We will skip those similarities, but focus on differences here.

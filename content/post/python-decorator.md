@@ -2,6 +2,10 @@
 draft = false
 date = "2017-01-22T13:20:36+08:00"
 title = "Python Decorator"
+categories = [
+    "backend"
+]
+tags = ["Python"]
 
 +++
 ## 什么是装饰器
@@ -16,6 +20,8 @@ def hello():
 ```
 
 也有可能是在函数外部计算时间。
+
+<!--more-->
 
 ```python
 def hello():

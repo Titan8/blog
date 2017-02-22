@@ -3,6 +3,11 @@ draft = false
 date = "2017-01-05T00:00:00+08:00"
 title = "Javascript Prototype"
 
+categories = [
+    "frontend"
+]
+tags = ["JavaScript"]
+
 +++
 
 *note of [You Don't know JS](https://github.com/getify/You-Dont-Know-JS/tree/master/this%20%26%20object%20prototypes)*
@@ -36,6 +41,7 @@ Object.prototype.toString.call([])  // '[object Array]'
 Object.prototype.toString.call(/[a-zA-Z]+/)  // '[object RegExp]'
 
 ```
+<!--more-->
 `null` is not an object for it has no any property.
 
 for why `typeof null === 'object'` see details [here] (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof#null)

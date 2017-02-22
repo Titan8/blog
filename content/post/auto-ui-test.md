@@ -3,6 +3,7 @@ draft = false
 date = "2017-01-22T17:03:51+08:00"
 title = "RF中页面元素定位"
 
+
 +++
 
 # RF中页面元素定位
@@ -19,6 +20,8 @@ title = "RF中页面元素定位"
 <input type="submit" value="百度一下" ==id="su"== class="btn self-btn bg s_btn">
 
 ```
+
+<!--more-->
 
 根据上面的例子，百度输入框可以取id 或name进行定位。（前提是id和name的值在当页面上唯一）
 ```html
