@@ -2,11 +2,8 @@
 draft = false
 date = "2017-01-22T13:20:36+08:00"
 title = "Python Decorator"
-categories = [
-    "backend"
-]
+categories = ["backend"]
 tags = ["Python"]
-
 +++
 ## 什么是装饰器
 

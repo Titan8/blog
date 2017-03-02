@@ -2,12 +2,8 @@
 draft = false
 date = "2017-01-05T00:00:00+08:00"
 title = "Javascript Prototype"
-
-categories = [
-    "frontend"
-]
+categories = ["frontend"]
 tags = ["JavaScript"]
-
 +++
 
 *note of [You Don't know JS](https://github.com/getify/You-Dont-Know-JS/tree/master/this%20%26%20object%20prototypes)*

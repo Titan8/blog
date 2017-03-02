@@ -5,6 +5,7 @@ title = "Webpack"
 tags = ["build", "JavaScript"]
 categories = ["frontend"]
 +++
+
 ## Motivation or Problems
   * There are multiple standards of module system in JS world including CommonJS, AMD, ES6 modules and `<script>` tag style.
   * There are two extremes when transferring modules
