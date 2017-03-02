@@ -29,7 +29,7 @@
 <meta property="og:url" content="http://blog.titangroupco.com/" />
 
 
-<meta property="og:updated_time" content="2017-02-21T09:15:24&#43;08:00"/>
+<meta property="og:updated_time" content="2017-03-02T09:26:01&#43;08:00"/>
 
 
 
@@ -150,6 +150,151 @@
     <div class="outer">      
     <section id="main">
     
+    
+    <article class="article article-type-post" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+            </a>
+
+            <header class="article-header">
+    <a href="http://blog.titangroupco.com/2017/03/02/%E7%95%8C%E9%9D%A2%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E6%96%87%E5%AD%97">
+    <h1 class="article-title" itemprop="name">
+        界面设计中的文字
+    </h1>
+    </a>
+    <div class="article-meta">
+
+        
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2017-03-02 09:26:01 &#43;0800 CST" itemprop="datePublished">2017-03-02</time>
+            &middot;
+            91
+            words
+            &middot;
+            1
+            minute read
+        </div>
+        
+        
+            
+            
+            <div class="article-category">
+                <i class="fa fa-folder"></i>
+                
+                
+                <a class="article-category-link" href="http://blog.titangroupco.com/categories/ui">ui</a>
+                
+                
+            </div>
+            
+        
+
+        
+            
+            
+        
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                <p>
+                    <img src="/img/head.png" alt="image" /><br />
+文字是界面设计中重要而又容易被忽略的部分。</p>
+
+<h3 id="字体">字体</h3>
+
+<p>不同操作系统、不同游览器默认显示的字体是不一样的。<br />
+<em>Windows：</em><br />
+<strong>宋体（simsun）</strong> windows下大部分浏览器的默认字体，在使用大字号时的显示效果比较糟糕。<br />
+<strong>微软雅黑（MicrosoftYahei）</strong> 一款拥有regular、bold两种粗细字重的无衬线黑体类字体，显著提高了字体的显示效果，且win8开始有加入了light的字重，这款字体就越来越被设计师、开发人员所选择。<br />
+<strong>Arial</strong> 为win平台默认的无衬线西文字体，显示效果一般。<br />
+<strong>Tahoma</strong> 也是十分常见的无衬线字体，显示效果比Arial好一些。</p>
+
+<p>
+                    <br>
+                </p>
+                <p class="article-more-link">
+                    <a href="http://blog.titangroupco.com/2017/03/02/%E7%95%8C%E9%9D%A2%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E6%96%87%E5%AD%97">
+                        Read more
+                    </a>
+                </p>
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://blog.titangroupco.com/2017/03/02/%E7%95%8C%E9%9D%A2%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E6%96%87%E5%AD%97" data-id="d3d45dd5cf7f21f6b54c18c4586f7e20" class="article-share-link">
+        <i class="fa fa-share"></i>
+        Share
+    </a>
+    
+
+    <script>
+    (function ($) {
+        
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+    </script>
+</footer>
+
+        </div>
+    </article>
     
     <article class="article article-type-post" itemscope="" itemprop="blogPost">
         <div class="article-inner">
@@ -1623,6 +1768,32 @@ Object.prototype.toString.call(/[a-zA-Z]+/)  // '[object RegExp]'
             
             <li>
                 <div class="item-thumbnail">
+                    <a href="http://blog.titangroupco.com/2017/03/02/%E7%95%8C%E9%9D%A2%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E6%96%87%E5%AD%97" class="thumbnail">
+                    
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    
+                    </a>
+                </div>
+                <div class="item-inner">
+                    
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/ui">
+                        ui
+                        </a>
+                    </p>
+                    
+                    
+                    <p class="item-title"><a href="http://blog.titangroupco.com/2017/03/02/%E7%95%8C%E9%9D%A2%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E6%96%87%E5%AD%97" class="title">界面设计中的文字</a></p>
+                    <p class="item-date">
+                        <time datetime="2017-03-02 09:26:01 &#43;0800 CST" itemprop="datePublished">2017-03-02</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                <div class="item-thumbnail">
                     <a href="http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface" class="thumbnail">
                     
                         <span class="thumbnail-image thumbnail-none"></span>
@@ -1725,32 +1896,6 @@ Object.prototype.toString.call(/[a-zA-Z]+/)  // '[object RegExp]'
                 </div>
             </li>
             
-            <li>
-                <div class="item-thumbnail">
-                    <a href="http://blog.titangroupco.com/2017/01/22/python-decorator" class="thumbnail">
-                    
-                        <span class="thumbnail-image thumbnail-none"></span>
-                    
-                    </a>
-                </div>
-                <div class="item-inner">
-                    
-                    
-                    <p class="item-category">
-                        
-                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/backend">
-                        backend
-                        </a>
-                    </p>
-                    
-                    
-                    <p class="item-title"><a href="http://blog.titangroupco.com/2017/01/22/python-decorator" class="title">Python Decorator</a></p>
-                    <p class="item-date">
-                        <time datetime="2017-01-22 13:20:36 &#43;0800 CST" itemprop="datePublished">2017-01-22</time>
-                    </p>
-                </div>
-            </li>
-            
         </ul>
     </div>
 </div>
@@ -1784,6 +1929,14 @@ Object.prototype.toString.call(/[a-zA-Z]+/)  // '[object RegExp]'
                 
                 <a class="category-list-link" href="http://blog.titangroupco.com/categories/test">
                     test
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/categories/ui">
+                    ui
                 </a>
                 <span class="category-list-count">1</span>
             </li>
