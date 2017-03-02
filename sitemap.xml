@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.titangroupco.com/</loc>
+    <lastmod>2017-02-21T09:15:24+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface</loc>
     <lastmod>2017-02-21T09:15:24+08:00</lastmod>
   </url>
@@ -49,76 +54,6 @@
   <url>
     <loc>http://blog.titangroupco.com/about/</loc>
     <lastmod>2016-02-25T16:55:03+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://blog.titangroupco.com/</loc>
-    <lastmod>2017-02-21T09:15:24+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://blog.titangroupco.com/tags/autotest/</loc>
-    <lastmod>2017-01-22T17:03:51+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://blog.titangroupco.com/categories/backend/</loc>
-    <lastmod>2017-02-21T09:15:24+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://blog.titangroupco.com/tags/build/</loc>
-    <lastmod>2016-10-28T08:42:14+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://blog.titangroupco.com/categories/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://blog.titangroupco.com/tags/database/</loc>
-    <lastmod>2017-01-19T09:15:18+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://blog.titangroupco.com/categories/frontend/</loc>
-    <lastmod>2017-01-24T16:50:51+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://blog.titangroupco.com/tags/javascript/</loc>
-    <lastmod>2017-01-24T16:50:51+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://blog.titangroupco.com/post/</loc>
-    <lastmod>2017-02-21T09:15:24+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://blog.titangroupco.com/tags/python/</loc>
-    <lastmod>2017-02-21T09:15:24+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://blog.titangroupco.com/tags/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://blog.titangroupco.com/categories/test/</loc>
-    <lastmod>2017-01-22T17:03:51+08:00</lastmod>
-    <priority>0</priority>
   </url>
   
 </urlset>
