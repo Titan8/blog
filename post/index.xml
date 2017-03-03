@@ -1,0 +1,2438 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on </title>
+    <link>http://blog.titangroupco.com/post/index.xml</link>
+    <description>Recent content in Posts on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Powered by [Hugo](//gohugo.io). Theme by [DevTeam](mailto:dev@titangroupco.com) of Titan.</copyright>
+    <lastBuildDate>Fri, 03 Mar 2017 09:41:07 +0800</lastBuildDate>
+    <atom:link href="http://blog.titangroupco.com/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>小谈javascript中的this</title>
+      <link>http://blog.titangroupco.com/2017/03/03/%E5%B0%8F%E8%B0%88javascript%E4%B8%AD%E7%9A%84this</link>
+      <pubDate>Fri, 03 Mar 2017 09:41:07 +0800</pubDate>
+      
+      <guid>http://blog.titangroupco.com/2017/03/03/%E5%B0%8F%E8%B0%88javascript%E4%B8%AD%E7%9A%84this</guid>
+      <description>&lt;h1 id=&#34;this的用法&#34;&gt;this的用法&lt;/h1&gt;
+
+&lt;p&gt;在javascript中，因为函数的调用方式的不同，this可以是全局对象、当前对象、任意对象。&lt;/p&gt;
+
+&lt;h2 id=&#34;1-全局中&#34;&gt;1. 全局中&lt;/h2&gt;
+
+&lt;p&gt;在全局中（任何函数体外部），this指代全局对象，无论是否在严格模式下。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;在浏览器中，全局对象为window对象
+console.log(this); // window
+
+this.a = 1;
+console.log(window.a); // 1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;2-函数体中&#34;&gt;2. 函数体中&lt;/h2&gt;
+
+&lt;p&gt;在函数内部，函数的调用方式决定了this的值&lt;/p&gt;
+
+&lt;h3 id=&#34;2-1-直接调用&#34;&gt;2.1 直接调用&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code&gt;非严格模式下：
+function f1() {
+    return this;
+}
+
+f1(); // window
+
+严格模式下：
+function f2() {
+    &amp;quot;use strict&amp;quot;;
+    return this;
+}
+
+f2(); // undefined
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;2-2-对象方法中的this&#34;&gt;2.2 对象方法中的this&lt;/h3&gt;
+
+&lt;p&gt;当以对象的方法的方式调用函数时，函数内的this指调用该函数的对象。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var obj = {
+    age: 25,
+    fun: function() {
+        return this.age;
+    }
+};
+
+console.log(obj.fun()); // 25
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;this的绑定只受最靠近的成员引用的影响&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var obj = {age: 24};
+function fun1(){
+    return this.age;
+}
+
+obj.fun = fun1;
+console.log(obj.fun()); // 24
+
+obj.b = {
+    f: fun1,
+    age: 18
+};
+console.log(obj.b.f()); // 18
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(1). 原型链中的this&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var obj = {
+	fun: function() {
+		return this.a + this.b;
+	}
+};
+var p = new Object(obj);
+p.a = 1;
+p.b = 2;
+console.log(p.fun()); // 3 对象p的fun属性继承自它的原型，但是因为fun是作为p的方法调用的，所以它的this指向了p
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(2). getter与setter中的this&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;function f1() {
+	return this.a*this.a + this.b * this.b;
+}
+var obj = {
+	a: 1,
+	b: 2,
+	get f2() {
+		return this.a+this.b;
+	}
+};
+Object.defineProperty(obj, &#39;f1&#39;, {
+	get: f1, enumerable:true,configurable:true
+});
+
+console.log(obj.f1, obj.f2); // 5   3  作为getter或setter函数都会绑定 this 到从设置属性或得到属性的那个对象。
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;2-3-构造函数中的this&#34;&gt;2.3 构造函数中的this&lt;/h3&gt;
+
+&lt;p&gt;当一个函数被作为一个构造函数来使用（使用new关键字），它的this与即将被创建的新对象绑定。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;function f1() {
+    this.a = 1;
+}
+
+var obj = new f1();
+console.log(obj.a); // 1
+
+function f2() {
+    this.a = 2;
+    return {a: 3};
+}
+
+obj = new f2();
+console.log(obj.a); // 3  因为手动设置了返回对象，所以this.a=2虽然执行了，但是对外部没有任何影响
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;2-4-call和apply&#34;&gt;2.4 call和apply&lt;/h3&gt;
+
+&lt;p&gt;每个函数都包含两个非继承而来的方法：call()和apply()。这两个方法的用途都是在特定的作用域中调用函数，实际上等于设置函数体内this对象的值。也就是说，直接调用函数，调用时指定执行环境是谁.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;window.age = 1;
+var obj = {age: 2};
+
+function sayAge() {
+    console.log(this.age);
+}
+
+sayAge.call(this); // 1
+sayAge.call(window); // 1
+sayAge.call(obj); // 2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;apply方法接收两个参数，第一个参数是在函数中运行函数的作用域，另一个参数是数组。
+call方法与apply相比较，第一个参数相同，用于指定函数运行的作用域，其余参数直接传递给函数。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;function add(c, d) {
+    return this.a + this.b + c + d;
+}
+
+var obj = {a: 1, b: 2};
+add.call(obj, 3, 4); // 1+2+3+4 = 10
+add.apply(obj, [3,4]); // 1+2+3+4 = 10
+
+注意： 使用call和apply时，如果传递的this值不是yijavascript会默认使用ToObject将其转换为对象
+
+function bar() {
+    console.log(this);
+}
+
+bar.call(7); // number
+bar.call(&#39;fun&#39;); // string
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;2-5-bind方法&#34;&gt;2.5 bind方法&lt;/h3&gt;
+
+&lt;p&gt;ECMAScript 5 引入了 Function.prototype.bind。调用f.bind(someObject)会创建一个与f具有相同函数体和作用域的函数，但是在这个新函数中，this将永久地被绑定到了bind的第一个参数，无论这个函数是如何被调用的。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;function f() {
+	return this.a;
+}
+
+var g=f.bind({a: &#39;jing&#39;});
+console.log(g()); // jing
+
+var obj = {
+    a: liu,
+    f: f,
+    g: g
+}
+
+console.log(obj.f()); // liu
+console.log(obj.g()); // jing
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;2-6-dom事件处理函数中的this&#34;&gt;2.6 DOM事件处理函数中的this&lt;/h3&gt;
+
+&lt;p&gt;当函数被用作事件处理函数时，它的this指向触发事件的元素,例子：&lt;a href=&#34;https://jsfiddle.net/3urqmtb0/&#34;&gt;https://jsfiddle.net/3urqmtb0/&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;html&amp;gt;
+   &amp;lt;body&amp;gt;
+      &amp;lt;button&amp;gt;btn1&amp;lt;/button&amp;gt;
+      &amp;lt;button&amp;gt;btn2&amp;lt;/button&amp;gt;
+      &amp;lt;button&amp;gt;btn3&amp;lt;/button&amp;gt;
+   &amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+ // 点击当前元素，元素背景色变为粉色
+&amp;lt;script&amp;gt;
+    function pinkify(event) {
+    	console.log(this === event.currentTarget);
+        console.log(this);
+        this.style.backgroundColor = &#39;pink&#39;;
+    }
+    var elements = document.getElementsByTagName(&#39;button&#39;);
+
+    for(var i=0; i&amp;lt;elements.length; i++) {
+    	elements[i].addEventListener(&#39;click&#39;, pinkify, false);
+    }
+&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;2-7-内联事件处理函数中的this&#34;&gt;2.7 内联事件处理函数中的this&lt;/h3&gt;
+
+&lt;p&gt;当代码被内联处理函数调用时，它的this指向监听器所在的DOM元素，例子：&lt;a href=&#34;https://jsfiddle.net/ak7sscuL/&#34;&gt;https://jsfiddle.net/ak7sscuL/&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;button onclick=&amp;quot;alert(this.tagName.toLowerCase());&amp;quot;&amp;gt;
+  Show this
+&amp;lt;/button&amp;gt;
+// alert button
+
+&amp;lt;button onclick=&amp;quot;alert((function(){return this})());&amp;quot;&amp;gt;
+  Show inner this
+&amp;lt;/button&amp;gt;
+// alert [Object Window]  没有设置内部函数的 this，所以它指向 global/window 对象
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    
+    <item>
+      <title>界面设计中的文字</title>
+      <link>http://blog.titangroupco.com/2017/03/02/%E7%95%8C%E9%9D%A2%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E6%96%87%E5%AD%97</link>
+      <pubDate>Thu, 02 Mar 2017 09:26:01 +0800</pubDate>
+      
+      <guid>http://blog.titangroupco.com/2017/03/02/%E7%95%8C%E9%9D%A2%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E6%96%87%E5%AD%97</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;http://blog.titangroupco.com/img/head.png&#34; alt=&#34;image&#34; /&gt;&lt;br /&gt;
+文字是界面设计中重要而又容易被忽略的部分。&lt;/p&gt;
+
+&lt;h3 id=&#34;字体&#34;&gt;字体&lt;/h3&gt;
+
+&lt;p&gt;不同操作系统、不同游览器默认显示的字体是不一样的。&lt;br /&gt;
+&lt;em&gt;Windows：&lt;/em&gt;&lt;br /&gt;
+&lt;strong&gt;宋体（simsun）&lt;/strong&gt; windows下大部分浏览器的默认字体，在使用大字号时的显示效果比较糟糕。&lt;br /&gt;
+&lt;strong&gt;微软雅黑（MicrosoftYahei）&lt;/strong&gt; 一款拥有regular、bold两种粗细字重的无衬线黑体类字体，显著提高了字体的显示效果，且win8开始有加入了light的字重，这款字体就越来越被设计师、开发人员所选择。&lt;br /&gt;
+&lt;strong&gt;Arial&lt;/strong&gt; 为win平台默认的无衬线西文字体，显示效果一般。&lt;br /&gt;
+&lt;strong&gt;Tahoma&lt;/strong&gt; 也是十分常见的无衬线字体，显示效果比Arial好一些。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://blog.titangroupco.com/img/win-font.png&#34; alt=&#34;image&#34; /&gt;&lt;br /&gt;
+&lt;em&gt;Mac Os:&lt;/em&gt;&lt;br /&gt;
+&lt;strong&gt;华文黑体（STHeiti）、华文细黑（STXihei）&lt;/strong&gt; 在OS X 10.6 之前的简体中文系统界面默认字体。
+&lt;strong&gt;黑体-简（Heiti SC）&lt;/strong&gt; 从10.6开始代替华文黑体用作简体中文系统界面默认字体。&lt;br /&gt;
+&lt;strong&gt;冬青黑体（ Hiragino Sans GB）&lt;/strong&gt; 也称苹果丽黑，这是一款清新的专业印刷字体，在小字号时也足够清晰，所以也广受追捧。&lt;br /&gt;
+&lt;strong&gt;Times new Roman&lt;/strong&gt; 众多网页浏览器和文字处理软件的默认字体。也是mac平台safari下磨人的西文衬线字体。&lt;br /&gt;
+&lt;strong&gt;Helvetica&lt;/strong&gt; 是苹果最常用的西文无衬线字体，Helvetica Neue作为Helvetica的改善版本，提供了更多的字体版本。&lt;br /&gt;
+最新推出的&lt;strong&gt;苹方（Ping FangSC）、San Francisco&lt;/strong&gt;显示效果也十分优雅，但版本要求较高。iOS系统的字体和Mac OS系统的字体相同&lt;br /&gt;
+&lt;img src=&#34;http://blog.titangroupco.com/img/ios-font.png&#34; alt=&#34;image&#34; /&gt;&lt;br /&gt;
+&lt;em&gt;Android：&lt;/em&gt;&lt;br /&gt;
+&lt;strong&gt;Droid Sans&lt;/strong&gt; 为安卓系统中默认的西文字体，是一款人文主义无衬线字体，而&lt;strong&gt;Droid Sans Fallback&lt;/strong&gt; 则是包含汉字、日文假名、韩文的文字扩展支持。基本无需单独设置。&lt;br /&gt;
+&lt;em&gt;Linux：&lt;/em&gt;&lt;br /&gt;
+&lt;strong&gt;文泉驿微米黑&lt;/strong&gt; 几乎是 Linux 社区现有的最佳简体中文字体。&lt;br /&gt;
+&lt;strong&gt;文泉驿点阵宋体&lt;/strong&gt; 类似宋体的衬线字体，一般不推荐使用。&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;大公司常见font-famiry&lt;/em&gt;&lt;br /&gt;
+腾讯&lt;br /&gt;
+font-family:12px / 1.5 &amp;lsquo;PingFang SC&amp;rsquo;, &amp;lsquo;microsoft yahei&amp;rsquo;, tahoma, arial, &amp;lsquo;helvetica neue&amp;rsquo;, &amp;lsquo;hiragino sans gb&amp;rsquo;, sans-serif&lt;br /&gt;
+淘宝&lt;br /&gt;
+font-family: arial, &amp;lsquo;Hiragino Sans GB&amp;rsquo;, &amp;lsquo;Microsoft Yahei&amp;rsquo;, Simsun, sans-serif
+由于每个人的审美不一样，钟爱的字体也会有所有不同，根据产品应用的不同操作系统和需求，兼顾中英文，兼容向下，选择最合适的产品字体。&lt;/p&gt;
+
+&lt;h3 id=&#34;大小&#34;&gt;大小&lt;/h3&gt;
+
+&lt;p&gt;对于移动端APP字体大小，百度用户体验部做过一个小调查：&lt;br /&gt;
+&lt;img src=&#34;http://blog.titangroupco.com/img/report.png&#34; alt=&#34;image&#34; /&gt;&lt;br /&gt;
+对于网页端，由于有些浏览器不支持12px以下字体的显示及考虑到用户的阅读需求，一般网页中文的字体最小为12px。常用正文文字14px/16px。且主要使用双数字号，单数的字体在显示的时候会有毛边。&lt;/p&gt;
+
+&lt;h3 id=&#34;颜色&#34;&gt;颜色&lt;/h3&gt;
+
+&lt;p&gt;颜色作为文字的重要属性，往往用于区分文字的不同层级内容，主要包括标题、正文内容、提示补充文案。从效果和易用性方面考虑，一般常用以下三个作为白色背景下的字体色值：&lt;br /&gt;
+&lt;img src=&#34;http://blog.titangroupco.com/img/color.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;行宽&#34;&gt;行宽&lt;/h3&gt;
+
+&lt;p&gt;无论一本书或者一份报纸，每行的文字一般情况下都不会超过40个汉字。因为如果每行文字过长，需要不停的转动脖子，会使人感到疲惫，同时降低阅读效率，目光从行尾移至下一行首，也很容易串行，影响读者浏览文章的节奏。而如果每行文字过短，眼睛要不停来回扫视，破坏阅读节奏。因此文字内容区需要设置合适的字数，才能提高文字的易读性。一般在网页上每行字符范围为75-100，中文在14号字体时，建议35-45个文字为宜。&lt;/p&gt;
+
+&lt;h3 id=&#34;行距&#34;&gt;行距&lt;/h3&gt;
+
+&lt;p&gt;行距也是大段文字时影响易读性的非常重要的因素。过密的行距容易出现跳行，造成阅读困难；而行距过疏，文字则容易失去延续性。设计时如果单单依靠专业的背景和当时的感觉，就容易出现行距难以统一的情况。&lt;br /&gt;
+&lt;img src=&#34;http://blog.titangroupco.com/img/line space.png&#34; alt=&#34;image&#34; /&gt;&lt;br /&gt;
+参考各应用中默认提供的行距比例，一般情况下推荐1：1.2倍，1：1.5倍，1：2倍的行距比例比较合适。&lt;br /&gt;
+&lt;img src=&#34;http://blog.titangroupco.com/img/screenshot-1.png&#34; alt=&#34;image&#34; /&gt;&lt;img src=&#34;http://blog.titangroupco.com/img/screenshot-2.png&#34; alt=&#34;image&#34; /&gt;&lt;br /&gt;
+每个文字、每种字体和每项技术都有其特异性，所以没有不可撼动的规则，但了解文字阅读的习惯，总结一些文字设计过程中的小经验，能为提高设计效率和文字的阅读享受做参考。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Python Web Server Gateway Interface</title>
+      <link>http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface</link>
+      <pubDate>Tue, 21 Feb 2017 09:15:24 +0800</pubDate>
+      
+      <guid>http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface</guid>
+      <description>&lt;h1 id=&#34;引言&#34;&gt;引言&lt;/h1&gt;
+
+&lt;p&gt;在Python的Web开发界，有着多种多样的框架，比如Flask, Django, Falcon等等，可谓是百花齐放。许多新入门的同学，都会纠结使用哪个框架比较好。在这里 我们不去回答这个问题，而是去寻找它们的共通点，也就是本篇的主题：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Web Server Gateway Interface (WSGI, 可以分开来读, 也可以读作&#39;wiz-gee&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;wsgi是什么&#34;&gt;WSGI是什么&lt;/h1&gt;
+
+&lt;p&gt;WSGI不是一个框架，也不是一个Python的库，也不是服务，API或者其他任何类型的软件。它只是服务(&lt;code&gt;Web Server&lt;/code&gt;)和应用(&lt;code&gt;Web Application&lt;/code&gt;)之间的一种简单通用的接口规范。它定义了服务和应用两端，除此之外还有一种叫中间件(&lt;code&gt;Middleware&lt;/code&gt;)的组件，它同时实现了服务端和应用端。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;如果一个应用满足了WSGI，那么它就能在所有满足WSGI的服务上跑起来。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&#34;application&#34;&gt;Application&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;Application&lt;/code&gt;处理请求，并返回处理的结果。它是一个可调用(&lt;code&gt;callable&lt;/code&gt;)的对象，可以是一个函数，方法，实现了&lt;code&gt;__call__&lt;/code&gt;或者&lt;code&gt;__iter__&lt;/code&gt;方法的类。&lt;/p&gt;
+
+&lt;h4 id=&#34;函数&#34;&gt;函数&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def app(environ, start_response):
+    start_response(&#39;200 OK&#39;, [(&#39;Content-type&#39;, &#39;text/plain&#39;)])
+    return [&#39;Hello world!&#39;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;方法&#34;&gt;方法&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;class Demo(object):
+    def __init__(self):
+        # do something
+        ...
+    
+    def app(self, environ, start_response):
+        start_response(&#39;200 OK&#39;, [(&#39;Content-type&#39;, &#39;text/plain&#39;)])
+        return [&#39;Hello world!&#39;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;call-类&#34;&gt;__call__类&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;class Application(object):
+    def __init__(self):
+        # do something
+        ...
+        
+    def __call__(self, environ, start_response):
+        start_response(&#39;200 OK&#39;, [(&#39;Content-type&#39;, &#39;text/plain&#39;)])
+        return [&#39;Hello world!&#39;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;iter-类&#34;&gt;__iter__类&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;class Application(object):
+    def __init__(self, environ, start_response):
+        self.environ = environ
+        self.start_response = start_response
+        
+    def __iter__(self):
+        self.start_response(&#39;200 OK&#39;, [(&#39;Content-type&#39;, &#39;text/plain&#39;)])
+        yield &#39;Hello world!&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;server&#34;&gt;Server&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;Server&lt;/code&gt;接收网络请求，调用&lt;code&gt;Application&lt;/code&gt;去处理请求，并把其返回的结果传输给客户端。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;import os, sys
+
+def run_with_cgi(application):
+
+    environ = dict(os.environ.items())
+    environ[&#39;wsgi.input&#39;]        = sys.stdin
+    environ[&#39;wsgi.errors&#39;]       = sys.stderr
+    environ[&#39;wsgi.version&#39;]      = (1, 0)
+    environ[&#39;wsgi.multithread&#39;]  = False
+    environ[&#39;wsgi.multiprocess&#39;] = True
+    environ[&#39;wsgi.run_once&#39;]     = True
+
+    if environ.get(&#39;HTTPS&#39;, &#39;off&#39;) in (&#39;on&#39;, &#39;1&#39;):
+        environ[&#39;wsgi.url_scheme&#39;] = &#39;https&#39;
+    else:
+        environ[&#39;wsgi.url_scheme&#39;] = &#39;http&#39;
+
+    headers_set = []
+    headers_sent = []
+
+    def write(data):
+        if not headers_set:
+             raise AssertionError(&amp;quot;write() before start_response()&amp;quot;)
+
+        elif not headers_sent:
+             # Before the first output, send the stored headers
+             status, response_headers = headers_sent[:] = headers_set
+             sys.stdout.write(&#39;Status: %s\r\n&#39; % status)
+             for header in response_headers:
+                 sys.stdout.write(&#39;%s: %s\r\n&#39; % header)
+             sys.stdout.write(&#39;\r\n&#39;)
+
+        sys.stdout.write(data)
+        sys.stdout.flush()
+
+    def start_response(status, response_headers, exc_info=None):
+        if exc_info:
+            try:
+                if headers_sent:
+                    # Re-raise original exception if headers sent
+                    raise exc_info[0], exc_info[1], exc_info[2]
+            finally:
+                exc_info = None     # avoid dangling circular ref
+        elif headers_set:
+            raise AssertionError(&amp;quot;Headers already set!&amp;quot;)
+
+        headers_set[:] = [status, response_headers]
+        return write
+
+    result = application(environ, start_response)
+    try:
+        for data in result:
+            if data:    # don&#39;t send headers until body appears
+                write(data)
+        if not headers_sent:
+            write(&#39;&#39;)   # send headers now if body was empty
+    finally:
+        if hasattr(result, &#39;close&#39;):
+            result.close()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;middleware&#34;&gt;Middleware&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;Middleware&lt;/code&gt;同时实现了&lt;code&gt;Server&lt;/code&gt;和&lt;code&gt;Application&lt;/code&gt;两端的功能，它接收上层&lt;code&gt;Server&lt;/code&gt;或者&lt;code&gt;Middleware&lt;/code&gt;传过来的请求，调用下层&lt;code&gt;Application&lt;/code&gt;或者&lt;code&gt;Middleware&lt;/code&gt;来处理，处理的结果又返回给上层。在实际场景中，我们会有多个中间件，这样就形成了中间件栈。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def app(environ, start_response):
+    start_response(&#39;200 OK&#39;, [(&#39;Content-type&#39;, &#39;text/plain&#39;)])
+    return [&#39;Hello world!&#39;]
+    
+class Middleware1(object):
+    def __init__(self, app):
+        self.app = app
+        
+    def __call__(self, environ, start_response)
+        print &#39;Middleware1&#39;
+        return self.app(environ, start_response)
+        
+
+class Middleware2(object):
+    def __init__(self, app):
+        self.app = app
+        
+    def __call__(self, environ, start_response)
+        print &#39;Middleware2&#39;
+        return self.app(environ, start_response)
+        
+
+app = Middleware1(Middleware2(app))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://blog.titangroupco.com/img/wsgi.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;我们现在常用的框架，如Flask, Django都是应用端的，但是它们提供了简单的服务端运行，这样在开发过程中就可以运行起来。&lt;/p&gt;
+
+&lt;p&gt;服务端实现有库wsgiref(内置库), werkzeug, gunicorn, gevent, uwsgi等。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&#34;一步步写个web&#34;&gt;一步步写个Web&lt;/h1&gt;
+
+&lt;h3 id=&#34;运行hello-world&#34;&gt;运行Hello World&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# coding=utf-8
+
+from wsgiref.simple_server import make_server
+
+
+def app(environ, start_response):
+    start_response(&#39;200 Ok&#39;, [(&#39;Content-Type&#39;, &#39;text/plain&#39;)])
+    return [&#39;Hello World!&#39;]
+
+
+if __name__ == &#39;__main__&#39;:
+    server = make_server(&#39;127.0.0.1&#39;, 8080, app)
+    print &#39;Server start at 127.0.0.1:8080...&#39;
+    server.serve_forever()
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;post方法&#34;&gt;POST方法&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;environ&lt;/code&gt;是一个纯字典，它包含了许多WSGI所需要的变量，如请求参数，请求方法等等。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# coding=utf-8
+
+from wsgiref.simple_server import make_server
+
+
+def app(environ, start_response):
+    if environ[&#39;REQUEST_METHOD&#39;] == &#39;POST&#39;:
+        res = &#39;Post Request.&#39;
+    else:
+        res = &#39;Hello World!&#39;
+    start_response(&#39;200 Ok&#39;, [(&#39;Content-Type&#39;, &#39;text/plain&#39;)])
+    return res
+
+
+if __name__ == &#39;__main__&#39;:
+    server = make_server(&#39;127.0.0.1&#39;, 8080, app)
+    print &#39;Server start at 127.0.0.1:8080...&#39;
+    server.serve_forever()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;添加route&#34;&gt;添加Route&lt;/h3&gt;
+
+&lt;p&gt;上面的例子中，所有的url请求返回的结果都是一样的。如果我们需要根据不同url返回不同的结果，那么就需要添加路由处理。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# coding=utf-8
+
+from wsgiref.simple_server import make_server
+
+
+def app(environ, start_response):
+    path = environ[&#39;PATH_INFO&#39;]
+    if path == &#39;/&#39;:
+        res = &#39;Hello World!&#39;
+    elif path == &#39;/test&#39;:
+        res = &#39;Get /test&#39;
+    else:
+        res = &#39;Cannot handle url.&#39;
+
+    start_response(&#39;200 Ok&#39;, [(&#39;Content-Type&#39;, &#39;text/plain&#39;)])
+    return res
+
+if __name__ == &#39;__main__&#39;:
+    server = make_server(&#39;127.0.0.1&#39;, 8080, app)
+    print &#39;Server start at 127.0.0.1:8080...&#39;
+    server.serve_forever()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;随着我们要处理的url越来越多，app的逻辑会越来越复杂，所以我们用类来重构一下。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# coding=utf-8
+
+from wsgiref.simple_server import make_server
+
+
+def handle_root():
+    return &#39;Hello World!&#39;
+
+
+def handle_test():
+    return &#39;Get /test&#39;
+
+
+class Application(object):
+
+    def __init__(self, routes):
+        self.routes = routes
+
+    def __call__(self, environ, start_response):
+        handler = self.routes.get(environ[&#39;PATH_INFO&#39;])
+        if handler is None:
+            res = &#39;Cannot handler url.&#39;
+        else:
+            res = handler()
+        start_response(&#39;200 Ok&#39;, [(&#39;Content-Type&#39;, &#39;text/plain&#39;)])
+        return res
+
+
+if __name__ == &#39;__main__&#39;:
+    routes = {
+        &#39;/&#39;: handle_root,
+        &#39;/test&#39;: handle_test
+    }
+    server = make_server(&#39;127.0.0.1&#39;, 8080, Application(routes))
+    print &#39;Server start at 127.0.0.1:8080...&#39;
+    server.serve_forever()
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;继续重构，为每个url添加method。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# coding=utf-8
+
+from wsgiref.simple_server import make_server
+
+
+def get_root():
+    return &#39;Hello World!&#39;
+
+
+def post_root():
+    return &#39;Post root&#39;
+
+
+def get_test():
+    return &#39;Get /test&#39;
+
+
+def post_test():
+    return &#39;Post /test&#39;
+
+
+class Application(object):
+
+    def __init__(self, routes):
+        self.routes = routes
+
+    def __call__(self, environ, start_response):
+        handler = self.routes.get(environ[&#39;PATH_INFO&#39;], {}).get(environ[&#39;REQUEST_METHOD&#39;])
+        if handler is None:
+            res = &#39;Cannot handler url.&#39;
+        else:
+            res = handler()
+        start_response(&#39;200 Ok&#39;, [(&#39;Content-Type&#39;, &#39;text/plain&#39;)])
+        return res
+
+
+if __name__ == &#39;__main__&#39;:
+    routes = {
+        &#39;/&#39;: {
+            &#39;GET&#39;: get_root,
+            &#39;POST&#39;: post_root
+        },
+        &#39;/test&#39;: {
+            &#39;GET&#39;: get_test,
+            &#39;POST&#39;: post_test
+        }
+    }
+    server = make_server(&#39;127.0.0.1&#39;, 8080, Application(routes))
+    print &#39;Server start at 127.0.0.1:8080...&#39;
+    server.serve_forever()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;日志中间件&#34;&gt;日志中间件&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# coding=utf-8
+
+from wsgiref.simple_server import make_server
+
+
+def handle_root():
+    return &#39;Hello World!&#39;
+
+
+def handle_test():
+    return &#39;Get /test&#39;
+
+
+class Application(object):
+
+    def __init__(self, routes):
+        self.routes = routes
+
+    def __call__(self, environ, start_response):
+        handler = self.routes.get(environ[&#39;PATH_INFO&#39;])
+        if handler is None:
+            res = &#39;Cannot handler url.&#39;
+        else:
+            res = handler()
+        start_response(&#39;200 Ok&#39;, [(&#39;Content-Type&#39;, &#39;text/plain&#39;)])
+        return res
+
+
+class Middleware(object):
+
+    def __init__(self, app):
+        self.app = app
+
+    def __call__(self, environ, start_response):
+        print &#39;Before request.&#39;
+        res = self.app(environ, start_response)
+        print &#39;After request.&#39;
+        return res
+
+
+if __name__ == &#39;__main__&#39;:
+    routes = {
+        &#39;/&#39;: handle_root,
+        &#39;/test&#39;: handle_test
+    }
+    server = make_server(&#39;127.0.0.1&#39;, 8080, Middleware(Application(routes)))
+    print &#39;Server start at 127.0.0.1:8080...&#39;
+    server.serve_forever()
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;总结&#34;&gt;总结&lt;/h1&gt;
+
+&lt;p&gt;本篇介绍了WSGI的一些相关概念，然后一步步写了一个简单的web后台。当然，实际开发过程中我们根本不需要这么来做，因为现在的框架已经封装了好了一切。&lt;/p&gt;
+
+&lt;p&gt;举个Flask的例子：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# coding=utf-8
+
+from flask import Flask
+
+
+app = Flask(__name__)
+
+
+@app.route(&#39;/&#39;)
+def hello():
+    return &#39;Hello World!&#39;
+
+
+if __name__ == &#39;__main__&#39;:
+    app.run()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;参考&#34;&gt;参考&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.python.org/dev/peps/pep-0333/&#34;&gt;PEP333&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/mainframer/PEP333-zh-CN&#34;&gt;PEP333中文翻译&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>D3 入门教程</title>
+      <link>http://blog.titangroupco.com/2017/01/24/d3-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B</link>
+      <pubDate>Tue, 24 Jan 2017 16:50:51 +0800</pubDate>
+      
+      <guid>http://blog.titangroupco.com/2017/01/24/d3-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B</guid>
+      <description>&lt;h1 id=&#34;1-数据可视化&#34;&gt;1. 数据可视化&lt;/h1&gt;
+
+&lt;p&gt;数据可视化，是关于数据视觉表现形式的科学技术研究。为了使复杂的数据和文字变得更容易理解，各种可视化工具因此诞生，其中D3 正是其中的佼佼者。
+&lt;img src=&#34;http://www.ourd3js.com/wordpress/wp-content/uploads/2014/06/14.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;2-d3-简介&#34;&gt;2. D3 简介&lt;/h1&gt;
+
+&lt;p&gt;D3 的全称是（Data-Driven Documents），字面意思是一个被数据驱动的文档。听名字有点抽象，说简单一点，其实就是一个 JavaScript 的函数库，使用它主要是用来做数据可视化的。&lt;/p&gt;
+
+&lt;h1 id=&#34;3-基本用法&#34;&gt;3. 基本用法&lt;/h1&gt;
+
+&lt;h2 id=&#34;3-1-选择元素&#34;&gt;3.1 选择元素&lt;/h2&gt;
+
+&lt;p&gt;在 D3 中，用于选择元素的函数有两个，函数接收符合CSS选择器条件的字符串：
+- d3.select()：是选择所有指定元素的第一个
+- d3.selectAll()：是选择指定元素的全部&lt;/p&gt;
+
+&lt;p&gt;这两个函数返回的结果称为选择集。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;3-2-绑定数据&#34;&gt;3.2 绑定数据&lt;/h2&gt;
+
+&lt;p&gt;D3 有一个很独特的功能：能将数据绑定到 DOM 上，绑定之后，当需要依靠这个数据才操作元素的时候，会很方便。&lt;/p&gt;
+
+&lt;p&gt;D3 中是通过以下两个函数来绑定数据的：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;datum()：绑定一个数据到选择集上&lt;/li&gt;
+&lt;li&gt;data()：绑定一个数组到选择集上，数组的各项值分别与选择集的各元素绑定&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;相对而言，data() 比较常用。&lt;/p&gt;
+
+&lt;h2 id=&#34;3-3-插入元素&#34;&gt;3.3 插入元素&lt;/h2&gt;
+
+&lt;p&gt;插入元素涉及的函数有两个：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;append()：在选择集末尾插入元素&lt;/li&gt;
+&lt;li&gt;insert()：在选择集前面插入元素&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;3-4-删除元素&#34;&gt;3.4 删除元素&lt;/h2&gt;
+
+&lt;p&gt;对于选择的元素，使用remove()函数&lt;/p&gt;
+
+&lt;h2 id=&#34;3-5-比例尺&#34;&gt;3.5 比例尺&lt;/h2&gt;
+
+&lt;p&gt;将某一区域的值映射到另一区域，其大小关系不变。&lt;/p&gt;
+
+&lt;p&gt;比例尺，很像数学中的函数。例如，对于一个一元二次函数，有 x 和 y 两个未知数，当 x 的值确定时，y 的值也就确定了。&lt;/p&gt;
+
+&lt;p&gt;在数学中，x 的范围被称为定义域，y 的范围被称为值域。&lt;/p&gt;
+
+&lt;p&gt;D3 中的比例尺，也有定义域和值域，分别被称为 domain 和 range。开发者需要指定 domain 和 range 的范围，如此即可得到一个计算关系。&lt;/p&gt;
+
+&lt;p&gt;D3 提供了多种比例尺，常用的有以下两种：
+- d3.scale.linear()：返回一个线性的比例尺，能将一个连续的区间，映射到另一区间。
+- d3.scale.ordinal()：返回一个序数比例尺，即定义域和值域是离散的。&lt;/p&gt;
+
+&lt;h2 id=&#34;3-6-坐标轴&#34;&gt;3.6 坐标轴&lt;/h2&gt;
+
+&lt;p&gt;坐标轴，是可视化图表中经常出现的一种图形，由一些列线段和刻度组成。在D3 中使用d3.svg.axis()，能够在 SVG 中生成组成坐标轴的元素。&lt;/p&gt;
+
+&lt;h1 id=&#34;4-实现一个简单的柱形图&#34;&gt;4. 实现一个简单的柱形图&lt;/h1&gt;
+
+&lt;p&gt;一个完整的柱形图包含三部分：矩形、文字、坐标轴。基于D3 的基本用法，制作一个简单的柱形图，内容包括：选择集、数据绑定、比例尺、坐标轴等内容。&lt;/p&gt;
+
+&lt;h2 id=&#34;4-1-添加-svg-画布&#34;&gt;4.1 添加 SVG 画布&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;//画布大小
+var width = 400;
+var height = 400;
+
+//在 body 里添加一个 SVG 画布   
+var svg = d3.select(&amp;quot;body&amp;quot;)
+    .append(&amp;quot;svg&amp;quot;)
+    .attr(&amp;quot;width&amp;quot;, width)
+    .attr(&amp;quot;height&amp;quot;, height);
+
+//画布周边的空白
+ var padding = {left:30, right:30, top:20, bottom:20};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面定义了一个 padding，是为了给 SVG 的周边留一个空白，最好不要将图形绘制到边界上。&lt;/p&gt;
+
+&lt;h2 id=&#34;4-2-定义数据和比例尺&#34;&gt;4.2 定义数据和比例尺&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;//定义一个数组
+var dataset = [10, 20, 30, 40, 33, 24, 12, 5];
+
+//x轴的比例尺
+var xScale = d3.scale.ordinal()
+    .domain(d3.range(dataset.length))
+    .rangeRoundBands([0, width - padding.left - padding.right]);
+
+//y轴的比例尺
+var yScale = d3.scale.linear()
+    .domain([0,d3.max(dataset)])
+    .range([height - padding.top - padding.bottom, 0]);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;x 轴使用序数比例尺，y 轴使用线性比例尺。要注意两个比例尺值域的范围。&lt;/p&gt;
+
+&lt;h2 id=&#34;4-3-定义坐标轴&#34;&gt;4.3 定义坐标轴&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;//定义x轴
+var xAxis = d3.svg.axis()
+    .scale(xScale)
+    .orient(&amp;quot;bottom&amp;quot;);
+
+//定义y轴
+var yAxis = d3.svg.axis()
+    .scale(yScale)
+    .orient(&amp;quot;left&amp;quot;);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;x 轴刻度的方向向下，y 轴的向左。&lt;/p&gt;
+
+&lt;h2 id=&#34;4-4-添加矩形和文字元素&#34;&gt;4.4 添加矩形和文字元素&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;//矩形之间的空白
+var rectPadding = 4;
+
+//添加矩形元素
+var rects = svg.selectAll(&amp;quot;.MyRect&amp;quot;)
+        .data(dataset)
+        .enter()
+        .append(&amp;quot;rect&amp;quot;)
+        .attr(&amp;quot;class&amp;quot;,&amp;quot;MyRect&amp;quot;)
+        .attr(&amp;quot;transform&amp;quot;,&amp;quot;translate(&amp;quot; + padding.left + &amp;quot;,&amp;quot; + padding.top + &amp;quot;)&amp;quot;)
+        .attr(&amp;quot;x&amp;quot;, function(d,i){
+            return xScale(i) + rectPadding/2;
+        } )
+        .attr(&amp;quot;y&amp;quot;,function(d){
+            return yScale(d);
+        })
+        .attr(&amp;quot;width&amp;quot;, xScale.rangeBand() - rectPadding )
+        .attr(&amp;quot;height&amp;quot;, function(d){
+            return height - padding.top - padding.bottom - yScale(d);
+        });
+
+//添加文字元素
+var texts = svg.selectAll(&amp;quot;.MyText&amp;quot;)
+        .data(dataset)
+        .enter()
+        .append(&amp;quot;text&amp;quot;)
+        .attr(&amp;quot;class&amp;quot;,&amp;quot;MyText&amp;quot;)
+        .attr(&amp;quot;transform&amp;quot;,&amp;quot;translate(&amp;quot; + padding.left + &amp;quot;,&amp;quot; + padding.top + &amp;quot;)&amp;quot;)
+        .attr(&amp;quot;x&amp;quot;, function(d,i){
+            return xScale(i) + rectPadding/2;
+        } )
+        .attr(&amp;quot;y&amp;quot;,function(d){
+            return yScale(d);
+        })
+        .attr(&amp;quot;dx&amp;quot;,function(){
+            return (xScale.rangeBand() - rectPadding)/2;
+        })
+        .attr(&amp;quot;dy&amp;quot;,function(d){
+            return 20;
+        })
+        .text(function(d){
+            return d;
+        });
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;矩形元素和文字元素的 x 和 y 坐标要特别注意，要结合比例尺给予适当的值。&lt;/p&gt;
+
+&lt;h2 id=&#34;4-5-添加坐标轴的元素&#34;&gt;4.5 添加坐标轴的元素&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code&gt;//添加x轴
+svg.append(&amp;quot;g&amp;quot;)
+  .attr(&amp;quot;class&amp;quot;,&amp;quot;axis&amp;quot;)
+  .attr(&amp;quot;transform&amp;quot;,&amp;quot;translate(&amp;quot; + padding.left + &amp;quot;,&amp;quot; + (height - padding.bottom) + &amp;quot;)&amp;quot;)
+  .call(xAxis);
+
+//添加y轴
+svg.append(&amp;quot;g&amp;quot;)
+  .attr(&amp;quot;class&amp;quot;,&amp;quot;axis&amp;quot;)
+  .attr(&amp;quot;transform&amp;quot;,&amp;quot;translate(&amp;quot; + padding.left + &amp;quot;,&amp;quot; + padding.top + &amp;quot;)&amp;quot;)
+  .call(yAxis);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;4-6-完整效果图&#34;&gt;4.6 完整效果图&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://www.ourd3js.com/wordpress/wp-content/uploads/2014/06/5111.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;5-结语&#34;&gt;5. 结语&lt;/h1&gt;
+
+&lt;p&gt;使用D3 可以方便的实现各种可视化效果，它与其他可视化工具的主要区别如下：
+&lt;img src=&#34;http://wiki.jikexueyuan.com/project/d3wiki/images/layout-2.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;选择 D3：如果希望开发脑海中任意想象到的图表；&lt;/li&gt;
+&lt;li&gt;选择 Highcharts、Echarts 等：如果希望开发几种固定种类的、十分大众化的图表。&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+    <item>
+      <title>前端使用websocket的问题</title>
+      <link>http://blog.titangroupco.com/2017/01/22/%E5%89%8D%E7%AB%AF%E4%BD%BF%E7%94%A8websocket%E7%9A%84%E9%97%AE%E9%A2%98</link>
+      <pubDate>Sun, 22 Jan 2017 18:11:48 +0800</pubDate>
+      
+      <guid>http://blog.titangroupco.com/2017/01/22/%E5%89%8D%E7%AB%AF%E4%BD%BF%E7%94%A8websocket%E7%9A%84%E9%97%AE%E9%A2%98</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;websocket相关概念&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Web/API/WebSocket&#34;&gt;websocket&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;随着互联网的发展，传统的HTTP协议已经很难满足Web应用日益复杂的需求了。近年来，随着HTML5的诞生，WebSocket协议被提出，它实现了浏览器与服务器的全双工通信，扩展了浏览器与服务端的通信功能，使服务端也能主动向客户端发送数据。
+IE10以上才支持HTML5，才支持websocket，chrome，火狐，opera等浏览器支持较好。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://socket.io/&#34;&gt;Socket.IO&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;WebSocket是HTML5的一种新通信协议，它实现了浏览器与服务器之间的双向通讯。而Socket.IO是一个完全由JavaScript实现、基于Node.js、支持WebSocket的协议用于实时通信、跨平台的开源框架，它包括了&lt;strong&gt;客户端的JavaScript&lt;/strong&gt;和&lt;strong&gt;服务器端的Node.js&lt;/strong&gt;。
+Socket.IO是一个跨平台，支持多种连接方式，如websocket，flashsocket,ajax等，如果客户端不支持websocket时，可以切换使用其他链接方式，比如ajax轮询等。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;script src=&amp;quot;/lib/socket.io/socket.io.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;script&amp;gt;
+   var socket = io();
+   socket.on(&#39;connect&#39;, function() {
+           /* 具体操作 */
+   });
+&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;最近笔者新参与的一个web项目，拟定采用vue2.0来编写，期间遇到有关使用websocket的问题，记录一下，个中遇到的一些问题和解决方法，分享给有需要的人。&lt;/p&gt;
+
+&lt;p&gt;当前服务端采用了websocket的方式，这需要客户端也相应的采用websocket来与客户端建立ws连接，这样客户端和服务端就可以双向的发送数据。笔者当时一拿到这个就会觉得是不是又需要npm安装什么包似的，因为这个功能是从另一个项目（暂且称其为项目B）的功能迁移过来的，而项目B前端是用的angularjs开发的，前端直接用的angularjs的一个websocket的包（angular-websocke），然后几行代码就敲定了，创建连接，发送数据，接收数据，很是方便。当前项目采用的是vue框架，很自然的就去搜有木有vue的websocket包，很快找到了vue-websocket，安装好后，调试，直接报错：
+　　&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;XMLHttpRequest cannot load http://192.168.0.239:9000/socket.io/?EIO=3&amp;amp;transport=polling&amp;amp;t=LbjddEK. No &#39;Access-Control-Allow-Origin&#39; header is present on the requested resource. Origin &#39;http://localhost:8080&#39; is therefore not allowed access. The response had HTTP status code 404.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;笔者对比了项目B，同样在客户端启动本地server，能正常创建到服务端的ws连接，不会像http请求一样有跨域的问题，同时另一问题就是，明明是要创建ws连接，为何浏览器的控制台里会提示是http的连接？vue-websocket没有调试成功，马上去找找有没有通用的包，于是在github找了js相关的websocket的相关包，比如ws，笔者对照了angularjs-websocket包，它也是依赖的ws。于是按照ws的说明文档，安装，然后webpack直接报错了：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ERROR in ./~/ws/lib/WebSocketServer.js
+Module not found: Error: Cannot resolve module &#39;tls&#39; in xx\node_modules\ws\lib
+@ ./~/ws/lib/WebSocketServer.js 15:10-24
+ERROR in ./~/options/lib/options.js
+Module not found: Error: Cannot resolve module &#39;fs&#39; in xx\node_modules\options\lib
+@ ./~/options/lib/options.js 6:9-22
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;查找资料，说是这两个包是服务端node用的，客户端没有所以导致报错，需要修改webpack的配置文件，使其不加载客户端不需要的包
+&lt;a href=&#34;https://github.com/webpack/react-starter/issues/3#issuecomment-53395089&#34;&gt;https://github.com/webpack/react-starter/issues/3#issuecomment-53395089&lt;/a&gt;
+然后，webpack不报错了，但是前端调用ws生成实例的时候，依然会报错，因为ws链接创建的时候，先发起了http的链接请求，按照ws文档：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var WebSocket = require(&#39;ws&#39;)
+var ws = new WebSocket(&#39;ws://xxx/ws&#39;, &#39;ws&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在代码里，生成ws实例的时候，还是会产生http的链接，跟前面用vue-websocket的情况类似，因为是在本地启动的前端服务，所以这样发起到服务器的请求，会导致跨越报错。奇怪的是项目B里的angular使用的angular-websocket包，同样是基于ws包做的，在本地启动，是直接创建的ws链接，没有跨越的问题。然后在vue论坛上查找相关资料，类似的问题比如：&lt;a href=&#34;https://forum-archive.vuejs.org/topic/1293/webpack-bundling-issue-with-websockets/3&#34;&gt;https://forum-archive.vuejs.org/topic/1293/webpack-bundling-issue-with-websockets/3&lt;/a&gt;
+有人提到：Can&amp;rsquo;t you just use window.WebSocket instead of ws?
+提醒到了我，我摒弃了ws，直接用window.WebSocket，来创建ws连接，果然成功了。那为啥angular-websocket基于ws，能正常在浏览器执行，vue这边直接用ws不行，于是去查看angular-websocket的源码，才发现angular-websocket基于ws做了封装，它提供的$websocket对象，在当前浏览器环境下，本质上也是window.WebSocket的对象。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;import angular from &#39;angular&#39;;
+var Socket;
+if (typeof window === &#39;undefined&#39;) {
+try {
+var ws = require(&#39;ws&#39;);
+Socket = (ws.Client||ws.client||ws);
+} catch(e) {}
+}
+// Browser
+Socket = (Socket || window.WebSocket || window.MozWebSocket);
+////////////////////////////////////////////////////////////
+function $WebSocketBackendProvider($log) {
+this.create = function create(url, protocols) {
+var match = /wss?:\/\//.exec(url);
+if (!match) {
+throw new Error(&#39;Invalid url provided&#39;);
+}
+if (protocols) {
+return new Socket(url, protocols);
+}
+return new Socket(url);
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;看源码里面，angular-websocket也是用window.WebSocket创建的，只有在没有window对象的时候，才会基于ws包来创建websocket对象。然后瞬间感觉找准了方向，目前我们的场景主要是PC端的浏览器使用，可以直接用window.WebSocket对象来，于是查阅了&lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Web/API/WebSocket&#34;&gt;window.WebSocket的文档&lt;/a&gt;，很快问题就解决了，原来自带的window对象就已经可以解决问题了，自己绕了一大圈，还是回到原点，细看了它文档里写的相关方法，确实和前面讲到的angular-websocket很像，确实angular-websocket是对这些方法，比如onopen，send，onmessange等方法进行了封装，让开发可以更方便的调用。&lt;/p&gt;
+
+&lt;p&gt;另外，文章最前面提到的&lt;a href=&#34;http://socket.io/&#34;&gt;Socket.IO&lt;/a&gt;，笔者在客户端安装了Socket.IO，并且按照文档说明，去建立ws链接，发现以下问题：&lt;/p&gt;
+
+&lt;h4 id=&#34;1-安装socket-io-client-安装完之后-webpack报错&#34;&gt;1、安装socket.io-client，安装完之后，webpack报错&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code&gt;ERROR in ./~/socket.io-client/~/component-emitter/index.js
+Module build failed: Error: ENOENT: no such file or directory, open &#39;xx\node_modules\socket.io-client\node_modules\component-emitter\index.js&#39;
+    at Error (native)
+ @ ./~/socket.io-client/lib/manager.js 8:14-42
+ERROR in ./~/engine.io-client/~/component-emitter/index.js
+Module build failed: Error: ENOENT: no such file or directory, open &#39;xx\node_modules\engine.io-client\node_modules\component-emitter\index.js&#39;
+    at Error (native)
+ @ ./~/engine.io-client/lib/socket.js 6:14-42
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;参考&lt;a href=&#34;https://github.com/socketio/socket.io-client/issues/933&#34;&gt;https://github.com/socketio/socket.io-client/issues/933&lt;/a&gt;这个需要修改一下webpack的配置文件，添加以下两行后，webpack可以打包通过。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;module: {
+    noParse: [&#39;ws&#39;]
+  },
+  externals: [&#39;ws&#39;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;2-创建连接报错&#34;&gt;2、创建连接报错&lt;/h4&gt;
+
+&lt;p&gt;创建连接&lt;code&gt;var socket = io(url);&lt;/code&gt;，这样创建的链接，Socket.IO默认是按轮询方式发起的http请求（很奇怪，当前浏览器明明是支持websocket的），这样首先就出现了前面的http跨域请求报错：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;XMLHttpRequest cannot load http://192.168.0.239:9000/socket.io/?EIO=3&amp;amp;transport=polling&amp;amp;t=LbjddEK. No &#39;Access-Control-Allow-Origin&#39; header is present on the requested resource. Origin &#39;http://localhost:8080&#39; is therefore not allowed access. The response had HTTP status code 404.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;查阅资料，创建连接的时候，可以指定参数&lt;code&gt;io(WS_URL, {transports: [&#39;websocket&#39;, &#39;polling&#39;, &#39;flashsocket&#39;]})&lt;/code&gt;，设置其发起websocket链接，这样在console里看到的确实是发起的ws请求，然而依然报404错：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;WebSocket connection to &#39;ws://192.168.0.239:9000/socket.io/?EIO=3&amp;amp;transport=websocket&#39; failed: Error during WebSocket handshake: Unexpected response code: 404
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;提示是404找不到，确实是服务端没有&lt;code&gt;&#39;ws://192.168.0.239:9000/socket.io/?EIO=3&amp;amp;transport=websocket&#39;&lt;/code&gt;这样的url，这种url是默认的ws服务端的url，可以设置 path，path默认是&lt;code&gt;/socket.io&lt;/code&gt;，设置path后，&lt;code&gt;io(WS_URL, {path: &#39;/ws&#39;, transports: [&#39;websocket&#39;, &#39;polling&#39;, &#39;flashsocket&#39;]})&lt;/code&gt;，依然报301错：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;WebSocket connection to &#39;ws://192.168.0.239:9000/ws/?EIO=3&amp;amp;transport=websocket&#39; failed: Error during WebSocket handshake: Unexpected response code: 301
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;笔者对比了成功建立ws链接时的url，&lt;code&gt;ws://192.168.0.239:9000/ws&lt;/code&gt;，然后用工具测试了下，只有path是&lt;code&gt;/ws&lt;/code&gt;，即ws://192.168.0.239:9000/ws?EIO=3&amp;amp;transport=websocket&lt;code&gt;这样的url才能成功建立ws链接，这里报301的错误，是因为socketio会在path后面添加&lt;/code&gt;/?EIO=3&amp;amp;transport=websocket`这样一串参数，这样导致了服务端路由匹配不上，导致出现了404或301的情况，所以这里需要服务端配合调整一下路由规则，即可。&lt;/p&gt;
+
+&lt;p&gt;最终，结合当前的实际情况还是采用了原生的websocket，Socket.IO对url的格式有一定的规范要求，目前查阅了socketio的相关api文档，尚未找到可以自定义url格式的方法，比较适合客户端和服务端都同时可控的情况。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>RF中页面元素定位</title>
+      <link>http://blog.titangroupco.com/2017/01/22/rf%E4%B8%AD%E9%A1%B5%E9%9D%A2%E5%85%83%E7%B4%A0%E5%AE%9A%E4%BD%8D</link>
+      <pubDate>Sun, 22 Jan 2017 17:03:51 +0800</pubDate>
+      
+      <guid>http://blog.titangroupco.com/2017/01/22/rf%E4%B8%AD%E9%A1%B5%E9%9D%A2%E5%85%83%E7%B4%A0%E5%AE%9A%E4%BD%8D</guid>
+      <description>&lt;h1 id=&#34;rf中页面元素定位&#34;&gt;RF中页面元素定位&lt;/h1&gt;
+
+&lt;h3 id=&#34;1-robot-framework-selenium做ui自动化测试&#34;&gt;1.Robot Framework+selenium做UI自动化测试&lt;/h3&gt;
+
+&lt;h3 id=&#34;2-页面元素定位&#34;&gt;2.页面元素定位&lt;/h3&gt;
+
+&lt;h3 id=&#34;2-1-id和name定位&#34;&gt;2.1 id和name定位&lt;/h3&gt;
+
+&lt;p&gt;假如把一个元素看作一个人的话，id 和name可以看作一个人的身份证号和姓名。当然，这些属性值是否唯一要看前端工程师如何设计了。&lt;/p&gt;
+
+&lt;p&gt;百度搜索框和搜索按钮&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;input type=&amp;quot;text&amp;quot; class=&amp;quot;s_ipt&amp;quot; ==name=&amp;quot;wd&amp;quot;== id=&amp;quot;kw&amp;quot; maxlength=&amp;quot;100&amp;quot; autocomplete=&amp;quot;off&amp;quot;&amp;gt;
+
+&amp;lt;input type=&amp;quot;submit&amp;quot; value=&amp;quot;百度一下&amp;quot; ==id=&amp;quot;su&amp;quot;== class=&amp;quot;btn self-btn bg s_btn&amp;quot;&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;p&gt;根据上面的例子，百度输入框可以取id 或name进行定位。（前提是id和name的值在当页面上唯一）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;id = su
+name = wd
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在Robot framework 中写法如下：&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;方法&lt;/th&gt;
+&lt;th&gt;定位&lt;/th&gt;
+&lt;th&gt;文本&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Input Text&lt;/td&gt;
+&lt;td&gt;id=kw&lt;/td&gt;
+&lt;td&gt;地图&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Input Text&lt;/td&gt;
+&lt;td&gt;name=wd&lt;/td&gt;
+&lt;td&gt;地图&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;百度按钮只id数据可以利用：id = su&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;方法&lt;/th&gt;
+&lt;th&gt;定位&lt;/th&gt;
+&lt;th&gt;文本&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Click Button&lt;/td&gt;
+&lt;td&gt;id=su&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Click Button是按钮点击的关键字。&lt;/p&gt;
+
+&lt;h3 id=&#34;2-2-xpath定位&#34;&gt;2.2 xpath定位&lt;/h3&gt;
+
+&lt;p&gt;假如页面元素。既没有id也没有name
+例如：cgntes的登录页面&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;input class=&amp;quot;input ng-pristine ng-valid ng-empty ng-touched&amp;quot; autocomplete=&amp;quot;off&amp;quot; ng-change=&amp;quot;vm.loginFailed=false&amp;quot; ng-model=&amp;quot;vm.user.username&amp;quot; placeholder=&amp;quot;请输入用户名&amp;quot; autofocus=&amp;quot;&amp;quot; ng-keyup=&amp;quot;vm.keyUp($event)&amp;quot; tabindex=&amp;quot;1&amp;quot; aria-invalid=&amp;quot;false&amp;quot; style=&amp;quot;&amp;quot;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Xpath的绝对路径：&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;Xpath =/html/body/div/titan-login/div/div[1]/div[2]/input
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我们可以从最外层开始找，html下面的body下面的div下面的第4个div下面的&amp;hellip;.input标签。通过一级一级的锁定就找到了想要的元素。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Xpath的相对路径：&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;绝对路径的用法往往是在我们迫不得已的时候才用的。大多时候用相对路径更简便。
+3. 元素本身：
+Xpath同样可以利用元素自身的属性：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;Xpath=/html/body/div/titan-login/div/div[1]/div[2]/input[@placeholder=&#39;请输入用户名&#39;]
+Xpath = //*[@placeholder=&#39;请输入用户名]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;//表示某个层级下，*表示某个标签名。@placeholder=&amp;lsquo;请输入用户名&amp;rsquo;表示这个元素有个placeholder等于请输入用户名 。
+元素本身，可以利用的属性就不只局限为于id和name，但要保证这些元素可以唯一的识别一个元素。&lt;/p&gt;
+
+&lt;p&gt;4.找上级：&lt;/p&gt;
+
+&lt;p&gt;当我们要找的元素没有id和name，但是它有父节点，那么同样可以定位到该元素。&lt;/p&gt;
+
+&lt;p&gt;元素的上级属性为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;form name=&amp;quot;f&amp;quot; id=&amp;quot;form&amp;quot; action=&amp;quot;/s&amp;quot; class=&amp;quot;fm&amp;quot; onsubmit=&amp;quot;javascript:F.call(&#39;ps/sug&#39;,&#39;pssubmit&#39;)&amp;quot;&amp;gt;
+　　&amp;lt;span class=&amp;quot;s_kw_wrap&amp;quot; class=&amp;quot;bg s_ipt_wr quickdelete-wrap&amp;quot;&amp;gt;
+  &amp;lt;span class=&amp;quot;soutu-btn&amp;quot;&amp;gt;
+　　　 &amp;lt;input  type=&amp;quot;text&amp;quot; class=&amp;quot;s_ipt&amp;quot; name=&amp;quot;wd&amp;quot; id=&amp;quot;kw&amp;quot; maxlength=&amp;quot;100&amp;quot; autocomplete=&amp;quot;off&amp;quot;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;找父节点：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;xpath = //span[@class=’bg s_ipt_wr’]/input
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果父节点没有唯一的属性，可以找父父节点：
+xpath = //form[@id=’form’]/span/input
+这样一级一级找上去，直到html那么就是一个绝对路径了。&lt;/p&gt;
+
+&lt;h3 id=&#34;2-3-css定位&#34;&gt;2.3 CSS定位&lt;/h3&gt;
+
+&lt;p&gt;CSS的定位更灵活，因为他它用到的更多的匹配符和规格。&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;选择器&lt;/th&gt;
+&lt;th&gt;示例&lt;/th&gt;
+&lt;th&gt;示例描述&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;.class&lt;/td&gt;
+&lt;td&gt;.intro&lt;/td&gt;
+&lt;td&gt;选择 class=&amp;ldquo;intro&amp;rdquo; 的所有元素&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;id&lt;/td&gt;
+&lt;td&gt;firstname&lt;/td&gt;
+&lt;td&gt;选择 id=&amp;ldquo;firstname&amp;rdquo; 的所有元素&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;*&lt;/td&gt;
+&lt;td&gt;*&lt;/td&gt;
+&lt;td&gt;选择所有元素&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;element&lt;/td&gt;
+&lt;td&gt;p&lt;/td&gt;
+&lt;td&gt;选择所有 &lt;p&gt; 元素&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;element.element&lt;/td&gt;
+&lt;td&gt;div.p&lt;/td&gt;
+&lt;td&gt;选择所有 &lt;div&gt; 元素和所有 &lt;p&gt; 元素&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;element&amp;gt;element&lt;/td&gt;
+&lt;td&gt;div&amp;gt;p&lt;/td&gt;
+&lt;td&gt;选择父元素为 &lt;div&gt; 元素的所有 &lt;p&gt; 元素&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;element+element&lt;/td&gt;
+&lt;td&gt;div+p&lt;/td&gt;
+&lt;td&gt;选择紧接在 &lt;div&gt; 元素之后的所有 &lt;p&gt; 元素&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;[attribute]&lt;/td&gt;
+&lt;td&gt;[target]&lt;/td&gt;
+&lt;td&gt;选择带有 target 属性所有元素&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;[attribute=value]&lt;/td&gt;
+&lt;td&gt;[target=_blank]&lt;/td&gt;
+&lt;td&gt;选择 target=&amp;rdquo;_blank&amp;rdquo; 的所有元素&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;[attribute~=value]&lt;/td&gt;
+&lt;td&gt;[title~=flower]&lt;/td&gt;
+&lt;td&gt;选择 title 属性包含单词 &amp;ldquo;flower&amp;rdquo; 的所有元素&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;[attribute=value]&lt;/td&gt;
+&lt;td&gt;[lang=en]&lt;/td&gt;
+&lt;td&gt;选择 lang 属性值以 &amp;ldquo;en&amp;rdquo; 开头的所有元素&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;同样以百度输入框的代码，具体CSS定位如下：&lt;/p&gt;
+
+&lt;p&gt;id定位：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;css=#kw
+
+class定位：
+
+css=.s_ipt
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其它属性：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;css=[name=wd]
+css=[type=text]
+css=[autocomplete=off]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;父子定位：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt; css=span&amp;gt;input
+ css=form&amp;gt;span&amp;gt;input
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;根据标签名定位：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;css=input
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;以Cgntest的登录按钮为例子Robot framework 中的写法：&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;方法&lt;/th&gt;
+&lt;th&gt;定位&lt;/th&gt;
+&lt;th&gt;文本&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Input Text&lt;/td&gt;
+&lt;td&gt;css=.btn&lt;/td&gt;
+&lt;td&gt;\\13&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Input Text&lt;/td&gt;
+&lt;td&gt;css=body &amp;gt; div &amp;gt; titan-login &amp;gt; div &amp;gt; div.form &amp;gt; div.btn&lt;/td&gt;
+&lt;td&gt;\\13&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;同样一个元素，根基CSS的不同规则，可能有几十上百种写法。CSS更灵活强大，但是相比Xpath 的学习成本为更高。但是CSS和Xpath两种定位方式是一定要学会一种，不然你的自动化工作更无法开展。&lt;/p&gt;
+
+&lt;h3 id=&#34;2-4-js定位&#34;&gt;2.4 JS定位&lt;/h3&gt;
+
+&lt;p&gt;当碰到使用上述方法仍无法定位时，可选择JS定位，该方法比较通用，能正常定位到所有元素。&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;方法&lt;/th&gt;
+&lt;th&gt;定位&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Execute JavaScript&lt;/td&gt;
+&lt;td&gt;$(&amp;ldquo;.btn&amp;rdquo;).click()&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;</description>
+    </item>
+    
+    <item>
+      <title>Python Decorator</title>
+      <link>http://blog.titangroupco.com/2017/01/22/python-decorator</link>
+      <pubDate>Sun, 22 Jan 2017 13:20:36 +0800</pubDate>
+      
+      <guid>http://blog.titangroupco.com/2017/01/22/python-decorator</guid>
+      <description>&lt;h2 id=&#34;什么是装饰器&#34;&gt;什么是装饰器&lt;/h2&gt;
+
+&lt;p&gt;在coding的时候，你经常会需要计算一个函数的执行时间，最容易想到的方法是在每个函数内部进行计算。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def hello():
+    start = time.time()
+    print &#39;Hello&#39;
+    print &#39;Spend &#39;, time.time() - start
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;也有可能是在函数外部计算时间。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def hello():
+    print &#39;Hello&#39;
+
+start = time.time()
+hello()
+print &#39;Spend &#39;, time.time() - start
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;但是，一个hello还好，如果还有hello1、 hello2、hello3，甚至更多的时候你就懵了。这时候，你就会想有没有不需要写这么多重复代码的方法。&lt;/p&gt;
+
+&lt;p&gt;要解决这个问题，你首先需要知道在Python中，&lt;code&gt;function is the first class&lt;/code&gt;。有一种意译是，“函数是一等公民”。你想啊，函数都是一等公民了，那它肯定可以像基本类型那样作为函数参数喽。于是呢，就有了下面这种方法。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def spend(func):
+    def _spend():
+        start = time.time()
+        func()
+        print &#39;Spend &#39;, time.time() - start
+    return _spend
+
+def hello():
+    print &#39;Hello&#39;
+
+hello = spend(hello)
+hello()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样是不是少写了很多代码，但是呢，还有一个问题，一旦需要计算时间的函数多了，就有可能漏掉一个两个。那么，将时间计算写在函数定义的时候总不会漏了吧。于是乎，Python从2.4版本开始引入一个特殊的语法糖标记&lt;code&gt;@&lt;/code&gt;。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;@spend
+def hello():
+    print &#39;Hello&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这个spend呢，我们就将其称之为装饰器（Decorator）。&lt;/p&gt;
+
+&lt;h2 id=&#34;装饰器的种类&#34;&gt;装饰器的种类&lt;/h2&gt;
+
+&lt;h3 id=&#34;无参数装饰器&#34;&gt;无参数装饰器&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def spend(func):
+    def _spend(*args, **kwargs):
+        start = time.time()
+        func(*args, **kwargs)
+        print &#39;Spend &#39;, time.time() - start
+    return _spend
+
+@spend
+def hello(name):
+    print &#39;Hello&#39;, name
+
+# 等同于
+def hello(name):
+    print &#39;Hello&#39;, name
+hello = spend(hello)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;有参数装饰器&#34;&gt;有参数装饰器&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def spend(start):
+    def _spend(func):
+        def __spend(*args, **kwargs):
+            func(*args, **kwargs)
+            print &#39;Spend &#39;, time.time() - start
+        return __spend
+    return _spend
+
+@spend(time.time())
+def hello(name):
+    print &#39;Hello&#39;, name
+
+# 等同于
+def hello(name):
+    print &#39;Hello&#39;, name
+hello = spend(time.time())(hello)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这里有个问题，为什么spend的参数start能在hello中使用？&lt;/p&gt;
+
+&lt;p&gt;我们从作用域的角度分析这个问题，举一个另外的例子。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def outer(arg):
+    print locals()
+    def inner():
+        x = arg * arg
+        print locals()
+        print x
+    return inner
+
+&amp;gt;&amp;gt;&amp;gt; f = outer(2)
+{&#39;arg&#39;: 2}
+&amp;gt;&amp;gt;&amp;gt; f()
+{&#39;x&#39;: 4, &#39;arg&#39;: 2}
+4
+&amp;gt;&amp;gt;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;locals函数的结果是局部命名空间的内容。在outer中，局部命名空间只有一个键arg，而在inner内部也有arg。这就引出了另外一个术语&lt;code&gt;闭包&lt;/code&gt;。在维基中，闭包的解释是这样的：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;在计算机科学中，闭包（Closure）是词法闭包（Lexical Closure）的简称，是引用了自由变量的函数。这个被引用的自由变量将和这个函数一同存在，即使已经离开了创造它的环境也不例外。所以，有另一种说法认为闭包是由函数和与其相关的引用环境组合而成的实体。闭包在运行时可以有多个实例，不同的引用环境和相同的函数组合可以产生不同的实例。&lt;/p&gt;
+
+&lt;p&gt;我的理解是，Python的装饰器就是一种闭包。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;这样，我们就能明白为什么spend的参数start能在hello中使用了。&lt;/p&gt;
+
+&lt;h3 id=&#34;类装饰器&#34;&gt;类装饰器&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def deco(*args, **kwargs):
+    def _deco(cls):
+        cls.x = 12
+        return cls
+    return _deco
+
+@deco(&#39;hello&#39;)
+class A(object):
+    pass
+
+&amp;gt;&amp;gt;&amp;gt; A.x
+12
+
+# 等同于
+class A(object):
+    pass
+A = deco(&#39;hello&#39;)(A)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;装饰器类&#34;&gt;装饰器类&lt;/h3&gt;
+
+&lt;p&gt;类作为装饰器，分为有参数和无参数。同时，需要装饰的是类方法时，需要用到&lt;strong&gt;get&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;h4 id=&#34;无参数&#34;&gt;无参数&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;class Deco(object):
+    def __init__(self, func):
+        self.func = func
+
+    def __call__(self, *args, **kwargs):
+        print &#39;call Deco&#39;
+        self.func(*args, **kwargs)
+
+@Deco
+def test():
+    print &#39;call test&#39;
+
+# 等同于
+test = Deco(test)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;有参数&#34;&gt;有参数&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;class Deco(object):
+    def __init__(self, *args, **kwargs):
+        print args, kwargs
+
+    def __call__(self, func):
+        def _deco(*args, **kwargs):
+            print &#39;call Deco&#39;
+            func(*args, **kwargs)
+        return _deco
+
+@Deco(&#39;hello&#39;)
+def test():
+    print &#39;call test&#39;
+
+# 等同于
+test = Deco(&#39;hello&#39;)(func)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;内置装饰器&#34;&gt;内置装饰器&lt;/h2&gt;
+
+&lt;p&gt;Python中有三个常用的内置装饰器，&lt;code&gt;staticmethod&lt;/code&gt;，&lt;code&gt;classmethod&lt;/code&gt;，&lt;code&gt;functools.wraps&lt;/code&gt;。&lt;/p&gt;
+
+&lt;h3 id=&#34;staticmethod&#34;&gt;staticmethod&lt;/h3&gt;
+
+&lt;p&gt;staticmethod返回一个静态方法。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;class Time(object):
+
+    @staticmethod
+    def now():
+        print time.time()
+
+t = Time()
+t.now()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;classmethod&#34;&gt;classmethod&lt;/h3&gt;
+
+&lt;p&gt;classmethod返回一个类方法。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;class Time(object):
+
+    @classmethod
+    def now():
+        print time.time()
+
+Time.now()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;functools-wraps&#34;&gt;functools.wraps&lt;/h3&gt;
+
+&lt;p&gt;在使用装饰器的时候，返回的新函数的名称并不是原函数的。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def spend(func):
+    def _spend(*args, **kwargs):
+        start = time.time()
+        func(*args, **kwargs)
+        print &#39;Spend &#39;, time.time() - start
+    return _spend
+
+@spend
+def hello(name):
+    print &#39;Hello&#39;, name
+
+&amp;gt;&amp;gt;&amp;gt; print hello.__name__
+_spend
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果需要新函数的名称和原函数相同，functools.wraps就派上用场了。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def spend(func):
+    @functools.wraps(func)
+    def _spend(*args, **kwargs):
+        start = time.time()
+        func(*args, **kwargs)
+        print &#39;Spend &#39;, time.time() - start
+    return _spend
+
+@spend
+def hello(name):
+    print &#39;Hello&#39;, name
+
+&amp;gt;&amp;gt;&amp;gt; print hello.__name__
+hello
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;总结&#34;&gt;总结&lt;/h2&gt;
+
+&lt;p&gt;假如有新的功能需要实现，但是又不想改变已有的逻辑代码，这时候就需要考虑考虑装饰器了。&lt;/p&gt;
+
+&lt;p&gt;参考： &lt;a href=&#34;https://www.python.org/dev/peps/pep-0318/#warningwarningwarning&#34;&gt;PEP 318 &amp;ndash; Decorators for Functions and Methods&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Mongo Introduction</title>
+      <link>http://blog.titangroupco.com/2017/01/19/mongo-introduction</link>
+      <pubDate>Thu, 19 Jan 2017 09:15:18 +0800</pubDate>
+      
+      <guid>http://blog.titangroupco.com/2017/01/19/mongo-introduction</guid>
+      <description>&lt;h1 id=&#34;introdution&#34;&gt;Introdution&lt;/h1&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;https://zh.wikipedia.org/wiki/NoSQL&#34;&gt;NoSQL&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Open Source&lt;/li&gt;
+&lt;li&gt;No Need For ORM( Object Relational Mapping)&lt;/li&gt;
+&lt;li&gt;Document(Record)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;{
+   &amp;quot;_id&amp;quot; : ObjectId(&amp;quot;54c955492b7c8eb21818bd09&amp;quot;),
+   &amp;quot;address&amp;quot; : {
+      &amp;quot;street&amp;quot; : &amp;quot;2 Avenue&amp;quot;,
+      &amp;quot;zipcode&amp;quot; : &amp;quot;10075&amp;quot;,
+      &amp;quot;building&amp;quot; : &amp;quot;1480&amp;quot;,
+      &amp;quot;coord&amp;quot; : [ -73.9557413, 40.7720266 ]
+   },
+   &amp;quot;borough&amp;quot; : &amp;quot;Manhattan&amp;quot;,
+   &amp;quot;cuisine&amp;quot; : &amp;quot;Italian&amp;quot;,
+   &amp;quot;grades&amp;quot; : [
+      {
+         &amp;quot;date&amp;quot; : ISODate(&amp;quot;2014-10-01T00:00:00Z&amp;quot;),
+         &amp;quot;grade&amp;quot; : &amp;quot;A&amp;quot;,
+         &amp;quot;score&amp;quot; : 11
+      },
+      {
+         &amp;quot;date&amp;quot; : ISODate(&amp;quot;2014-01-16T00:00:00Z&amp;quot;),
+         &amp;quot;grade&amp;quot; : &amp;quot;B&amp;quot;,
+         &amp;quot;score&amp;quot; : 17
+      }
+   ],
+   &amp;quot;name&amp;quot; : &amp;quot;Vella&amp;quot;,
+   &amp;quot;restaurant_id&amp;quot; : &amp;quot;41704620&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Collection(Table)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;primary key: _id&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Database&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&#34;connect-database&#34;&gt;Connect Database&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;mongo --host 192.168.0.238 --port 27017 -u demo -p 123456 --authenticationMechanism MONGODB-CR demo
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;insert&#34;&gt;Insert&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;# use database
+use demo
+
+# show tables
+show tables
+
+show collections
+
+# insert
+db.restaurants.insert(
+   {
+      &amp;quot;address&amp;quot; : {
+         &amp;quot;street&amp;quot; : &amp;quot;2 Avenue&amp;quot;,
+         &amp;quot;zipcode&amp;quot; : &amp;quot;10075&amp;quot;,
+         &amp;quot;building&amp;quot; : &amp;quot;1480&amp;quot;,
+         &amp;quot;coord&amp;quot; : [ -73.9557413, 40.7720266 ]
+      },
+      &amp;quot;borough&amp;quot; : &amp;quot;Manhattan&amp;quot;,
+      &amp;quot;cuisine&amp;quot; : &amp;quot;Italian&amp;quot;,
+      &amp;quot;grades&amp;quot; : [
+         {
+            &amp;quot;date&amp;quot; : ISODate(&amp;quot;2014-10-01T00:00:00Z&amp;quot;),
+            &amp;quot;grade&amp;quot; : &amp;quot;A&amp;quot;,
+            &amp;quot;score&amp;quot; : 11
+         },
+         {
+            &amp;quot;date&amp;quot; : ISODate(&amp;quot;2014-01-16T00:00:00Z&amp;quot;),
+            &amp;quot;grade&amp;quot; : &amp;quot;B&amp;quot;,
+            &amp;quot;score&amp;quot; : 17
+         }
+      ],
+      &amp;quot;name&amp;quot; : &amp;quot;Vella&amp;quot;,
+      &amp;quot;restaurant_id&amp;quot; : &amp;quot;41704620&amp;quot;
+   }
+)
+
+# after insert, return  WriteResult
+WriteResult({ &amp;quot;nInserted&amp;quot; : 1 })
+
+# or
+var r = db.restaurants.insert(...)
+
+# Three methods to insert
+insert  insertOne  insertMany
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;find-or-query&#34;&gt;Find or Query&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;db.restaurants.find( { &amp;quot;address.zipcode&amp;quot;: &amp;quot;10075&amp;quot;, &amp;quot;borough&amp;quot;: &amp;quot;Manhattan&amp;quot;  } )
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;array-query&#34;&gt;Array Query&lt;/h3&gt;
+
+&lt;h4 id=&#34;exact-match&#34;&gt;Exact Match&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;db.users.find( { badges: [ &amp;quot;blue&amp;quot;, &amp;quot;black&amp;quot; ] } )
+
+{
+   &amp;quot;_id&amp;quot; : 1,
+   &amp;quot;name&amp;quot; : &amp;quot;sue&amp;quot;,
+   &amp;quot;age&amp;quot; : 19,
+   &amp;quot;type&amp;quot; : 1,
+   &amp;quot;status&amp;quot; : &amp;quot;P&amp;quot;,
+   &amp;quot;favorites&amp;quot; : { &amp;quot;artist&amp;quot; : &amp;quot;Picasso&amp;quot;, &amp;quot;food&amp;quot; : &amp;quot;pizza&amp;quot; },
+   &amp;quot;finished&amp;quot; : [ 17, 3 ]
+   &amp;quot;badges&amp;quot; : [ &amp;quot;blue&amp;quot;, &amp;quot;black&amp;quot; ],
+   &amp;quot;points&amp;quot; : [ { &amp;quot;points&amp;quot; : 85, &amp;quot;bonus&amp;quot; : 20 }, { &amp;quot;points&amp;quot; : 85, &amp;quot;bonus&amp;quot; : 10 } ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;match-an-array-element&#34;&gt;Match an Array Element&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;db.users.find( { badges: &amp;quot;black&amp;quot; } )
+
+{
+   &amp;quot;_id&amp;quot; : 1,
+   &amp;quot;name&amp;quot; : &amp;quot;sue&amp;quot;,
+   &amp;quot;age&amp;quot; : 19,
+   &amp;quot;type&amp;quot; : 1,
+   &amp;quot;status&amp;quot; : &amp;quot;P&amp;quot;,
+   &amp;quot;favorites&amp;quot; : { &amp;quot;artist&amp;quot; : &amp;quot;Picasso&amp;quot;, &amp;quot;food&amp;quot; : &amp;quot;pizza&amp;quot; },
+   &amp;quot;finished&amp;quot; : [ 17, 3 ]
+   &amp;quot;badges&amp;quot; : [ &amp;quot;blue&amp;quot;, &amp;quot;black&amp;quot; ],
+   &amp;quot;points&amp;quot; : [ { &amp;quot;points&amp;quot; : 85, &amp;quot;bonus&amp;quot; : 20 }, { &amp;quot;points&amp;quot; : 85, &amp;quot;bonus&amp;quot; : 10 } ]
+}
+{
+   &amp;quot;_id&amp;quot; : 4,
+   &amp;quot;name&amp;quot; : &amp;quot;xi&amp;quot;,
+   &amp;quot;age&amp;quot; : 34,
+   &amp;quot;type&amp;quot; : 2,
+   &amp;quot;status&amp;quot; : &amp;quot;D&amp;quot;,
+   &amp;quot;favorites&amp;quot; : { &amp;quot;artist&amp;quot; : &amp;quot;Chagall&amp;quot;, &amp;quot;food&amp;quot; : &amp;quot;chocolate&amp;quot; },
+   &amp;quot;finished&amp;quot; : [ 5, 11 ],
+   &amp;quot;badges&amp;quot; : [ &amp;quot;red&amp;quot;, &amp;quot;black&amp;quot; ],
+   &amp;quot;points&amp;quot; : [ { &amp;quot;points&amp;quot; : 53, &amp;quot;bonus&amp;quot; : 15 }, { &amp;quot;points&amp;quot; : 51, &amp;quot;bonus&amp;quot; : 15 } ]
+}
+{
+   &amp;quot;_id&amp;quot; : 6,
+   &amp;quot;name&amp;quot; : &amp;quot;abc&amp;quot;,
+   &amp;quot;age&amp;quot; : 43,
+   &amp;quot;type&amp;quot; : 1,
+   &amp;quot;status&amp;quot; : &amp;quot;A&amp;quot;,
+   &amp;quot;favorites&amp;quot; : { &amp;quot;food&amp;quot; : &amp;quot;pizza&amp;quot;, &amp;quot;artist&amp;quot; : &amp;quot;Picasso&amp;quot; },
+   &amp;quot;finished&amp;quot; : [ 18, 12 ],
+   &amp;quot;badges&amp;quot; : [ &amp;quot;black&amp;quot;, &amp;quot;blue&amp;quot; ],
+   &amp;quot;points&amp;quot; : [ { &amp;quot;points&amp;quot; : 78, &amp;quot;bonus&amp;quot; : 8 }, { &amp;quot;points&amp;quot; : 57, &amp;quot;bonus&amp;quot; : 7 } ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;match-a-specific-element-of-an-array&#34;&gt;Match a Specific Element of an Array&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;db.users.find( { &amp;quot;badges.0&amp;quot;: &amp;quot;black&amp;quot; } )
+
+{
+   &amp;quot;_id&amp;quot; : 6,
+   &amp;quot;name&amp;quot; : &amp;quot;abc&amp;quot;,
+   &amp;quot;age&amp;quot; : 43,
+   &amp;quot;type&amp;quot; : 1,
+   &amp;quot;status&amp;quot; : &amp;quot;A&amp;quot;,
+   &amp;quot;favorites&amp;quot; : { &amp;quot;food&amp;quot; : &amp;quot;pizza&amp;quot;, &amp;quot;artist&amp;quot; : &amp;quot;Picasso&amp;quot; },
+   &amp;quot;finished&amp;quot; : [ 18, 12 ],
+   &amp;quot;badges&amp;quot; : [ &amp;quot;black&amp;quot;, &amp;quot;blue&amp;quot; ],
+   &amp;quot;points&amp;quot; : [ { &amp;quot;points&amp;quot; : 78, &amp;quot;bonus&amp;quot; : 8 }, { &amp;quot;points&amp;quot; : 57, &amp;quot;bonus&amp;quot; : 7 } ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://docs.mongodb.com/manual/tutorial/query-documents/#read-operations-arrays&#34;&gt;More&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;specify-conditions-with-operators&#34;&gt;Specify Conditions with Operators&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;db.restaurants.find( { &amp;quot;grades.score&amp;quot;: { $gt: 30 } } )
+db.restaurants.find( { &amp;quot;grades.score&amp;quot;: { $lt: 10 } } )
+db.restaurants.find( { &amp;quot;cuisine&amp;quot;: &amp;quot;Italian&amp;quot;, &amp;quot;address.zipcode&amp;quot;: &amp;quot;10075&amp;quot; } )
+db.restaurants.find(
+   { $or: [ { &amp;quot;cuisine&amp;quot;: &amp;quot;Italian&amp;quot; }, { &amp;quot;address.zipcode&amp;quot;: &amp;quot;10075&amp;quot; } ] }
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://docs.mongodb.com/manual/reference/operator/query/&#34;&gt;more&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;sort-query-results&#34;&gt;Sort Query Results&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;db.restaurants.find().sort( { &amp;quot;borough&amp;quot;: 1, &amp;quot;address.zipcode&amp;quot;: 1 } )
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;show-partial-fields&#34;&gt;Show partial fields&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;db.restaurants.find({}, {borough: 1})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;pretty-results&#34;&gt;Pretty results&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;db.restaurants.find().pretty()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;update&#34;&gt;Update&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;db.restaurants.update(
+    { &amp;quot;name&amp;quot; : &amp;quot;Juni&amp;quot; },
+    {
+      $set: { &amp;quot;cuisine&amp;quot;: &amp;quot;American (New)&amp;quot; },
+      $currentDate: { &amp;quot;lastModified&amp;quot;: true }
+    }
+)
+
+db.restaurants.update(
+  { &amp;quot;restaurant_id&amp;quot; : &amp;quot;41156888&amp;quot; },
+  { $set: { &amp;quot;address.street&amp;quot;: &amp;quot;East 31st Street&amp;quot; } }
+)
+
+db.restaurants.update(
+  { &amp;quot;address.zipcode&amp;quot;: &amp;quot;10016&amp;quot;, cuisine: &amp;quot;Other&amp;quot; },
+  {
+    $set: { cuisine: &amp;quot;Category To Be Determined&amp;quot; },
+    $currentDate: { &amp;quot;lastModified&amp;quot;: true }
+  },
+  { multi: true, upsert: true}
+)
+
+db.restaurants.update(
+   { &amp;quot;restaurant_id&amp;quot; : &amp;quot;41704620&amp;quot; },
+   {
+     &amp;quot;name&amp;quot; : &amp;quot;Vella 2&amp;quot;,
+     &amp;quot;address&amp;quot; : {
+              &amp;quot;coord&amp;quot; : [ -73.9557413, 40.7720266 ],
+              &amp;quot;building&amp;quot; : &amp;quot;1480&amp;quot;,
+              &amp;quot;street&amp;quot; : &amp;quot;2 Avenue&amp;quot;,
+              &amp;quot;zipcode&amp;quot; : &amp;quot;10075&amp;quot;
+     }
+   }
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;自增id的实现&#34;&gt;自增ID的实现&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;collection store id&lt;/li&gt;
+&lt;li&gt;$inc operator&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;db.ids.insert({name: &#39;test&#39;, value: NumberInt(0)})
+db.ids.update({name: &#39;test&#39;}, {$inc: {value: 1}})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://docs.mongodb.com/manual/reference/operator/update/&#34;&gt;more&lt;/a&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;remove&#34;&gt;Remove&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;db.restaurants.remove( { &amp;quot;borough&amp;quot;: &amp;quot;Manhattan&amp;quot; } )
+db.restaurants.remove( { &amp;quot;borough&amp;quot;: &amp;quot;Queens&amp;quot; }, { justOne: true } )
+db.restaurants.remove( { } )
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;drop-collection&#34;&gt;Drop collection&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;db.restaurants.drop()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;data-aggregation&#34;&gt;Data Aggregation&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;db.collection.aggregate( [ &amp;lt;stage1&amp;gt;, &amp;lt;stage2&amp;gt;, ... ] )
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;group&#34;&gt;Group&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;db.restaurants.aggregate(
+   [
+     { $group: { &amp;quot;_id&amp;quot;: &amp;quot;$borough&amp;quot;, &amp;quot;count&amp;quot;: { $sum: 1 } } }
+   ]
+)
+
+{ &amp;quot;_id&amp;quot; : &amp;quot;Staten Island&amp;quot;, &amp;quot;count&amp;quot; : 969 }
+{ &amp;quot;_id&amp;quot; : &amp;quot;Brooklyn&amp;quot;, &amp;quot;count&amp;quot; : 6086 }
+{ &amp;quot;_id&amp;quot; : &amp;quot;Manhattan&amp;quot;, &amp;quot;count&amp;quot; : 10259 }
+{ &amp;quot;_id&amp;quot; : &amp;quot;Queens&amp;quot;, &amp;quot;count&amp;quot; : 5656 }
+{ &amp;quot;_id&amp;quot; : &amp;quot;Bronx&amp;quot;, &amp;quot;count&amp;quot; : 2338 }
+{ &amp;quot;_id&amp;quot; : &amp;quot;Missing&amp;quot;, &amp;quot;count&amp;quot; : 51 }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;filter-and-group&#34;&gt;Filter and Group&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;db.restaurants.aggregate(
+   [
+     { $match: { &amp;quot;borough&amp;quot;: &amp;quot;Queens&amp;quot;, &amp;quot;cuisine&amp;quot;: &amp;quot;Brazilian&amp;quot; } },
+     { $group: { &amp;quot;_id&amp;quot;: &amp;quot;$address.zipcode&amp;quot; , &amp;quot;count&amp;quot;: { $sum: 1 } } }
+   ]
+)
+
+{ &amp;quot;_id&amp;quot; : &amp;quot;11368&amp;quot;, &amp;quot;count&amp;quot; : 1 }
+{ &amp;quot;_id&amp;quot; : &amp;quot;11106&amp;quot;, &amp;quot;count&amp;quot; : 3 }
+{ &amp;quot;_id&amp;quot; : &amp;quot;11377&amp;quot;, &amp;quot;count&amp;quot; : 1 }
+{ &amp;quot;_id&amp;quot; : &amp;quot;11103&amp;quot;, &amp;quot;count&amp;quot; : 1 }
+{ &amp;quot;_id&amp;quot; : &amp;quot;11101&amp;quot;, &amp;quot;count&amp;quot; : 2 }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;mapreduce&#34;&gt;MapReduce&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;db.collection.mapReduce(
+                         &amp;lt;map&amp;gt;,
+                         &amp;lt;reduce&amp;gt;,
+                         {
+                           out: &amp;lt;collection&amp;gt;,
+                           query: &amp;lt;document&amp;gt;,
+                           sort: &amp;lt;document&amp;gt;,
+                           limit: &amp;lt;number&amp;gt;,
+                           finalize: &amp;lt;function&amp;gt;,
+                           scope: &amp;lt;document&amp;gt;,
+                           jsMode: &amp;lt;boolean&amp;gt;,
+                           verbose: &amp;lt;boolean&amp;gt;,
+                           bypassDocumentValidation: &amp;lt;boolean&amp;gt;
+                         }
+                       )
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;map-function&#34;&gt;Map Function&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;function() {
+   ...
+   emit(key, value);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The map function has the following requirements:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;In the map function, reference the current document as this within the function.&lt;/li&gt;
+&lt;li&gt;The map function should not access the database for any reason.&lt;/li&gt;
+&lt;li&gt;The map function should be pure, or have no impact outside of the function (i.e. side effects.)&lt;/li&gt;
+&lt;li&gt;A single emit can only hold half of MongoDB’s maximum BSON document size.&lt;/li&gt;
+&lt;li&gt;The map function may optionally call emit(key,value) any number of times to create an output document associating key with value.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The following map function will call emit(key,value) either 0 or 1 times depending on the value of the input document’s status field:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;function() {
+    if (this.status == &#39;A&#39;)
+        emit(this.cust_id, 1);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The following map function may call emit(key,value) multiple times depending on the number of elements in the input document’s items field:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;function() {
+    this.items.forEach(function(item){ emit(item.sku, 1); });
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;reduce-function&#34;&gt;Reduce Function&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;function(key, values) {
+   ...
+   return result;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The reduce function exhibits the following behaviors:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The reduce function should not access the database, even to perform read operations.&lt;/li&gt;
+&lt;li&gt;The reduce function should not affect the outside system.&lt;/li&gt;
+&lt;li&gt;MongoDB will not call the reduce function for a key that has only a single value. The values argument is an array whose elements are the value objects that are “mapped” to the key.&lt;/li&gt;
+&lt;li&gt;MongoDB can invoke the reduce function more than once for the same key. In this case, the previous output from the reduce function for that key will become one of the input values to the next reduce function invocation for that key.&lt;/li&gt;
+&lt;li&gt;The reduce function can access the variables defined in the scope parameter.&lt;/li&gt;
+&lt;li&gt;The inputs to reduce must not be larger than half of MongoDB’s maximum BSON document size. This requirement may be violated when large documents are returned and then joined together in subsequent reduce steps.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;reduce(key, [ C, reduce(key, [ A, B ]) ] ) == reduce( key, [ C, A, B ] )
+reduce( key, [ reduce(key, valuesArray) ] ) == reduce( key, valuesArray )
+reduce( key, [ A, B ] ) == reduce( key, [ B, A ] )
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;example&#34;&gt;Example&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;{
+     _id: ObjectId(&amp;quot;50a8240b927d5d8b5891743c&amp;quot;),
+     cust_id: &amp;quot;abc123&amp;quot;,
+     ord_date: new Date(&amp;quot;Oct 04, 2012&amp;quot;),
+     status: &#39;A&#39;,
+     price: 25,
+     items: [ { sku: &amp;quot;mmm&amp;quot;, qty: 5, price: 2.5 },
+              { sku: &amp;quot;nnn&amp;quot;, qty: 5, price: 2.5 } ]
+}
+
+var mapFunction1 = function() {
+                       emit(this.cust_id, this.price);
+                   };
+var reduceFunction1 = function(keyCustId, valuesPrices) {
+                          return Array.sum(valuesPrices);
+                      };
+db.orders.mapReduce(
+                     mapFunction1,
+                     reduceFunction1,
+                     { out: &amp;quot;map_reduce_example&amp;quot; }
+                   )
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    
+    <item>
+      <title>Javascript Prototype</title>
+      <link>http://blog.titangroupco.com/2017/01/05/javascript-prototype</link>
+      <pubDate>Thu, 05 Jan 2017 00:00:00 +0800</pubDate>
+      
+      <guid>http://blog.titangroupco.com/2017/01/05/javascript-prototype</guid>
+      <description>&lt;p&gt;&lt;em&gt;note of &lt;a href=&#34;https://github.com/getify/You-Dont-Know-JS/tree/master/this%20%26%20object%20prototypes&#34;&gt;You Don&amp;rsquo;t know JS&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;data-types-in-javascript&#34;&gt;Data types in Javascript&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;// Javascript has 6 primitive data(immutable) types
+typeof 3.14  // &#39;number&#39;;
+typeof &#39;bla&#39;  // &#39;string&#39;;
+typeof true  // &#39;boolean&#39;
+typeof Symbol.iterator  // &#39;symbol&#39;
+typeof undefined  // &#39;undefined&#39;
+typeof null  // &#39;object&#39;
+
+// and object
+typeof {a:1}  // &#39;object&#39;
+typeof function fn(){}  // &#39;function&#39;, it&#39;s in fact an object with special type tag
+
+
+// object has sub type
+Object.prototype.toString.call(fn)  // &#39;[object Function]&#39;
+
+// primitive types have object equivalent that wrap around them.
+Object.prototype.toString.call(3.14)  // &#39;[object Number]&#39;
+Object.prototype.toString.call(&#39;bla&#39;)  // &#39;[object String]&#39;
+Object.prototype.toString.call(true)  // &#39;[object Boolean]&#39;
+Object.prototype.toString.call(Symbol.iterator)  // &#39;[object Symbol]&#39;
+
+Object.prototype.toString.call({})  // &#39;[object Object]&#39;
+Object.prototype.toString.call([])  // &#39;[object Array]&#39;
+Object.prototype.toString.call(/[a-zA-Z]+/)  // &#39;[object RegExp]&#39;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;
+&lt;code&gt;null&lt;/code&gt; is not an object for it has no any property.&lt;/p&gt;
+
+&lt;p&gt;for why &lt;code&gt;typeof null === &#39;object&#39;&lt;/code&gt; see details &lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof#null&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;object-property&#34;&gt;Object property&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var myObject = {
+    a: 2
+};
+
+// `in` operator will check upwards the whole prototype chain
+(&#39;a&#39; in myObject) // true
+(&#39;toString&#39; in myObject) // true
+// `hasOwnProperty` function check only `this` object
+(myObject.hasOwnProperty(&#39;toString&#39;))  // false
+
+// property has characteristics decribed by sth called `descriptor`
+Object.getOwnPropertyDescriptor( myObject, &amp;quot;a&amp;quot; );
+// {
+//    value: 2,
+//    writable: true,
+//    enumerable: true,
+//    configurable: true
+// }
+
+// another way to define property
+Object.defineProperty( myObject, &amp;quot;a&amp;quot;, {
+    value: 2,
+    writable: true,
+    configurable: true,
+    enumerable: true
+} );
+
+// prevent an object from having new properties added to it
+Object.preventExtensions( myObject );
+
+Object.seal(..) 
+// Object.preventExtensions(..) + marks all its existing properties as configurable:false.
+
+Object.freeze(..)
+// Object.seal(..) + marks all &amp;quot;data accessor&amp;quot; properties as writable:false
+
+// descriptor includes data descriptor and accessor descriptor
+Object.defineProperty(
+    myObject,   // target
+    &amp;quot;b&amp;quot;,        // property name
+    {           // descriptor
+        // define a getter for `b`
+        get: function(){ return this.a * 2 },
+
+        // make sure `b` shows up as an object property
+        enumerable: true
+    }
+);
+
+myObject.b;  // 4
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;what-is-this&#34;&gt;What is &lt;code&gt;this&lt;/code&gt;?&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;function dcyy() {
+  console.log(this.name, &#39;到此一游 :(&#39;);
+}
+var name = &#39;global&#39;;
+var zs = {
+  name: &#39;张三&#39;,
+  dcyy
+}
+var ls = {
+  name: &#39;李四&#39;
+}
+
+dcyy();  // global 到此一游 :(
+zs.dcyy();  // &#39;张三 到此一游 :(
+dcyy.call(ls);  // 李四 到此一游 :(
+new dcyy();
+// undefined &#39;到此一游 :(&#39;
+// dcyy {}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;this&lt;/code&gt; is not an author-time binding but a runtime binding.&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;Called with new? Use the newly constructed object.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Called with &lt;code&gt;call&lt;/code&gt; or &lt;code&gt;apply&lt;/code&gt; (or &lt;code&gt;bind&lt;/code&gt;)? Use the specified object.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Called with a context object owning the call? Use that context object.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Default: undefined in strict mode, global object otherwise.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;prototype-chain&#34;&gt;Prototype Chain&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;function Foo() {
+    // ...
+}
+
+var a = new Foo();
+
+Object.getPrototypeOf( a ) === Foo.prototype; // true
+
+a.__proto__ === Foo.prototype;  // true
+
+Foo.prototype.isPrototypeOf(a);  // true
+
+var p = {
+    sayHi: function () {
+        console.log(&#39;hi!&#39;);
+    }
+}
+var c = Object.create(p);
+c.sayHi();  // &#39;hi!&#39;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So, when u create an object use &lt;code&gt;new&lt;/code&gt; operator and a function say &lt;em&gt;fn&lt;/em&gt;, the prototype of this created object is &lt;code&gt;fn.prototype&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;You Dont Know JS&lt;/code&gt; advocates prototype pattern which is the foundation of JS, objects OO simulation.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Introduction to Vue</title>
+      <link>http://blog.titangroupco.com/2016/10/31/introduction-to-vue</link>
+      <pubDate>Mon, 31 Oct 2016 08:42:14 +0800</pubDate>
+      
+      <guid>http://blog.titangroupco.com/2016/10/31/introduction-to-vue</guid>
+      <description>&lt;h2 id=&#34;basic&#34;&gt;Basic&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;div id=&amp;quot;app&amp;quot;&amp;gt;
+  {{ message }}
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var app = new Vue({
+  el: &#39;#app&#39;,
+  data: {
+    message: &#39;Hello Vue!&#39;
+  }
+})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;
+Vue inherits a lot from angular. Both has concept of &lt;code&gt;directives&lt;/code&gt; and &lt;code&gt;components&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;We will skip those similarities, but focus on differences here.&lt;/p&gt;
+
+&lt;h3 id=&#34;directive-has-modifier-and-arguments&#34;&gt;Directive has Modifier and Arguments&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;input v-model.number=&amp;quot;age&amp;quot; type=&amp;quot;number&amp;quot;&amp;gt;
+&amp;lt;a v-bind:href=&amp;quot;url&amp;quot;&amp;gt;&amp;lt;/a&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Modifiers are special postfixes denoted by a dot, which indicate that a directive should be bound in some special way.&lt;/li&gt;
+&lt;li&gt;Some directives can take an “argument”, denoted by a colon after the directive name.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;component-has-slots&#34;&gt;Component has slots&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://p1.bpimg.com/567571/d8c7009a5bc6f77a.jpg&#34; alt=&#34;slot&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The API for a Vue component comes in three parts - props, events, and slots:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Props allow the external environment to pass data into the component&lt;/li&gt;
+&lt;li&gt;Events allow the component to trigger side effects in the external environment&lt;/li&gt;
+&lt;li&gt;Slots allow the external environment to compose the component with extra content.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;my-component
+  v-bind:foo=&amp;quot;baz&amp;quot;
+  v-bind:bar=&amp;quot;qux&amp;quot;
+  v-on:event-a=&amp;quot;doThis&amp;quot;
+  v-on:event-b=&amp;quot;doThat&amp;quot;
+&amp;gt;
+  &amp;lt;img slot=&amp;quot;icon&amp;quot; src=&amp;quot;...&amp;quot;&amp;gt;
+  &amp;lt;p slot=&amp;quot;main-text&amp;quot;&amp;gt;Hello!&amp;lt;/p&amp;gt;
+&amp;lt;/my-component&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;vue-ecosystem&#34;&gt;Vue Ecosystem&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;http://router.vuejs.org/&#34;&gt;vue-router&lt;/a&gt; is officially-supported&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;http://vuex.vuejs.org/&#34;&gt;vuex&lt;/a&gt; is a state management pattern + library for Vue.js applications.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;comparison&#34;&gt;Comparison&lt;/h2&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Metric&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;Angular&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;Angular 2&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;React&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;Vue&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Star(Github)&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;53015&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;17748&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;52844&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;32113&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Fork(Github)&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;26177&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;4525&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;9306&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;3645&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Issue(on/off)&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;&lt;sup&gt;674&lt;/sup&gt;&amp;frasl;&lt;sub&gt;7460&lt;/sub&gt;&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;&lt;sup&gt;811&lt;/sup&gt;&amp;frasl;&lt;sub&gt;6964&lt;/sub&gt;&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;&lt;sup&gt;484&lt;/sup&gt;&amp;frasl;&lt;sub&gt;3336&lt;/sub&gt;&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;&lt;sup&gt;66&lt;/sup&gt;&amp;frasl;&lt;sub&gt;3069&lt;/sub&gt;&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Size&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;156K&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;636K&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;150K&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;64K&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;LOC(TodoMVC)&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;442&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;198&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;520&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;221&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Size(TodoMVC)&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;1.1M&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;1.6M&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;1.2M&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;294K&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;em&gt;created on 10/31/2016&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;PS:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Angular 2 requires Typescript while others require Javascript.&lt;/li&gt;
+&lt;li&gt;Angular 2, React and Vue support cross-platform programming.&lt;/li&gt;
+&lt;li&gt;Angular offer more features. But React and Vue get enhancement from
+additional libraries, which is authored and supported by community.&lt;/li&gt;
+&lt;li&gt;From the metric above, Vue has the smallest community.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://vuejs.org/guide/comparison.html&#34;&gt;Read more&lt;/a&gt; on differences among these front-end Javascript frameworks.&lt;/p&gt;
+
+&lt;p&gt;You can use &lt;a href=&#34;https://github.com/vuejs/vue-cli&#34;&gt;vue-cli&lt;/a&gt; to scaffold Vue.js projects.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Webpack</title>
+      <link>http://blog.titangroupco.com/2016/10/28/webpack</link>
+      <pubDate>Fri, 28 Oct 2016 08:42:14 +0800</pubDate>
+      
+      <guid>http://blog.titangroupco.com/2016/10/28/webpack</guid>
+      <description>&lt;h2 id=&#34;motivation-or-problems&#34;&gt;Motivation or Problems&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;There are multiple standards of module system in JS world including CommonJS, AMD, ES6 modules and &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; tag style.&lt;/li&gt;
+&lt;li&gt;There are two extremes when transferring modules
+
+&lt;ol&gt;
+&lt;li&gt;one request per module&lt;/li&gt;
+&lt;li&gt;All modules in one request&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;Why should a module system only help the developer with JavaScript?&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;io&#34;&gt;IO&lt;/h2&gt;
+
+&lt;p&gt;Webpack is a module bundler.&lt;/p&gt;
+
+&lt;p&gt;It takes a bunch of files, treating each as a module, figuring out the dependencies between them, and bundle them into static assets that are ready for deployment.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://dtinth.github.io/webpack-docs-images/usage/how-it-works.png&#34; alt=&#34;what webpack does&#34; /&gt;
+&lt;/p&gt;
+
+&lt;h3 id=&#34;some-concepts-of-webpack&#34;&gt;Some concepts of Webpack&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;chunk: A batch of modules that bundled into one single file.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;loader: Transformations that are applied on a resource file(module) of your app.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;plugin: Add functionality typically related to bundles in webpack.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;some-plugins&#34;&gt;Some plugins&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;DefinePlugin: Allows you to create global constants which can be configured at compile time.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;HotModuleReplacementPlugin: Enables Hot Module Replacement.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;HtmlWebpackPlugin: Generates a solid base html page for your web application with all your webpack generated css and js files built in.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;CommonsChunkPlugin: Generate an extra chunk, which contains common modules shared between entry points.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;UglifyJsPlugin: Minimize all JavaScript output of chunks.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;ExtractTextPlugin: Extract text from bundle into a file.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;example-of-webpack-configuration&#34;&gt;Example of Webpack configuration&lt;/h3&gt;
+
+&lt;p&gt;&lt;em&gt;notice comments start with hash character&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{
+  ...
+  module: {
+    ...
+    loaders: [
+      # They are functions that take the source of a resource file as the parameter
+      # and return the new source.
+      { test: /\.less$/,
+        loader: &#39;css-loader!less-loader&#39; },
+      { test: /\.js$/,
+        loader: &#39;babel&#39;,
+        include: &#39;/path-to-your-project/vue-webpack&#39;,
+        exclude: /node_modules/ },
+      ...
+    ]
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

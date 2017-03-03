@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Build on </title>
+    <link>http://blog.titangroupco.com/tags/build/index.xml</link>
+    <description>Recent content in Build on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Powered by [Hugo](//gohugo.io). Theme by [DevTeam](mailto:dev@titangroupco.com) of Titan.</copyright>
+    <atom:link href="http://blog.titangroupco.com/tags/build/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Webpack</title>
+      <link>http://blog.titangroupco.com/2016/10/28/webpack</link>
+      <pubDate>Fri, 28 Oct 2016 08:42:14 +0800</pubDate>
+      
+      <guid>http://blog.titangroupco.com/2016/10/28/webpack</guid>
+      <description>&lt;h2 id=&#34;motivation-or-problems&#34;&gt;Motivation or Problems&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;There are multiple standards of module system in JS world including CommonJS, AMD, ES6 modules and &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; tag style.&lt;/li&gt;
+&lt;li&gt;There are two extremes when transferring modules
+
+&lt;ol&gt;
+&lt;li&gt;one request per module&lt;/li&gt;
+&lt;li&gt;All modules in one request&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;Why should a module system only help the developer with JavaScript?&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;io&#34;&gt;IO&lt;/h2&gt;
+
+&lt;p&gt;Webpack is a module bundler.&lt;/p&gt;
+
+&lt;p&gt;It takes a bunch of files, treating each as a module, figuring out the dependencies between them, and bundle them into static assets that are ready for deployment.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://dtinth.github.io/webpack-docs-images/usage/how-it-works.png&#34; alt=&#34;what webpack does&#34; /&gt;
+&lt;/p&gt;
+
+&lt;h3 id=&#34;some-concepts-of-webpack&#34;&gt;Some concepts of Webpack&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;chunk: A batch of modules that bundled into one single file.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;loader: Transformations that are applied on a resource file(module) of your app.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;plugin: Add functionality typically related to bundles in webpack.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;some-plugins&#34;&gt;Some plugins&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;DefinePlugin: Allows you to create global constants which can be configured at compile time.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;HotModuleReplacementPlugin: Enables Hot Module Replacement.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;HtmlWebpackPlugin: Generates a solid base html page for your web application with all your webpack generated css and js files built in.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;CommonsChunkPlugin: Generate an extra chunk, which contains common modules shared between entry points.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;UglifyJsPlugin: Minimize all JavaScript output of chunks.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;ExtractTextPlugin: Extract text from bundle into a file.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;example-of-webpack-configuration&#34;&gt;Example of Webpack configuration&lt;/h3&gt;
+
+&lt;p&gt;&lt;em&gt;notice comments start with hash character&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{
+  ...
+  module: {
+    ...
+    loaders: [
+      # They are functions that take the source of a resource file as the parameter
+      # and return the new source.
+      { test: /\.less$/,
+        loader: &#39;css-loader!less-loader&#39; },
+      { test: /\.js$/,
+        loader: &#39;babel&#39;,
+        include: &#39;/path-to-your-project/vue-webpack&#39;,
+        exclude: /node_modules/ },
+      ...
+    ]
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

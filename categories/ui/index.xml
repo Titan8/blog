@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ui on </title>
+    <link>http://blog.titangroupco.com/categories/ui/index.xml</link>
+    <description>Recent content in Ui on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Powered by [Hugo](//gohugo.io). Theme by [DevTeam](mailto:dev@titangroupco.com) of Titan.</copyright>
+    <atom:link href="http://blog.titangroupco.com/categories/ui/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>界面设计中的文字</title>
+      <link>http://blog.titangroupco.com/2017/03/02/%E7%95%8C%E9%9D%A2%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E6%96%87%E5%AD%97</link>
+      <pubDate>Thu, 02 Mar 2017 09:26:01 +0800</pubDate>
+      
+      <guid>http://blog.titangroupco.com/2017/03/02/%E7%95%8C%E9%9D%A2%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E6%96%87%E5%AD%97</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;http://blog.titangroupco.com/img/head.png&#34; alt=&#34;image&#34; /&gt;&lt;br /&gt;
+文字是界面设计中重要而又容易被忽略的部分。&lt;/p&gt;
+
+&lt;h3 id=&#34;字体&#34;&gt;字体&lt;/h3&gt;
+
+&lt;p&gt;不同操作系统、不同游览器默认显示的字体是不一样的。&lt;br /&gt;
+&lt;em&gt;Windows：&lt;/em&gt;&lt;br /&gt;
+&lt;strong&gt;宋体（simsun）&lt;/strong&gt; windows下大部分浏览器的默认字体，在使用大字号时的显示效果比较糟糕。&lt;br /&gt;
+&lt;strong&gt;微软雅黑（MicrosoftYahei）&lt;/strong&gt; 一款拥有regular、bold两种粗细字重的无衬线黑体类字体，显著提高了字体的显示效果，且win8开始有加入了light的字重，这款字体就越来越被设计师、开发人员所选择。&lt;br /&gt;
+&lt;strong&gt;Arial&lt;/strong&gt; 为win平台默认的无衬线西文字体，显示效果一般。&lt;br /&gt;
+&lt;strong&gt;Tahoma&lt;/strong&gt; 也是十分常见的无衬线字体，显示效果比Arial好一些。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://blog.titangroupco.com/img/win-font.png&#34; alt=&#34;image&#34; /&gt;&lt;br /&gt;
+&lt;em&gt;Mac Os:&lt;/em&gt;&lt;br /&gt;
+&lt;strong&gt;华文黑体（STHeiti）、华文细黑（STXihei）&lt;/strong&gt; 在OS X 10.6 之前的简体中文系统界面默认字体。
+&lt;strong&gt;黑体-简（Heiti SC）&lt;/strong&gt; 从10.6开始代替华文黑体用作简体中文系统界面默认字体。&lt;br /&gt;
+&lt;strong&gt;冬青黑体（ Hiragino Sans GB）&lt;/strong&gt; 也称苹果丽黑，这是一款清新的专业印刷字体，在小字号时也足够清晰，所以也广受追捧。&lt;br /&gt;
+&lt;strong&gt;Times new Roman&lt;/strong&gt; 众多网页浏览器和文字处理软件的默认字体。也是mac平台safari下磨人的西文衬线字体。&lt;br /&gt;
+&lt;strong&gt;Helvetica&lt;/strong&gt; 是苹果最常用的西文无衬线字体，Helvetica Neue作为Helvetica的改善版本，提供了更多的字体版本。&lt;br /&gt;
+最新推出的&lt;strong&gt;苹方（Ping FangSC）、San Francisco&lt;/strong&gt;显示效果也十分优雅，但版本要求较高。iOS系统的字体和Mac OS系统的字体相同&lt;br /&gt;
+&lt;img src=&#34;http://blog.titangroupco.com/img/ios-font.png&#34; alt=&#34;image&#34; /&gt;&lt;br /&gt;
+&lt;em&gt;Android：&lt;/em&gt;&lt;br /&gt;
+&lt;strong&gt;Droid Sans&lt;/strong&gt; 为安卓系统中默认的西文字体，是一款人文主义无衬线字体，而&lt;strong&gt;Droid Sans Fallback&lt;/strong&gt; 则是包含汉字、日文假名、韩文的文字扩展支持。基本无需单独设置。&lt;br /&gt;
+&lt;em&gt;Linux：&lt;/em&gt;&lt;br /&gt;
+&lt;strong&gt;文泉驿微米黑&lt;/strong&gt; 几乎是 Linux 社区现有的最佳简体中文字体。&lt;br /&gt;
+&lt;strong&gt;文泉驿点阵宋体&lt;/strong&gt; 类似宋体的衬线字体，一般不推荐使用。&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;大公司常见font-famiry&lt;/em&gt;&lt;br /&gt;
+腾讯&lt;br /&gt;
+font-family:12px / 1.5 &amp;lsquo;PingFang SC&amp;rsquo;, &amp;lsquo;microsoft yahei&amp;rsquo;, tahoma, arial, &amp;lsquo;helvetica neue&amp;rsquo;, &amp;lsquo;hiragino sans gb&amp;rsquo;, sans-serif&lt;br /&gt;
+淘宝&lt;br /&gt;
+font-family: arial, &amp;lsquo;Hiragino Sans GB&amp;rsquo;, &amp;lsquo;Microsoft Yahei&amp;rsquo;, Simsun, sans-serif
+由于每个人的审美不一样，钟爱的字体也会有所有不同，根据产品应用的不同操作系统和需求，兼顾中英文，兼容向下，选择最合适的产品字体。&lt;/p&gt;
+
+&lt;h3 id=&#34;大小&#34;&gt;大小&lt;/h3&gt;
+
+&lt;p&gt;对于移动端APP字体大小，百度用户体验部做过一个小调查：&lt;br /&gt;
+&lt;img src=&#34;http://blog.titangroupco.com/img/report.png&#34; alt=&#34;image&#34; /&gt;&lt;br /&gt;
+对于网页端，由于有些浏览器不支持12px以下字体的显示及考虑到用户的阅读需求，一般网页中文的字体最小为12px。常用正文文字14px/16px。且主要使用双数字号，单数的字体在显示的时候会有毛边。&lt;/p&gt;
+
+&lt;h3 id=&#34;颜色&#34;&gt;颜色&lt;/h3&gt;
+
+&lt;p&gt;颜色作为文字的重要属性，往往用于区分文字的不同层级内容，主要包括标题、正文内容、提示补充文案。从效果和易用性方面考虑，一般常用以下三个作为白色背景下的字体色值：&lt;br /&gt;
+&lt;img src=&#34;http://blog.titangroupco.com/img/color.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;行宽&#34;&gt;行宽&lt;/h3&gt;
+
+&lt;p&gt;无论一本书或者一份报纸，每行的文字一般情况下都不会超过40个汉字。因为如果每行文字过长，需要不停的转动脖子，会使人感到疲惫，同时降低阅读效率，目光从行尾移至下一行首，也很容易串行，影响读者浏览文章的节奏。而如果每行文字过短，眼睛要不停来回扫视，破坏阅读节奏。因此文字内容区需要设置合适的字数，才能提高文字的易读性。一般在网页上每行字符范围为75-100，中文在14号字体时，建议35-45个文字为宜。&lt;/p&gt;
+
+&lt;h3 id=&#34;行距&#34;&gt;行距&lt;/h3&gt;
+
+&lt;p&gt;行距也是大段文字时影响易读性的非常重要的因素。过密的行距容易出现跳行，造成阅读困难；而行距过疏，文字则容易失去延续性。设计时如果单单依靠专业的背景和当时的感觉，就容易出现行距难以统一的情况。&lt;br /&gt;
+&lt;img src=&#34;http://blog.titangroupco.com/img/line space.png&#34; alt=&#34;image&#34; /&gt;&lt;br /&gt;
+参考各应用中默认提供的行距比例，一般情况下推荐1：1.2倍，1：1.5倍，1：2倍的行距比例比较合适。&lt;br /&gt;
+&lt;img src=&#34;http://blog.titangroupco.com/img/screenshot-1.png&#34; alt=&#34;image&#34; /&gt;&lt;img src=&#34;http://blog.titangroupco.com/img/screenshot-2.png&#34; alt=&#34;image&#34; /&gt;&lt;br /&gt;
+每个文字、每种字体和每项技术都有其特异性，所以没有不可撼动的规则，但了解文字阅读的习惯，总结一些文字设计过程中的小经验，能为提高设计效率和文字的阅读享受做参考。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
