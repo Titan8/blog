@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
-    <title>界面设计中的文字 &middot; </title>
+    <title>javascript events &middot; </title>
     <meta name="generator" content="Hugo 0.18.1" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -10,7 +10,7 @@
       <meta name="description" content="">
     
     
-    <link rel="canonical" href="http://blog.titangroupco.com/2017/03/02/%E7%95%8C%E9%9D%A2%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E6%96%87%E5%AD%97"/>
+    <link rel="canonical" href="http://blog.titangroupco.com/2017/03/03/javascript-events"/>
     <link rel="icon" href="http://blog.titangroupco.com/favicon.ico">
     <link rel="apple-touch-icon" href="http://blog.titangroupco.com/apple-touch-icon.png"/>
     <link rel="stylesheet" href="http://blog.titangroupco.com/css/style.css">
@@ -20,25 +20,20 @@
     
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
-    <meta property="og:title" content="界面设计中的文字" />
-<meta property="og:description" content="
-文字是界面设计中重要而又容易被忽略的部分。
+    <meta property="og:title" content="javascript events" />
+<meta property="og:description" content="JavaScript事件机制
 
-字体
+事件是实现页面交互的常用手段，在浏览器环境下的事件主要由DOM、BOM事件类型组成。
 
-不同操作系统、不同游览器默认显示的字体是不一样的。
-Windows：
-宋体（simsun） windows下大部分浏览器的默认字体，在使用大字号时的显示效果比较糟糕。
-微软雅黑（MicrosoftYahei） 一款拥有regular、bold两种粗细字重的无衬线黑体类字体，显著提高了字体的显示效果，且win8开始有加入了light的字重，这款字体就越来越被设计师、开发人员所选择。
-Arial 为win平台默认的无衬线西文字体，显示效果一般。
-Tahoma 也是十分常见的无衬线字体，显示效果比Arial好一些。
+一、什么是事件
 
+事件就是文档、浏览器窗口中发生的一些特定的交互瞬间，一般是由用户主动触发，在事件被触发之后，可以根据是否预先绑定了事件处理程序来决定如何对这个事件的发生做出反应。
 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.titangroupco.com/2017/03/02/%E7%95%8C%E9%9D%A2%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E6%96%87%E5%AD%97" />
+<meta property="og:url" content="http://blog.titangroupco.com/2017/03/03/javascript-events" />
 
 
-<meta property="og:updated_time" content="2017-03-02T09:26:01&#43;08:00"/>
+<meta property="og:updated_time" content="2017-03-03T10:34:39&#43;08:00"/>
 
 
 
@@ -51,24 +46,19 @@ Tahoma 也是十分常见的无衬线字体，显示效果比Arial好一些。
 
     
     
-<meta itemprop="name" content="界面设计中的文字">
-<meta itemprop="description" content="
-文字是界面设计中重要而又容易被忽略的部分。
+<meta itemprop="name" content="javascript events">
+<meta itemprop="description" content="JavaScript事件机制
 
-字体
+事件是实现页面交互的常用手段，在浏览器环境下的事件主要由DOM、BOM事件类型组成。
 
-不同操作系统、不同游览器默认显示的字体是不一样的。
-Windows：
-宋体（simsun） windows下大部分浏览器的默认字体，在使用大字号时的显示效果比较糟糕。
-微软雅黑（MicrosoftYahei） 一款拥有regular、bold两种粗细字重的无衬线黑体类字体，显著提高了字体的显示效果，且win8开始有加入了light的字重，这款字体就越来越被设计师、开发人员所选择。
-Arial 为win平台默认的无衬线西文字体，显示效果一般。
-Tahoma 也是十分常见的无衬线字体，显示效果比Arial好一些。
+一、什么是事件
 
+事件就是文档、浏览器窗口中发生的一些特定的交互瞬间，一般是由用户主动触发，在事件被触发之后，可以根据是否预先绑定了事件处理程序来决定如何对这个事件的发生做出反应。
 ">
 
 
-<meta itemprop="dateModified" content="2017-03-02T09:26:01&#43;08:00" />
-<meta itemprop="wordCount" content="91">
+<meta itemprop="dateModified" content="2017-03-03T10:34:39&#43;08:00" />
+<meta itemprop="wordCount" content="528">
 
 
 
@@ -80,19 +70,14 @@ Tahoma 也是十分常见的无衬线字体，显示效果比Arial好一些。
 
 
 
-<meta name="twitter:title" content="界面设计中的文字"/>
-<meta name="twitter:description" content="
-文字是界面设计中重要而又容易被忽略的部分。
+<meta name="twitter:title" content="javascript events"/>
+<meta name="twitter:description" content="JavaScript事件机制
 
-字体
+事件是实现页面交互的常用手段，在浏览器环境下的事件主要由DOM、BOM事件类型组成。
 
-不同操作系统、不同游览器默认显示的字体是不一样的。
-Windows：
-宋体（simsun） windows下大部分浏览器的默认字体，在使用大字号时的显示效果比较糟糕。
-微软雅黑（MicrosoftYahei） 一款拥有regular、bold两种粗细字重的无衬线黑体类字体，显著提高了字体的显示效果，且win8开始有加入了light的字重，这款字体就越来越被设计师、开发人员所选择。
-Arial 为win平台默认的无衬线西文字体，显示效果一般。
-Tahoma 也是十分常见的无衬线字体，显示效果比Arial好一些。
+一、什么是事件
 
+事件就是文档、浏览器窗口中发生的一些特定的交互瞬间，一般是由用户主动触发，在事件被触发之后，可以根据是否预先绑定了事件处理程序来决定如何对这个事件的发生做出反应。
 "/>
 
 
@@ -207,9 +192,9 @@ Tahoma 也是十分常见的无衬线字体，显示效果比Arial好一些。
             
 
             <header class="article-header">
-    <a href="http://blog.titangroupco.com/2017/03/02/%E7%95%8C%E9%9D%A2%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E6%96%87%E5%AD%97">
+    <a href="http://blog.titangroupco.com/2017/03/03/javascript-events">
     <h1 class="article-title" itemprop="name">
-        界面设计中的文字
+        javascript events
     </h1>
     </a>
     <div class="article-meta">
@@ -217,12 +202,12 @@ Tahoma 也是十分常见的无衬线字体，显示效果比Arial好一些。
         
         <div class="article-date">
             <i class="fa fa-calendar"></i>
-            <time datetime="2017-03-02 09:26:01 &#43;0800 CST" itemprop="datePublished">2017-03-02</time>
+            <time datetime="2017-03-03 10:34:39 &#43;0800 CST" itemprop="datePublished">2017-03-03</time>
             &middot;
-            91
+            528
             words
             &middot;
-            1
+            3
             minute read
         </div>
         
@@ -233,7 +218,7 @@ Tahoma 也是十分常见的无衬线字体，显示效果比Arial好一些。
                 <i class="fa fa-folder"></i>
                 
                 
-                <a class="article-category-link" href="http://blog.titangroupco.com/categories/ui">ui</a>
+                <a class="article-category-link" href="http://blog.titangroupco.com/categories/frontend">frontend</a>
                 
                 
             </div>
@@ -242,73 +227,620 @@ Tahoma 也是十分常见的无衬线字体，显示效果比Arial好一些。
 
         
             
+            
+            <div class="article-category">
+                <i class="fa fa-tags"></i>
+                
+                
+                <a class="article-category-link" href="http://blog.titangroupco.com/tags/javascript">javascript</a>
+                
+                
+            </div>
             
         
     </div>
 </header>
 
             <div class="article-entry" itemprop="articleBody">
-                <p><img src="/img/head.png" alt="image" /><br />
-文字是界面设计中重要而又容易被忽略的部分。</p>
+                <h1 id="javascript事件机制">JavaScript事件机制</h1>
 
-<h3 id="字体">字体</h3>
+<p>事件是实现页面交互的常用手段，在浏览器环境下的事件主要由DOM、BOM事件类型组成。</p>
 
-<p>不同操作系统、不同游览器默认显示的字体是不一样的。<br />
-<em>Windows：</em><br />
-<strong>宋体（simsun）</strong> windows下大部分浏览器的默认字体，在使用大字号时的显示效果比较糟糕。<br />
-<strong>微软雅黑（MicrosoftYahei）</strong> 一款拥有regular、bold两种粗细字重的无衬线黑体类字体，显著提高了字体的显示效果，且win8开始有加入了light的字重，这款字体就越来越被设计师、开发人员所选择。<br />
-<strong>Arial</strong> 为win平台默认的无衬线西文字体，显示效果一般。<br />
-<strong>Tahoma</strong> 也是十分常见的无衬线字体，显示效果比Arial好一些。</p>
+<h2 id="一-什么是事件">一、什么是事件</h2>
 
-<p></p>
+<p>事件就是文档、浏览器窗口中发生的一些特定的交互瞬间，一般是由用户主动触发，在事件被触发之后，可以根据是否预先绑定了事件处理程序来决定如何对这个事件的发生做出反应。
+</p>
 
-<p><img src="/img/win-font.png" alt="image" /><br />
-<em>Mac Os:</em><br />
-<strong>华文黑体（STHeiti）、华文细黑（STXihei）</strong> 在OS X 10.6 之前的简体中文系统界面默认字体。
-<strong>黑体-简（Heiti SC）</strong> 从10.6开始代替华文黑体用作简体中文系统界面默认字体。<br />
-<strong>冬青黑体（ Hiragino Sans GB）</strong> 也称苹果丽黑，这是一款清新的专业印刷字体，在小字号时也足够清晰，所以也广受追捧。<br />
-<strong>Times new Roman</strong> 众多网页浏览器和文字处理软件的默认字体。也是mac平台safari下磨人的西文衬线字体。<br />
-<strong>Helvetica</strong> 是苹果最常用的西文无衬线字体，Helvetica Neue作为Helvetica的改善版本，提供了更多的字体版本。<br />
-最新推出的<strong>苹方（Ping FangSC）、San Francisco</strong>显示效果也十分优雅，但版本要求较高。iOS系统的字体和Mac OS系统的字体相同<br />
-<img src="/img/ios-font.png" alt="image" /><br />
-<em>Android：</em><br />
-<strong>Droid Sans</strong> 为安卓系统中默认的西文字体，是一款人文主义无衬线字体，而<strong>Droid Sans Fallback</strong> 则是包含汉字、日文假名、韩文的文字扩展支持。基本无需单独设置。<br />
-<em>Linux：</em><br />
-<strong>文泉驿微米黑</strong> 几乎是 Linux 社区现有的最佳简体中文字体。<br />
-<strong>文泉驿点阵宋体</strong> 类似宋体的衬线字体，一般不推荐使用。</p>
+<h2 id="二-事件流">二、事件流</h2>
 
-<p><em>大公司常见font-famiry</em><br />
-腾讯<br />
-font-family:12px / 1.5 &lsquo;PingFang SC&rsquo;, &lsquo;microsoft yahei&rsquo;, tahoma, arial, &lsquo;helvetica neue&rsquo;, &lsquo;hiragino sans gb&rsquo;, sans-serif<br />
-淘宝<br />
-font-family: arial, &lsquo;Hiragino Sans GB&rsquo;, &lsquo;Microsoft Yahei&rsquo;, Simsun, sans-serif
-由于每个人的审美不一样，钟爱的字体也会有所有不同，根据产品应用的不同操作系统和需求，兼顾中英文，兼容向下，选择最合适的产品字体。</p>
+<p>事件流是指页面中的元素、节点接收某一个被触发的事件的顺序。分为事件冒泡、事件捕获和DOM事件流。
+IE和Netscape的浏览器开发团队提出了两种截然不同的，甚至是完全相反的事件流概念。IE的事件流是事件冒泡，而Netscape的事件流是事件捕获。</p>
 
-<h3 id="大小">大小</h3>
+<ul>
+<li>事件冒泡：事件发生后，由目标元素首先接收，然后按照DOM结构，逐级向上传播，直至到达最顶层的根节点document</li>
+<li>事件捕获：事件发生后，由根节点document先接收，然后按照DOM结构，逐级向下传播，直到事件的目标元素</li>
 
-<p>对于移动端APP字体大小，百度用户体验部做过一个小调查：<br />
-<img src="/img/report.png" alt="image" /><br />
-对于网页端，由于有些浏览器不支持12px以下字体的显示及考虑到用户的阅读需求，一般网页中文的字体最小为12px。常用正文文字14px/16px。且主要使用双数字号，单数的字体在显示的时候会有毛边。</p>
+<li><p>DOM事件流：包括三个阶段：当一个事件发生，首先进入事件捕获阶段，按照事件捕获流进行传播；然后进入目标阶段，目标元素接收到事件；最后进入事件冒泡阶段，按照事件冒泡流传播。<img src="http://7xi480.com1.z0.glb.clouddn.com/121ba0d37798d6d23227d2dd49d0e58c_articlex.png" alt="image" /></p>
 
-<h3 id="颜色">颜色</h3>
+<h2 id="三-基础事件操作">三、基础事件操作</h2>
 
-<p>颜色作为文字的重要属性，往往用于区分文字的不同层级内容，主要包括标题、正文内容、提示补充文案。从效果和易用性方面考虑，一般常用以下三个作为白色背景下的字体色值：<br />
-<img src="/img/color.png" alt="image" /></p>
+<h3 id="1-事件监听">1、事件监听</h3>
 
-<h3 id="行宽">行宽</h3>
+<p>浏览器会根据某些操作触发对应事件，比如我们打开一个页面，浏览器加载完成之后就会触发load事件。当我们监听load事件，显示欢迎信息，那么浏览器在加载完成后就会显示欢迎信息。</p>
 
-<p>无论一本书或者一份报纸，每行的文字一般情况下都不会超过40个汉字。因为如果每行文字过长，需要不停的转动脖子，会使人感到疲惫，同时降低阅读效率，目光从行尾移至下一行首，也很容易串行，影响读者浏览文章的节奏。而如果每行文字过短，眼睛要不停来回扫视，破坏阅读节奏。因此文字内容区需要设置合适的字数，才能提高文字的易读性。一般在网页上每行字符范围为75-100，中文在14号字体时，建议35-45个文字为宜。</p>
+<ul>
+<li><p>html内联属性：HTML元素里面直接填写与事件有关属性，属性值为JavaScript代码。</p>
 
-<h3 id="行距">行距</h3>
+<pre><code>&lt;button onclick=&quot;alert('you clicked this btn')&quot;&gt;click me！&lt;/button&gt;
+</code></pre></li>
 
-<p>行距也是大段文字时影响易读性的非常重要的因素。过密的行距容易出现跳行，造成阅读困难；而行距过疏，文字则容易失去延续性。设计时如果单单依靠专业的背景和当时的感觉，就容易出现行距难以统一的情况。<br />
-<img src="/img/line space.png" alt="image" /><br />
-参考各应用中默认提供的行距比例，一般情况下推荐1：1.2倍，1：1.5倍，1：2倍的行距比例比较合适。<br />
-<img src="/img/screenshot-1.png" alt="image" /><img src="/img/screenshot-2.png" alt="image" /><br />
-每个文字、每种字体和每项技术都有其特异性，所以没有不可撼动的规则，但了解文字阅读的习惯，总结一些文字设计过程中的小经验，能为提高设计效率和文字的阅读享受做参考。</p>
+<li><p>DOM属性绑定：使用DOM元素的onXXX属性设置，简单易懂，兼容性好，但是如果在后面的代码中再次为ele绑定一个回调函数，会覆盖掉之前回调函数的内容。</p>
+
+<pre><code>   &lt;button id=&quot;btn&quot;&gt;click me!&lt;/button&gt;
+   &lt;script&gt;
+       var ele = document.getElementById('btn');
+       ele.onclick = function (event) {
+           alert('you clicked again');
+       }
+   &lt;/script&gt;
+</code></pre></li>
+
+<li><p>使用事件监听函数：标准的事件监听函数如下：</p>
+
+<pre><code>element.addEventListener(event-name,callback,use-capture)
+</code></pre></li>
+</ul>
+
+<p>在element这个对象上面添加一个事件监听器，当监听到有事件发生时，调用这个回调函数，use-capture表示该事件监听是在‘捕获’阶段监听（设置为true）还是在‘冒泡’阶段监听（设置为false）</p>
+
+<pre><code>&lt;button&gt;click me!&lt;/button&gt;
+&lt;script&gt;
+    var ele = document.getElementByTagName('button');
+    ele[0].addEventListener('click', function () {
+        alert('the third time clicked');
+    }, false);
+&lt;/script&gt;
+</code></pre>
+
+<h3 id="2-移除事件监听">2、移除事件监听</h3>
+
+<p>当我们为某个元素绑定了一个事件，每次触发这个事件的时候，都会执行事件绑定的回调函数。如果我们想解除绑定，需要使用 removeEventListener 方法：</p>
+
+<pre><code>element.removeEventListener(event-name,callback,use-capture)
+</code></pre>
+
+<p>需要注意的是，绑定事件时的回调函数不能是匿名函数，必须是一个声明的函数，因为解除事件绑定时需要传递这个回调函数的引用，才可以断开绑定。</p>
+
+<pre><code>&lt;button id=&quot;btn&quot;&gt;click me&lt;/button&gt;
+&lt;script&gt;
+var elbtn = document.getElementById('btn');
+var fun = function () {
+    alert(this button is only can click once);
+    elbtn.removeEventListener('click', fun, false);
+};
+elbtn.addEventListener('click', fun, false);
+&lt;/script&gt;
+</code></pre>
+
+<h1 id="window事件">window事件</h1>
+
+<h2 id="常用的window事件">常用的window事件</h2>
+
+<p>例子：<a href="https://jsfiddle.net/uujt1o1p/">https://jsfiddle.net/uujt1o1p/</a></p></li>
+
+<li><h3 id="onload加载事件和onunload卸载事件">onload加载事件和onunload卸载事件</h3>
+
+<p>当页面完全加载之后触发加载事件（onload）</p>
+
+<pre><code>window.onload = function () {
+  alert(&quot;here is after  onload&quot;);
+}
+alert('onloading...');
+</code></pre>
+
+<p>当页面完全卸载之后触发卸载事件(unload)，在页面从服务器获取到需要加载的新的页面后调用，不能阻止页面的刷新和关闭。</p>
+
+<pre><code>//firefox不支持，IE和360生效，chrome系统自定义
+var isSave = false;
+function save() {
+ alert('this is save function running.');
+  isSave = true;
+}
+window.onbeforeunload = function () {
+  console.log('this is onbeforeunload');
+  if (!isSave) {
+      return '当前数据还没保存，关闭或刷新窗口会自动保存，是否继续？';
+  } else {
+      return '';
+  }
+};
+window.onunload = function () {
+  if (!isSave) {
+      save();
+  }
+};
+</code></pre>
+
+<p>onbeforeunload事件：在页面去服务器读取新的页面前调用，可以阻止页面的关闭和刷新，还有unload事件的执行
+so:</p>
+
+<ul>
+<li>页面加载时只执行onload</li>
+<li>页面关闭时先执行onbeforeunload，最后onunload</li>
+<li>页面刷新时先执行onbeforeunload，然后onunload，最后onload。</li>
+</ul></li>
+
+<li><h3 id="onscroll滚动事件">onscroll滚动事件</h3>
+
+<p>当滚动的时候触发滚动事件</p>
+
+<pre><code>window.onscroll = function() {
+      console.log(&quot;滚动&quot;);
+
+      var h = document.documentElement.scrollTop || document.body.scrollTop;
+      console.log(h);
+};
+</code></pre>
+
+<p>document.documentElement.scrollTop 和document.body.scrollTop：是用来设置滚动tiao的高度。
+document.documentElement.scrollTop：IE，firefox；
+document.body.scrollTop: chrome,360</p>
+
+<pre><code>// 返回页面顶部
+function fun() {
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+}
+</code></pre></li>
+
+<li><h3 id="onresize窗口变化事件">onresize窗口变化事件</h3>
+
+<p>改变窗口尺寸时触发窗口变化事件</p>
+
+<pre><code>window.onresize = function() {
+      console.log(&quot;窗口变化&quot;);
+
+      var w = document.documentElement.clientWidth || document.body.clientWidth || window.innerWidth;
+
+      var h = document.documentElement.clientHeight || document.body.clientHeight || window.innerHeight;
+
+      console.log(w, h);
+};
+</code></pre></li>
+</ul>
+
+<h1 id="键盘事件">键盘事件</h1>
+
+<p>js中的键盘事件只有三种：keydown、keypress、keyup。触发顺序为：keydown ——&gt; keypress ——&gt; keyup。
+当按下一个键不放开时，一般会重复触发keydown+keypress，直到放开后触发一个keyup事件。</p>
+
+<ul>
+<li><p>keydown()：在键盘按下时触发</p></li>
+
+<li><p>keypress()：在敲击按键时ch，即按下并抬起同一个按键</p></li>
+
+<li><p>keyup()：在按键释放时触发</p>
+
+<h2 id="获取键盘上的ascii码">获取键盘上的ascII码</h2>
+
+<p>栗子：<a href="https://jsfiddle.net/fz87pk7t/1/">https://jsfiddle.net/fz87pk7t/1/</a></p></li>
+</ul>
+
+<pre><code>// 获取键码
+$(document).keydown(function (event) {
+    alert(event.keyCode + 'keydown');
+});
+
+$(document).keyup(function (event) {
+    alert(event.keyCode + 'keyup');
+});
+
+$(document).keypress(function (event) {
+    alert(event.keyCode + 'keypress');
+});
+</code></pre>
+
+<p>字母和数字键的键码值(keyCode)</p>
+
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>键码</th>
+<th>按键</th>
+<th>键码</th>
+<th>按键</th>
+<th>键码</th>
+<th>按键</th>
+<th>键码</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>A</td>
+<td>65</td>
+<td>J</td>
+<td>74</td>
+<td>S</td>
+<td>83</td>
+<td>1</td>
+<td>49</td>
+</tr>
+
+<tr>
+<td>B</td>
+<td>66</td>
+<td>K</td>
+<td>75</td>
+<td>T</td>
+<td>84</td>
+<td>1</td>
+<td>50</td>
+</tr>
+
+<tr>
+<td>C</td>
+<td>67</td>
+<td>L</td>
+<td>76</td>
+<td>U</td>
+<td>85</td>
+<td>1</td>
+<td>51</td>
+</tr>
+
+<tr>
+<td>D</td>
+<td>68</td>
+<td>M</td>
+<td>77</td>
+<td>V</td>
+<td>86</td>
+<td>1</td>
+<td>52</td>
+</tr>
+
+<tr>
+<td>E</td>
+<td>69</td>
+<td>N</td>
+<td>78</td>
+<td>W</td>
+<td>87</td>
+<td>1</td>
+<td>53</td>
+</tr>
+
+<tr>
+<td>F</td>
+<td>70</td>
+<td>O</td>
+<td>79</td>
+<td>X</td>
+<td>88</td>
+<td>1</td>
+<td>54</td>
+</tr>
+
+<tr>
+<td>G</td>
+<td>71</td>
+<td>P</td>
+<td>80</td>
+<td>Y</td>
+<td>89</td>
+<td>1</td>
+<td>55</td>
+</tr>
+
+<tr>
+<td>H</td>
+<td>72</td>
+<td>Q</td>
+<td>81</td>
+<td>Z</td>
+<td>90</td>
+<td>1</td>
+<td>56</td>
+</tr>
+
+<tr>
+<td>I</td>
+<td>73</td>
+<td>R</td>
+<td>82</td>
+<td>0</td>
+<td>48</td>
+<td>1</td>
+<td>57</td>
+</tr>
+</tbody>
+</table>
+
+<p>数字键盘上的键的键码值(keyCode)</p>
+
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>健码</th>
+<th>按键</th>
+<th>健码</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>0</td>
+<td>96</td>
+<td>8</td>
+<td>104</td>
+</tr>
+
+<tr>
+<td>1</td>
+<td>97</td>
+<td>9</td>
+<td>105</td>
+</tr>
+
+<tr>
+<td>2</td>
+<td>98</td>
+<td>*</td>
+<td>106</td>
+</tr>
+
+<tr>
+<td>3</td>
+<td>99</td>
+<td>+</td>
+<td>107</td>
+</tr>
+
+<tr>
+<td>4</td>
+<td>100</td>
+<td>Enter</td>
+<td>108</td>
+</tr>
+
+<tr>
+<td>5</td>
+<td>101</td>
+<td>-</td>
+<td>109</td>
+</tr>
+
+<tr>
+<td>6</td>
+<td>102</td>
+<td>.</td>
+<td>110</td>
+</tr>
+
+<tr>
+<td>7</td>
+<td>103</td>
+<td>/</td>
+<td>111</td>
+</tr>
+</tbody>
+</table>
+
+<p>功能键键码值(keyCode)</p>
+
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>健码</th>
+<th>按键</th>
+<th>健码</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>F1</td>
+<td>112</td>
+<td>F7</td>
+<td>118</td>
+</tr>
+
+<tr>
+<td>F2</td>
+<td>113</td>
+<td>F8</td>
+<td>119</td>
+</tr>
+
+<tr>
+<td>F3</td>
+<td>114</td>
+<td>F9</td>
+<td>120</td>
+</tr>
+
+<tr>
+<td>F4</td>
+<td>115</td>
+<td>F10</td>
+<td>121</td>
+</tr>
+
+<tr>
+<td>F5</td>
+<td>116</td>
+<td>F11</td>
+<td>122</td>
+</tr>
+
+<tr>
+<td>F6</td>
+<td>117</td>
+<td>F12</td>
+<td>123</td>
+</tr>
+</tbody>
+</table>
+
+<p>控制键键码值(keyCode)</p>
+
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>键码</th>
+<th>按键</th>
+<th>键码</th>
+<th>按键</th>
+<th>键码</th>
+<th>按键</th>
+<th>键码</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>BackSpace</td>
+<td>8</td>
+<td>Esc</td>
+<td>27</td>
+<td>Right Arrow</td>
+<td>39</td>
+<td>-_</td>
+<td>189</td>
+</tr>
+
+<tr>
+<td>Tab</td>
+<td>9</td>
+<td>Spacebar</td>
+<td>32</td>
+<td>Down Arrow</td>
+<td>40</td>
+<td>.&gt;</td>
+<td>190</td>
+</tr>
+
+<tr>
+<td>Clear</td>
+<td>12</td>
+<td>Page Up</td>
+<td>33</td>
+<td>Insert</td>
+<td>45</td>
+<td>/?</td>
+<td>191</td>
+</tr>
+
+<tr>
+<td>Enter</td>
+<td>13</td>
+<td>Page Down</td>
+<td>34</td>
+<td>Delete</td>
+<td>46</td>
+<td>`~</td>
+<td>192</td>
+</tr>
+
+<tr>
+<td>Shift</td>
+<td>16</td>
+<td>End</td>
+<td>35</td>
+<td>Num Lock</td>
+<td>144</td>
+<td>[{</td>
+<td>219</td>
+</tr>
+
+<tr>
+<td>Control</td>
+<td>17</td>
+<td>Home</td>
+<td>36</td>
+<td>;:</td>
+<td>186</td>
+<td>\ |</td>
+<td>220</td>
+</tr>
+
+<tr>
+<td>Alt</td>
+<td>18</td>
+<td>Left Arrow</td>
+<td>37</td>
+<td>=+</td>
+<td>187</td>
+<td>]}</td>
+<td>221</td>
+</tr>
+
+<tr>
+<td>Cape Lock</td>
+<td>20</td>
+<td>Up Arrow</td>
+<td>38</td>
+<td>,&lt;</td>
+<td>188</td>
+<td>&rsquo;&rdquo;</td>
+<td>222</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="三种键盘事件的区别">三种键盘事件的区别</h2>
+
+<ul>
+<li>keydown 和 keyup 是比较底层的事件，分别对应一个键的按下与放开，键盘上任何一个键被点按，都会触发这两个事件。</li>
+<li>keypress 更接近用户，只有可打印的字符和控制字符（如换行）被键入才触发。</li>
+<li>keydown 和 keyup 被触发后，都会产生一个虚拟键盘码，用来表示按下的是哪个键。键盘上的每个键只对应一个虚拟键盘码。keypress 被触发后产生的是实际键入的字符的 Ascll 编码，而没有对应的虚拟键盘码。这两种编码有时在数值上是相等的。</li>
+</ul>
+
+<h4 id="注意">注意：</h4>
+
+<ul>
+<li>keypress：只针对一些可以打印出来的字符有效，而对于功能键如F1-F12、Backspace、Enter、Escape、PageUp、PageDown和箭头方向等，就不会产生keypress事件，但是可以产生keydown、keyup事件</li>
+<li>keypress的keyCode对字母大小写敏感，而keydown和keyup不敏感；</li>
+<li>keypress事件无法区分主键盘上的数字键和副键盘数字键，而keydown和keyup的keyCode可以区分。</li>
+</ul>
+
+<h1 id="鼠标事件mouseevent">鼠标事件MouseEvent</h1>
+
+<p>常见的鼠标事件：</p>
+
+<ul>
+<li>mousedown:鼠标的犍钮被按下</li>
+<li>mouseup:鼠标的犍钮被释放弹起</li>
+<li>click：单击，mousedown + mouseup =&gt; click</li>
+<li>dblclick:双击，连续两次单击</li>
+<li>contextmenu:弹出右键菜单
+
+<ul>
+<li>el.contextmenu(handle)或el.on(&lsquo;contextmenu&rsquo;,handle)</li>
+<li>el.off(&lsquo;contextmenu&rsquo;),移除事件</li>
+</ul></li>
+<li>mouseover:鼠标移到目标上方</li>
+<li>mouseout:鼠标移出目标的上方</li>
+<li>mousemove:鼠标在目标上移动</li>
+<li>hover():鼠标指针进入和离开元素事被执行，同时绑定mouseenter和mouseleave事件，el.hover(handlerIn,handlerOut)等同于el.mouseenter(handlerIn).mouseleave(handlerOut);</li>
+<li>MouseEvent.button:返回值为数值(在DOM2.0中，W3C对鼠标事件作了现范，鼠标事件被解析为MouseEvent（我们可以用e.constructor == MouseEvent来判断其是否为鼠标事件，是左键点击还是右键点击由它的一个叫button的属性判定。以下就是W3C的标准现范：)
+
+<ul>
+<li>1：左键被按下</li>
+<li>2：中键被按下（没测出来中键）</li>
+<li>3：右键被按下</li>
+</ul></li>
+</ul>
+
+<p>栗子：<a href="https://jsfiddle.net/9gjz3eux/1/">https://jsfiddle.net/9gjz3eux/1/</a></p>
             </div>
             <footer class="article-footer">
-    <a data-url="http://blog.titangroupco.com/2017/03/02/%E7%95%8C%E9%9D%A2%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E6%96%87%E5%AD%97" data-id="d3d45dd5cf7f21f6b54c18c4586f7e20" class="article-share-link">
+    <a data-url="http://blog.titangroupco.com/2017/03/03/javascript-events" data-id="378ba72137875bc94d20f783faddd8ee" class="article-share-link">
         <i class="fa fa-share"></i>
         Share
     </a>
@@ -385,21 +917,14 @@ font-family: arial, &lsquo;Hiragino Sans GB&rsquo;, &lsquo;Microsoft Yahei&rsquo
         
 <nav id="article-nav">
     
-    <a href="http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="http://blog.titangroupco.com/2017/03/03/%E5%B0%8F%E8%B0%88javascript%E4%B8%ADthis%E7%9A%84%E7%94%A8%E6%B3%95" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">
           Older
       </strong>
-      <div class="article-nav-title">Python Web Server Gateway Interface</div>
+      <div class="article-nav-title">小谈javascript中this的用法</div>
     </a>
     
 
-    
-    <a href="http://blog.titangroupco.com/2017/03/03/%E5%B0%8F%E8%B0%88javascript%E4%B8%ADthis%E7%9A%84%E7%94%A8%E6%B3%95" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">
-          Newer
-      </strong>
-      <div class="article-nav-title">小谈javascript中this的用法</div>
-    </a>
     
 </nav>
 

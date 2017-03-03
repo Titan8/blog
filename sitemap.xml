@@ -2,7 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://blog.titangroupco.com/2017/03/03/%E5%B0%8F%E8%B0%88javascript%E4%B8%AD%E7%9A%84this</loc>
+    <loc>http://blog.titangroupco.com/2017/03/03/javascript-events</loc>
+    <lastmod>2017-03-03T10:34:39+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://blog.titangroupco.com/2017/03/03/%E5%B0%8F%E8%B0%88javascript%E4%B8%ADthis%E7%9A%84%E7%94%A8%E6%B3%95</loc>
     <lastmod>2017-03-03T09:41:07+08:00</lastmod>
   </url>
   
@@ -63,7 +68,7 @@
   
   <url>
     <loc>http://blog.titangroupco.com/</loc>
-    <lastmod>2017-03-03T09:41:07+08:00</lastmod>
+    <lastmod>2017-03-03T10:34:39+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -98,19 +103,19 @@
   
   <url>
     <loc>http://blog.titangroupco.com/categories/frontend/</loc>
-    <lastmod>2017-03-03T09:41:07+08:00</lastmod>
+    <lastmod>2017-03-03T10:34:39+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://blog.titangroupco.com/tags/javascript/</loc>
-    <lastmod>2017-03-03T09:41:07+08:00</lastmod>
+    <lastmod>2017-03-03T10:34:39+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>http://blog.titangroupco.com/post/</loc>
-    <lastmod>2017-03-03T09:41:07+08:00</lastmod>
+    <lastmod>2017-03-03T10:34:39+08:00</lastmod>
     <priority>0</priority>
   </url>
   
