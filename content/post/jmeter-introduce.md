@@ -1,19 +1,18 @@
 +++
 date = "2017-03-07T10:44:56+08:00"
 title = "jmeter introduce"
-menu = ""
 draft = false
-images = []
 categories = ["test"]
 tags = ["autotest"]
-banner = ""
-description = ""
+
 
 +++
 ![image](/img/jmeter.jpg) 
-# Jmeter  windows下安装步骤：
 
+# Jmeter  windows下安装步骤：
+<!--more-->
 ## 一.安装JDK
+
 ### 【步骤一】安装jdk：
 &emsp;jdk下载地址：http://www.oracle.com/technetwork/java/javase/downloads/index.html
 
