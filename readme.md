@@ -11,7 +11,7 @@ To work locally with this project, you'll have to follow the steps below:
   `hugo server -D`
 5. Add content and start writing.  
   `hugo new post/title-of-your-essay.md`
-6. remove draft state after review  
+6. remove draft state after review(找个人细读你的文章)  
   `draft = true  # delete this line or change value to false`
 7. Deploy it.  
   `./deploy.sh`
