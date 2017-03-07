@@ -2,10 +2,7 @@
 draft = false
 date = "2017-01-22T17:03:51+08:00"
 title = "RF中页面元素定位"
-
-categories = [
-    "test"
-]
+categories = ["test"]
 tags = ["autotest"]
 +++
 

@@ -2,15 +2,9 @@
 date = "2017-01-22T18:11:48+08:00"
 title = "前端使用websocket的问题"
 draft = false
-
-categories = [
-    "frontend"
-]
+categories = ["frontend"]
 tags = ["JavaScript"]
-
 +++
-
-　　
 
 > websocket相关概念
 

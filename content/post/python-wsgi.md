@@ -1,19 +1,13 @@
 +++
 menu = ""
-categories = [
-    "backend"
-]
+categories = ["backend"]
 description = ""
 banner = ""
-tags = [
-    "Python"
-]
+tags = ["Python"]
 date = "2017-02-21T09:15:24+08:00"
 title = "Python Web Server Gateway Interface"
-images = [
-]
+images = []
 draft = false
-
 +++
 
 

@@ -2,12 +2,8 @@
 draft = false
 date = "2017-01-24T16:50:51+08:00"
 title = "D3 入门教程"
-
-categories = [
-    "frontend"
-]
+categories = ["frontend"]
 tags = ["JavaScript"]
-
 +++
 # 1. 数据可视化
 数据可视化，是关于数据视觉表现形式的科学技术研究。为了使复杂的数据和文字变得更容易理解，各种可视化工具因此诞生，其中D3 正是其中的佼佼者。
