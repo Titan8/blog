@@ -2,7 +2,7 @@
 <html lang="en-us">
 <head>
     <title>小谈javascript中this的用法 &middot; </title>
-    <meta name="generator" content="Hugo 0.17" />
+    <meta name="generator" content="Hugo 0.18.1" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="author" content="Titan Developers">
@@ -405,9 +405,9 @@ console.log(obj.b.f()); // 18
 <p>(1). 原型链中的this</p>
 
 <pre><code>var obj = {
-	fun: function() {
-		return this.a + this.b;
-	}
+    fun: function() {
+        return this.a + this.b;
+    }
 };
 var p = new Object(obj);
 p.a = 1;
@@ -418,17 +418,17 @@ console.log(p.fun()); // 3 对象p的fun属性继承自它的原型，但是因�
 <p>(2). getter与setter中的this</p>
 
 <pre><code>function f1() {
-	return this.a*this.a + this.b * this.b;
+    return this.a*this.a + this.b * this.b;
 }
 var obj = {
-	a: 1,
-	b: 2,
-	get f2() {
-		return this.a+this.b;
-	}
+    a: 1,
+    b: 2,
+    get f2() {
+        return this.a+this.b;
+    }
 };
 Object.defineProperty(obj, 'f1', {
-	get: f1, enumerable:true,configurable:true
+    get: f1, enumerable:true,configurable:true
 });
 
 console.log(obj.f1, obj.f2); // 5   3  作为getter或setter函数都会绑定 this 到从设置属性或得到属性的那个对象。
@@ -496,7 +496,7 @@ bar.call('fun'); // string
 <p>ECMAScript 5 引入了 Function.prototype.bind。调用f.bind(someObject)会创建一个与f具有相同函数体和作用域的函数，但是在这个新函数中，this将永久地被绑定到了bind的第一个参数，无论这个函数是如何被调用的。</p>
 
 <pre><code>function f() {
-	return this.a;
+    return this.a;
 }
 
 var g=f.bind({a: 'jing'});
@@ -526,14 +526,14 @@ console.log(obj.g()); // jing
  // 点击当前元素，元素背景色变为粉色
 &lt;script&gt;
     function pinkify(event) {
-    	console.log(this === event.currentTarget);
+        console.log(this === event.currentTarget);
         console.log(this);
         this.style.backgroundColor = 'pink';
     }
     var elements = document.getElementsByTagName('button');
 
     for(var i=0; i&lt;elements.length; i++) {
-    	elements[i].addEventListener('click', pinkify, false);
+        elements[i].addEventListener('click', pinkify, false);
     }
 &lt;/script&gt;
 </code></pre>
