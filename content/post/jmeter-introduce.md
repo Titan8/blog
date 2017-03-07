@@ -10,7 +10,7 @@ banner = ""
 description = ""
 
 +++
-![image](/img/jmeter.png) 
+![image](/img/jmeter.jpg) 
 #Jmeter  windows下安装步骤：
 
 ###一.安装JDK
