@@ -15,7 +15,7 @@
       <pubDate>Tue, 07 Mar 2017 10:44:56 +0800</pubDate>
       
       <guid>http://blog.titangroupco.com/2017/03/07/jmeter-introduce</guid>
-      <description>&lt;p&gt;&lt;img src=&#34;http://blog.titangroupco.com/img/jmeter.jpg&#34; alt=&#34;image&#34; /&gt;
+      <description>&lt;p&gt;&lt;img src=&#34;http://blog.titangroupco.com/img/jmeter.jpg&#34; alt=&#34;&#34; /&gt;
 &lt;/p&gt;
 
 &lt;h1 id=&#34;jmeter-windows下安装步骤&#34;&gt;Jmeter  windows下安装步骤：&lt;/h1&gt;
@@ -42,12 +42,12 @@
 
 &lt;p&gt;&amp;emsp;变量值：【.;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar;】【.不能漏】&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://blog.titangroupco.com/img/path.jpg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://blog.titangroupco.com/img/path.jpg&#34; alt=&#34;配置环境变量&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;步骤三-验证jdk&#34;&gt;【步骤三】验证jdk&lt;/h3&gt;
 
 &lt;p&gt;&amp;emsp;运行cmd-&amp;gt;输入java -version-&amp;gt;显示java版本就表示jdk安装成功，如下图
-&lt;img src=&#34;http://blog.titangroupco.com/img/cmd.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;img src=&#34;http://blog.titangroupco.com/img/cmd.png&#34; alt=&#34;JDK安装检查&#34; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;二-jmeter安装&#34;&gt;二.Jmeter安装&lt;/h2&gt;
 
@@ -67,12 +67,12 @@
 &lt;p&gt;&amp;emsp;【变量名】CLASSPATH&lt;/p&gt;
 
 &lt;p&gt;&amp;emsp;【变量值】%JMETER_HOME\lib\ext\ApacheJMeter_core.jar;%JMETER_HOME%\lib\jorphan.jar;%JMETER_HOME%\lib\logkit-2.0.jar;
-&lt;img src=&#34;http://blog.titangroupco.com/img/path1.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;img src=&#34;http://blog.titangroupco.com/img/path1.png&#34; alt=&#34;Jmeter环境变量配置&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;步骤三-启动jmeter&#34;&gt;【步骤三】启动Jmeter&lt;/h3&gt;
 
 &lt;p&gt;&amp;emsp;双击Jmeter解压路径（D:\Program Files\apache-jmeter-3.1\apache-jmeter-3.1\bin）的bin下面的jmeter.bat，如下图
-&lt;img src=&#34;http://blog.titangroupco.com/img/runjmeter.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;img src=&#34;http://blog.titangroupco.com/img/runjmeter.png&#34; alt=&#34;启动Jmeter&#34; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;三-jmeter使用&#34;&gt;三.Jmeter使用&lt;/h2&gt;
 
@@ -103,7 +103,7 @@
 其下载地址为&lt;a href=&#34;http://www.badboy.com.au&#34;&gt;http://www.badboy.com.au&lt;/a&gt;
 下载完后需要进行安装，安装过程同一般的Windows 应用程序没有什么区别，安装完成后你可以在桌面和Windows开始菜单中看到相应的快捷方式。如果找不到，可以找一下Badboy安装目录下的Badboy.exe文件，直接双击启动Badboy。最后开到的启动界面如下：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://blog.titangroupco.com/img/badboy.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://blog.titangroupco.com/img/badboy.png&#34; alt=&#34;Badboy首页&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;步骤一-badboy使用方法&#34;&gt;【步骤一】badboy使用方法&lt;/h3&gt;
 
@@ -116,7 +116,7 @@
 
 &lt;p&gt;&amp;emsp;d.录制完成后，点击工具栏中的“停止录制”按钮（图中紫色方框标注的部分），完成脚本的录制。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://blog.titangroupco.com/img/export.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://blog.titangroupco.com/img/export.png&#34; alt=&#34;导出&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&amp;emsp;e.选择“File -&amp;gt; Export to JMeter”菜单，填写文件名“baidu.jmx”，将录制好脚本导出为JMeter脚本格式。也可以选择“File -&amp;gt; Save”菜单保存为Badboy脚本。&lt;/p&gt;
 
