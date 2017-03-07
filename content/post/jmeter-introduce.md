@@ -7,7 +7,7 @@ tags = ["autotest"]
 
 
 +++
-![image](/img/jmeter.jpg) 
+![](/img/jmeter.jpg) 
 <!--more-->
 # Jmeter  windows下安装步骤：
 ## 一.安装JDK
@@ -31,11 +31,11 @@ tags = ["autotest"]
 
 &emsp;变量值：【.;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar;】【.不能漏】
 
-![image](/img/path.jpg)
+![配置环境变量](/img/path.jpg)
 ### 【步骤三】验证jdk
 
 &emsp;运行cmd->输入java -version->显示java版本就表示jdk安装成功，如下图
-![image](/img/cmd.png)
+![JDK安装检查](/img/cmd.png)
 ## 二.Jmeter安装
 
 ### 【步骤一】安装Jmeter
@@ -51,11 +51,11 @@ tags = ["autotest"]
 &emsp;【变量名】CLASSPATH
 
 &emsp;【变量值】%JMETER_HOME\lib\ext\ApacheJMeter_core.jar;%JMETER_HOME%\lib\jorphan.jar;%JMETER_HOME%\lib\logkit-2.0.jar;
-![image](/img/path1.png)
+![Jmeter环境变量配置](/img/path1.png)
 
 ### 【步骤三】启动Jmeter
 &emsp;双击Jmeter解压路径（D:\Program Files\apache-jmeter-3.1\apache-jmeter-3.1\bin）的bin下面的jmeter.bat，如下图
-![image](/img/runjmeter.png)
+![启动Jmeter](/img/runjmeter.png)
 ## 三.Jmeter使用
 &emsp;Jmeter有两种运行模式，一种是GUI模式，GUI模式非常消耗资源，单个客户端测试无法达到目标压力。而使用非 GUI 模式，即命令行模式运行JMeter测试脚本能够大大缩减所需要的系统资源，使用远程启动模式也可以像Loadrunner那样进行分布式测试。
 ### 【步骤一】http协议接口测试
@@ -78,7 +78,7 @@ tags = ["autotest"]
 其下载地址为http://www.badboy.com.au
 下载完后需要进行安装，安装过程同一般的Windows 应用程序没有什么区别，安装完成后你可以在桌面和Windows开始菜单中看到相应的快捷方式。如果找不到，可以找一下Badboy安装目录下的Badboy.exe文件，直接双击启动Badboy。最后开到的启动界面如下：
   
-![image](/img/badboy.png)
+![Badboy首页](/img/badboy.png)
                      
 ### 【步骤一】badboy使用方法
 &emsp;a.在地址栏（图中红色方框标注的部分）中输入你需要录制的Web应用的URL，这里我们以http://www.baidu.com
@@ -90,7 +90,7 @@ tags = ["autotest"]
  
  &emsp;d.录制完成后，点击工具栏中的“停止录制”按钮（图中紫色方框标注的部分），完成脚本的录制。
  
-![image](/img/export.png)
+![导出](/img/export.png)
  
 &emsp;e.选择“File -> Export to JMeter”菜单，填写文件名“baidu.jmx”，将录制好脚本导出为JMeter脚本格式。也可以选择“File -> Save”菜单保存为Badboy脚本。
 
