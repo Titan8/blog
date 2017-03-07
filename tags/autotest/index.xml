@@ -16,9 +16,8 @@
       
       <guid>http://blog.titangroupco.com/2017/03/07/jmeter-introduce</guid>
       <description>&lt;p&gt;&lt;img src=&#34;http://blog.titangroupco.com/img/jmeter.jpg&#34; alt=&#34;image&#34; /&gt;
-#Jmeter  windows下安装步骤：&lt;/p&gt;
-
-&lt;p&gt;###一.安装JDK
+#Jmeter  windows下安装步骤：
+###一.安装JDK
 【步骤一】安装jdk：&lt;/p&gt;
 
 &lt;p&gt;jdk下载地址：&lt;a href=&#34;http://www.oracle.com/technetwork/java/javase/downloads/index.html&#34;&gt;http://www.oracle.com/technetwork/java/javase/downloads/index.html&lt;/a&gt;&lt;/p&gt;
