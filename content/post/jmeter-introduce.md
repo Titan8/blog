@@ -7,7 +7,7 @@ tags = ["autotest"]
 
 
 +++
-![](/img/jmeter.jpg) 
+![Jmeter](/img/jmeter.jpg) 
 <!--more-->
 # Jmeter  windows下安装步骤：
 ## 一.安装JDK
