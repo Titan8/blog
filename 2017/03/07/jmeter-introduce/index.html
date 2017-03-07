@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
-    <title>RF中页面元素定位 &middot; </title>
+    <title>jmeter introduce &middot; </title>
     <meta name="generator" content="Hugo 0.18.1" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -10,7 +10,7 @@
       <meta name="description" content="">
     
     
-    <link rel="canonical" href="http://blog.titangroupco.com/2017/01/22/rf%E4%B8%AD%E9%A1%B5%E9%9D%A2%E5%85%83%E7%B4%A0%E5%AE%9A%E4%BD%8D"/>
+    <link rel="canonical" href="http://blog.titangroupco.com/2017/03/07/jmeter-introduce"/>
     <link rel="icon" href="http://blog.titangroupco.com/favicon.ico">
     <link rel="apple-touch-icon" href="http://blog.titangroupco.com/apple-touch-icon.png"/>
     <link rel="stylesheet" href="http://blog.titangroupco.com/css/style.css">
@@ -20,31 +20,22 @@
     
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
-    <meta property="og:title" content="RF中页面元素定位" />
-<meta property="og:description" content="RF中页面元素定位
-
-1.Robot Framework&#43;selenium做UI自动化测试
-
-2.页面元素定位
-
-2.1 id和name定位
-
-假如把一个元素看作一个人的话，id 和name可以看作一个人的身份证号和姓名。当然，这些属性值是否唯一要看前端工程师如何设计了。
-
-百度搜索框和搜索按钮
-
-&lt;input type=&quot;text&quot; class=&quot;s_ipt&quot; ==name=&quot;wd&quot;== id=&quot;kw&quot; maxlength=&quot;100&quot; autocomplete=&quot;off&quot;&gt;
-
-&lt;input type=&quot;submit&quot; value=&quot;百度一下&quot; ==id=&quot;su&quot;== class=&quot;btn self-btn bg s_btn&quot;&gt;
-
-
-
-" />
+    <meta property="og:title" content="jmeter introduce" />
+<meta property="og:description" content="#Jmeter windows下安装步骤：
+###一.安装JDK 【步骤一】安装jdk：
+jdk下载地址：http://www.oracle.com/technetwork/java/javase/downloads/index.html
+【步骤二】配置jdk环境变量
+右键计算机属性-&gt;高级系统设置-&gt;系统属性-&gt;高级-&gt;环境变量-&gt;添加如下的系统变量： 变量名：【JAVA_HOME】 变量值：【D:\Program Files\Java\jdk1.8.0_112】【jdk安装路径】 变量名：【path】 变量值：【\;%JAVA_HOME%\bin;】 变量名：【CLASSPATH】 变量值：【.;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar;】【.不能漏】 【步骤三】验证jdk
+运行cmd-&gt;输入java -version-&gt;显示java版本就表示jdk安装成功，如下图 ###二.Jmeter安装
+【步骤一】安装Jmeter 1、下载Jmeter，官网地址：http://jmeter.apache.org/download_jmeter.cgi 2、解压Jmeter安装包 【步骤二】配置Jmeter环境变量 按下面变量名和变量值配置Jmeter系统环境变量： 【变量名】JMETER_HOME 【变量值】F:\CYL\test\jmeter\apache-jmeter-3.0（根据实际的jmeter解压路径填写） 【变量名】CLASSPATH 【变量值】%JMETER_HOME\lib\ext\ApacheJMeter_core.jar;%JMETER_HOME%\lib\jorphan.jar;%JMETER_HOME%\lib\logkit-2.0.jar; 【步骤三】启动Jmeter 双击Jmeter解压路径（D:\Program Files\apache-jmeter-3.1\apache-jmeter-3.1\bin）的bin下面的jmeter.bat，如下图 ###三.Jmeter使用 Jmeter有两种运行模式，一种是GUI模式，GUI模式非常消耗资源，单个客户端测试无法达到目标压力。而使用非 GUI 模式，即命令行模式运行JMeter测试脚本能够大大缩减所需要的系统资源，使用远程启动模式也可以像Loadrunner那样进行分布式测试。 【步骤一】http协议接口测试 1.测试计划下新增线程组 2.线程组下新增http信息头管理器 名称：Content-Type 值：application/json 3.增加http请求和结果显示 4.运行测试 【步骤一】no-gui启动测试 1.DOS命令执行语法：jmeter -n -t -l 。 2.如果脚本在其他目录，并且执行结果存放到其他目录，需要使用绝对路径，cmd中如：jmeter -n -t D:\E\02_Test\A2_性能测试\JMeter\JMeter脚本\product_select.jmx -l D:\E\02_Test\A2_性能测试\JMeter\JMeter测试结果\product_select_20160311001.jtl1
+###四.Badboy&#43;Jmeter配合使用 【步骤一】badboy简介 Badboy是用C&#43;&#43;开发的，被用于测试和开发复杂的动态应用。它提供了强大的屏幕录制和回放功能，同时也提供了丰富的图形结果分析功能。只要不用于商业目的就可以免费使用。因此这两工具的结合，就成为了绝配。我们可以用Badboy录制脚本，然后将录制的脚本导出为JMeter格式的脚本，最后将该脚本导入到JMeter，借助于JMeter强大的测试功能模拟大量的虚拟用户，进行复杂的性能测试。 其下载地址为：http://www.badboy.com.au。下载完后需要进行安装，安装过程同一般的Windows 应用程序没有什么区别，安装完成后你可以在桌面和Windows开始菜单中看到相应的快捷方式。如果找不到，可以找一下Badboy安装目录下的Badboy.exe文件，直接双击启动Badboy。最后开到的启动界面如下：
+【步骤一】badboy使用方法 a.在地址栏（图中红色方框标注的部分）中输入你需要录制的Web应用的URL，这里我们以http://www.baidu.com为例。 b.点击“开始录制”按钮（图中蓝色圆圈标注的部分）开始录制 。 c.开始录制后，你可以直接在Badboy内嵌的浏览器（主界面的右侧）中对被测应用进行操作，所有的操作都会被记录在主界面左侧的编辑窗口中（图中黄色方框标注的部分）。在这个试验中，我们在baidu的搜索引擎中输入 JMeter 进行搜索。不过录制下来的脚本并不是一行行的代码，而是一个个Web对象——这有点像LoadRunner的VuGen中的Tree View视图。 d.录制完成后，点击工具栏中的“停止录制”按钮（图中紫色方框标注的部分），完成脚本的录制。
+e.选择“File -&gt; Export to JMeter”菜单，填写文件名“baidu." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.titangroupco.com/2017/01/22/rf%E4%B8%AD%E9%A1%B5%E9%9D%A2%E5%85%83%E7%B4%A0%E5%AE%9A%E4%BD%8D" />
+<meta property="og:url" content="http://blog.titangroupco.com/2017/03/07/jmeter-introduce" />
 
 
-<meta property="og:updated_time" content="2017-01-22T17:03:51&#43;08:00"/>
+<meta property="og:updated_time" content="2017-03-07T10:44:56&#43;08:00"/>
 
 
 
@@ -57,30 +48,21 @@
 
     
     
-<meta itemprop="name" content="RF中页面元素定位">
-<meta itemprop="description" content="RF中页面元素定位
-
-1.Robot Framework&#43;selenium做UI自动化测试
-
-2.页面元素定位
-
-2.1 id和name定位
-
-假如把一个元素看作一个人的话，id 和name可以看作一个人的身份证号和姓名。当然，这些属性值是否唯一要看前端工程师如何设计了。
-
-百度搜索框和搜索按钮
-
-&lt;input type=&quot;text&quot; class=&quot;s_ipt&quot; ==name=&quot;wd&quot;== id=&quot;kw&quot; maxlength=&quot;100&quot; autocomplete=&quot;off&quot;&gt;
-
-&lt;input type=&quot;submit&quot; value=&quot;百度一下&quot; ==id=&quot;su&quot;== class=&quot;btn self-btn bg s_btn&quot;&gt;
+<meta itemprop="name" content="jmeter introduce">
+<meta itemprop="description" content="#Jmeter windows下安装步骤：
+###一.安装JDK 【步骤一】安装jdk：
+jdk下载地址：http://www.oracle.com/technetwork/java/javase/downloads/index.html
+【步骤二】配置jdk环境变量
+右键计算机属性-&gt;高级系统设置-&gt;系统属性-&gt;高级-&gt;环境变量-&gt;添加如下的系统变量： 变量名：【JAVA_HOME】 变量值：【D:\Program Files\Java\jdk1.8.0_112】【jdk安装路径】 变量名：【path】 变量值：【\;%JAVA_HOME%\bin;】 变量名：【CLASSPATH】 变量值：【.;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar;】【.不能漏】 【步骤三】验证jdk
+运行cmd-&gt;输入java -version-&gt;显示java版本就表示jdk安装成功，如下图 ###二.Jmeter安装
+【步骤一】安装Jmeter 1、下载Jmeter，官网地址：http://jmeter.apache.org/download_jmeter.cgi 2、解压Jmeter安装包 【步骤二】配置Jmeter环境变量 按下面变量名和变量值配置Jmeter系统环境变量： 【变量名】JMETER_HOME 【变量值】F:\CYL\test\jmeter\apache-jmeter-3.0（根据实际的jmeter解压路径填写） 【变量名】CLASSPATH 【变量值】%JMETER_HOME\lib\ext\ApacheJMeter_core.jar;%JMETER_HOME%\lib\jorphan.jar;%JMETER_HOME%\lib\logkit-2.0.jar; 【步骤三】启动Jmeter 双击Jmeter解压路径（D:\Program Files\apache-jmeter-3.1\apache-jmeter-3.1\bin）的bin下面的jmeter.bat，如下图 ###三.Jmeter使用 Jmeter有两种运行模式，一种是GUI模式，GUI模式非常消耗资源，单个客户端测试无法达到目标压力。而使用非 GUI 模式，即命令行模式运行JMeter测试脚本能够大大缩减所需要的系统资源，使用远程启动模式也可以像Loadrunner那样进行分布式测试。 【步骤一】http协议接口测试 1.测试计划下新增线程组 2.线程组下新增http信息头管理器 名称：Content-Type 值：application/json 3.增加http请求和结果显示 4.运行测试 【步骤一】no-gui启动测试 1.DOS命令执行语法：jmeter -n -t -l 。 2.如果脚本在其他目录，并且执行结果存放到其他目录，需要使用绝对路径，cmd中如：jmeter -n -t D:\E\02_Test\A2_性能测试\JMeter\JMeter脚本\product_select.jmx -l D:\E\02_Test\A2_性能测试\JMeter\JMeter测试结果\product_select_20160311001.jtl1
+###四.Badboy&#43;Jmeter配合使用 【步骤一】badboy简介 Badboy是用C&#43;&#43;开发的，被用于测试和开发复杂的动态应用。它提供了强大的屏幕录制和回放功能，同时也提供了丰富的图形结果分析功能。只要不用于商业目的就可以免费使用。因此这两工具的结合，就成为了绝配。我们可以用Badboy录制脚本，然后将录制的脚本导出为JMeter格式的脚本，最后将该脚本导入到JMeter，借助于JMeter强大的测试功能模拟大量的虚拟用户，进行复杂的性能测试。 其下载地址为：http://www.badboy.com.au。下载完后需要进行安装，安装过程同一般的Windows 应用程序没有什么区别，安装完成后你可以在桌面和Windows开始菜单中看到相应的快捷方式。如果找不到，可以找一下Badboy安装目录下的Badboy.exe文件，直接双击启动Badboy。最后开到的启动界面如下：
+【步骤一】badboy使用方法 a.在地址栏（图中红色方框标注的部分）中输入你需要录制的Web应用的URL，这里我们以http://www.baidu.com为例。 b.点击“开始录制”按钮（图中蓝色圆圈标注的部分）开始录制 。 c.开始录制后，你可以直接在Badboy内嵌的浏览器（主界面的右侧）中对被测应用进行操作，所有的操作都会被记录在主界面左侧的编辑窗口中（图中黄色方框标注的部分）。在这个试验中，我们在baidu的搜索引擎中输入 JMeter 进行搜索。不过录制下来的脚本并不是一行行的代码，而是一个个Web对象——这有点像LoadRunner的VuGen中的Tree View视图。 d.录制完成后，点击工具栏中的“停止录制”按钮（图中紫色方框标注的部分），完成脚本的录制。
+e.选择“File -&gt; Export to JMeter”菜单，填写文件名“baidu.">
 
 
-
-">
-
-
-<meta itemprop="dateModified" content="2017-01-22T17:03:51&#43;08:00" />
-<meta itemprop="wordCount" content="235">
+<meta itemprop="dateModified" content="2017-03-07T10:44:56&#43;08:00" />
+<meta itemprop="wordCount" content="75">
 
 
 
@@ -92,26 +74,17 @@
 
 
 
-<meta name="twitter:title" content="RF中页面元素定位"/>
-<meta name="twitter:description" content="RF中页面元素定位
-
-1.Robot Framework&#43;selenium做UI自动化测试
-
-2.页面元素定位
-
-2.1 id和name定位
-
-假如把一个元素看作一个人的话，id 和name可以看作一个人的身份证号和姓名。当然，这些属性值是否唯一要看前端工程师如何设计了。
-
-百度搜索框和搜索按钮
-
-&lt;input type=&quot;text&quot; class=&quot;s_ipt&quot; ==name=&quot;wd&quot;== id=&quot;kw&quot; maxlength=&quot;100&quot; autocomplete=&quot;off&quot;&gt;
-
-&lt;input type=&quot;submit&quot; value=&quot;百度一下&quot; ==id=&quot;su&quot;== class=&quot;btn self-btn bg s_btn&quot;&gt;
-
-
-
-"/>
+<meta name="twitter:title" content="jmeter introduce"/>
+<meta name="twitter:description" content="#Jmeter windows下安装步骤：
+###一.安装JDK 【步骤一】安装jdk：
+jdk下载地址：http://www.oracle.com/technetwork/java/javase/downloads/index.html
+【步骤二】配置jdk环境变量
+右键计算机属性-&gt;高级系统设置-&gt;系统属性-&gt;高级-&gt;环境变量-&gt;添加如下的系统变量： 变量名：【JAVA_HOME】 变量值：【D:\Program Files\Java\jdk1.8.0_112】【jdk安装路径】 变量名：【path】 变量值：【\;%JAVA_HOME%\bin;】 变量名：【CLASSPATH】 变量值：【.;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar;】【.不能漏】 【步骤三】验证jdk
+运行cmd-&gt;输入java -version-&gt;显示java版本就表示jdk安装成功，如下图 ###二.Jmeter安装
+【步骤一】安装Jmeter 1、下载Jmeter，官网地址：http://jmeter.apache.org/download_jmeter.cgi 2、解压Jmeter安装包 【步骤二】配置Jmeter环境变量 按下面变量名和变量值配置Jmeter系统环境变量： 【变量名】JMETER_HOME 【变量值】F:\CYL\test\jmeter\apache-jmeter-3.0（根据实际的jmeter解压路径填写） 【变量名】CLASSPATH 【变量值】%JMETER_HOME\lib\ext\ApacheJMeter_core.jar;%JMETER_HOME%\lib\jorphan.jar;%JMETER_HOME%\lib\logkit-2.0.jar; 【步骤三】启动Jmeter 双击Jmeter解压路径（D:\Program Files\apache-jmeter-3.1\apache-jmeter-3.1\bin）的bin下面的jmeter.bat，如下图 ###三.Jmeter使用 Jmeter有两种运行模式，一种是GUI模式，GUI模式非常消耗资源，单个客户端测试无法达到目标压力。而使用非 GUI 模式，即命令行模式运行JMeter测试脚本能够大大缩减所需要的系统资源，使用远程启动模式也可以像Loadrunner那样进行分布式测试。 【步骤一】http协议接口测试 1.测试计划下新增线程组 2.线程组下新增http信息头管理器 名称：Content-Type 值：application/json 3.增加http请求和结果显示 4.运行测试 【步骤一】no-gui启动测试 1.DOS命令执行语法：jmeter -n -t -l 。 2.如果脚本在其他目录，并且执行结果存放到其他目录，需要使用绝对路径，cmd中如：jmeter -n -t D:\E\02_Test\A2_性能测试\JMeter\JMeter脚本\product_select.jmx -l D:\E\02_Test\A2_性能测试\JMeter\JMeter测试结果\product_select_20160311001.jtl1
+###四.Badboy&#43;Jmeter配合使用 【步骤一】badboy简介 Badboy是用C&#43;&#43;开发的，被用于测试和开发复杂的动态应用。它提供了强大的屏幕录制和回放功能，同时也提供了丰富的图形结果分析功能。只要不用于商业目的就可以免费使用。因此这两工具的结合，就成为了绝配。我们可以用Badboy录制脚本，然后将录制的脚本导出为JMeter格式的脚本，最后将该脚本导入到JMeter，借助于JMeter强大的测试功能模拟大量的虚拟用户，进行复杂的性能测试。 其下载地址为：http://www.badboy.com.au。下载完后需要进行安装，安装过程同一般的Windows 应用程序没有什么区别，安装完成后你可以在桌面和Windows开始菜单中看到相应的快捷方式。如果找不到，可以找一下Badboy安装目录下的Badboy.exe文件，直接双击启动Badboy。最后开到的启动界面如下：
+【步骤一】badboy使用方法 a.在地址栏（图中红色方框标注的部分）中输入你需要录制的Web应用的URL，这里我们以http://www.baidu.com为例。 b.点击“开始录制”按钮（图中蓝色圆圈标注的部分）开始录制 。 c.开始录制后，你可以直接在Badboy内嵌的浏览器（主界面的右侧）中对被测应用进行操作，所有的操作都会被记录在主界面左侧的编辑窗口中（图中黄色方框标注的部分）。在这个试验中，我们在baidu的搜索引擎中输入 JMeter 进行搜索。不过录制下来的脚本并不是一行行的代码，而是一个个Web对象——这有点像LoadRunner的VuGen中的Tree View视图。 d.录制完成后，点击工具栏中的“停止录制”按钮（图中紫色方框标注的部分），完成脚本的录制。
+e.选择“File -&gt; Export to JMeter”菜单，填写文件名“baidu."/>
 
 
 
@@ -225,9 +198,9 @@
             
 
             <header class="article-header">
-    <a href="http://blog.titangroupco.com/2017/01/22/rf%E4%B8%AD%E9%A1%B5%E9%9D%A2%E5%85%83%E7%B4%A0%E5%AE%9A%E4%BD%8D">
+    <a href="http://blog.titangroupco.com/2017/03/07/jmeter-introduce">
     <h1 class="article-title" itemprop="name">
-        RF中页面元素定位
+        jmeter introduce
     </h1>
     </a>
     <div class="article-meta">
@@ -235,12 +208,12 @@
         
         <div class="article-date">
             <i class="fa fa-calendar"></i>
-            <time datetime="2017-01-22 17:03:51 &#43;0800 CST" itemprop="datePublished">2017-01-22</time>
+            <time datetime="2017-03-07 10:44:56 &#43;0800 CST" itemprop="datePublished">2017-03-07</time>
             &middot;
-            235
+            75
             words
             &middot;
-            2
+            1
             minute read
         </div>
         
@@ -275,294 +248,77 @@
 </header>
 
             <div class="article-entry" itemprop="articleBody">
-                <h1 id="rf中页面元素定位">RF中页面元素定位</h1>
+                <p><img src="/img/jmeter.png" alt="image" />
+#Jmeter  windows下安装步骤：</p>
+
+<p>###一.安装JDK
+【步骤一】安装jdk：</p>
+
+<p>jdk下载地址：<a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">http://www.oracle.com/technetwork/java/javase/downloads/index.html</a></p>
+
+<p>【步骤二】配置jdk环境变量</p>
+
+<p>右键计算机属性-&gt;高级系统设置-&gt;系统属性-&gt;高级-&gt;环境变量-&gt;添加如下的系统变量：
+变量名：【JAVA_HOME】
+变量值：【D:\Program Files\Java\jdk1.8.0_112】【jdk安装路径】
+变量名：【path】
+变量值：【\;%JAVA_HOME%\bin;】
+变量名：【CLASSPATH】
+变量值：【.;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar;】【.不能漏】
+<img src="/img/path.jpg" alt="image" />
+【步骤三】验证jdk</p>
+
+<p>运行cmd-&gt;输入java -version-&gt;显示java版本就表示jdk安装成功，如下图
+<img src="/img/cmd.png" alt="image" />
+###二.Jmeter安装</p>
+
+<p>【步骤一】安装Jmeter
+1、下载Jmeter，官网地址：<a href="http://jmeter.apache.org/download_jmeter.cgi">http://jmeter.apache.org/download_jmeter.cgi</a>
+2、解压Jmeter安装包
+【步骤二】配置Jmeter环境变量
+按下面变量名和变量值配置Jmeter系统环境变量：
+【变量名】JMETER_HOME
+【变量值】F:\CYL\test\jmeter\apache-jmeter-3.0（根据实际的jmeter解压路径填写）
+【变量名】CLASSPATH
+【变量值】%JMETER_HOME\lib\ext\ApacheJMeter_core.jar;%JMETER_HOME%\lib\jorphan.jar;%JMETER_HOME%\lib\logkit-2.0.jar;
+<img src="/img/path1.png" alt="image" /></p>
+
+<p>【步骤三】启动Jmeter
+双击Jmeter解压路径（D:\Program Files\apache-jmeter-3.1\apache-jmeter-3.1\bin）的bin下面的jmeter.bat，如下图
+<img src="/img/runjmeter.png" alt="image" />
+###三.Jmeter使用
+Jmeter有两种运行模式，一种是GUI模式，GUI模式非常消耗资源，单个客户端测试无法达到目标压力。而使用非 GUI 模式，即命令行模式运行JMeter测试脚本能够大大缩减所需要的系统资源，使用远程启动模式也可以像Loadrunner那样进行分布式测试。
+【步骤一】http协议接口测试
+1.测试计划下新增线程组
+2.线程组下新增http信息头管理器
+名称：Content-Type 值：application/json
+3.增加http请求和结果显示
+4.运行测试
+【步骤一】no-gui启动测试
+1.DOS命令执行语法：jmeter -n -t <testplan filename> -l <listener filename>。
+2.如果脚本在其他目录，并且执行结果存放到其他目录，需要使用绝对路径，cmd中如：jmeter -n -t D:\E\02_Test\A2_性能测试\JMeter\JMeter脚本\product_select.jmx -l D:\E\02_Test\A2_性能测试\JMeter\JMeter测试结果\product_select_20160311001.jtl1</p>
+
+<p>###四.Badboy+Jmeter配合使用
+【步骤一】badboy简介
+Badboy是用C++开发的，被用于测试和开发复杂的动态应用。它提供了强大的屏幕录制和回放功能，同时也提供了丰富的图形结果分析功能。只要不用于商业目的就可以免费使用。因此这两工具的结合，就成为了绝配。我们可以用Badboy录制脚本，然后将录制的脚本导出为JMeter格式的脚本，最后将该脚本导入到JMeter，借助于JMeter强大的测试功能模拟大量的虚拟用户，进行复杂的性能测试。
+其下载地址为：<a href="http://www.badboy.com.au。下载完后需要进行安装，安装过程同一般的Windows">http://www.badboy.com.au。下载完后需要进行安装，安装过程同一般的Windows</a> 应用程序没有什么区别，安装完成后你可以在桌面和Windows开始菜单中看到相应的快捷方式。如果找不到，可以找一下Badboy安装目录下的Badboy.exe文件，直接双击启动Badboy。最后开到的启动界面如下：</p>
+
+<p><img src="/img/badboy.png" alt="image" /></p>
+
+<p>【步骤一】badboy使用方法
+a.在地址栏（图中红色方框标注的部分）中输入你需要录制的Web应用的URL，这里我们以<a href="http://www.baidu.com为例。">http://www.baidu.com为例。</a>
+b.点击“开始录制”按钮（图中蓝色圆圈标注的部分）开始录制 。
+c.开始录制后，你可以直接在Badboy内嵌的浏览器（主界面的右侧）中对被测应用进行操作，所有的操作都会被记录在主界面左侧的编辑窗口中（图中黄色方框标注的部分）。在这个试验中，我们在baidu的搜索引擎中输入 JMeter 进行搜索。不过录制下来的脚本并不是一行行的代码，而是一个个Web对象——这有点像LoadRunner的VuGen中的Tree View视图。
+d.录制完成后，点击工具栏中的“停止录制”按钮（图中紫色方框标注的部分），完成脚本的录制。</p>
+
+<p><img src="/img/export.png" alt="image" /></p>
+
+<p>e.选择“File -&gt; Export to JMeter”菜单，填写文件名“baidu.jmx”，将录制好脚本导出为JMeter脚本格式。也可以选择“File -&gt; Save”菜单保存为Badboy脚本。
+f.启动JMeter并打开刚刚生成的测试脚本，就可以用JMeter进行测试了。</p>
 
-<h3 id="1-robot-framework-selenium做ui自动化测试">1.Robot Framework+selenium做UI自动化测试</h3>
-
-<h3 id="2-页面元素定位">2.页面元素定位</h3>
-
-<h3 id="2-1-id和name定位">2.1 id和name定位</h3>
-
-<p>假如把一个元素看作一个人的话，id 和name可以看作一个人的身份证号和姓名。当然，这些属性值是否唯一要看前端工程师如何设计了。</p>
-
-<p>百度搜索框和搜索按钮</p>
-
-<pre><code class="language-html">&lt;input type=&quot;text&quot; class=&quot;s_ipt&quot; ==name=&quot;wd&quot;== id=&quot;kw&quot; maxlength=&quot;100&quot; autocomplete=&quot;off&quot;&gt;
-
-&lt;input type=&quot;submit&quot; value=&quot;百度一下&quot; ==id=&quot;su&quot;== class=&quot;btn self-btn bg s_btn&quot;&gt;
-
-</code></pre>
-
-<p></p>
-
-<p>根据上面的例子，百度输入框可以取id 或name进行定位。（前提是id和name的值在当页面上唯一）</p>
-
-<pre><code class="language-html">id = su
-name = wd
-</code></pre>
-
-<p>在Robot framework 中写法如下：</p>
-
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>定位</th>
-<th>文本</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>Input Text</td>
-<td>id=kw</td>
-<td>地图</td>
-</tr>
-
-<tr>
-<td>Input Text</td>
-<td>name=wd</td>
-<td>地图</td>
-</tr>
-</tbody>
-</table>
-
-<p>百度按钮只id数据可以利用：id = su</p>
-
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>定位</th>
-<th>文本</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>Click Button</td>
-<td>id=su</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-
-<p>Click Button是按钮点击的关键字。</p>
-
-<h3 id="2-2-xpath定位">2.2 xpath定位</h3>
-
-<p>假如页面元素。既没有id也没有name
-例如：cgntes的登录页面</p>
-
-<pre><code class="language-html">&lt;input class=&quot;input ng-pristine ng-valid ng-empty ng-touched&quot; autocomplete=&quot;off&quot; ng-change=&quot;vm.loginFailed=false&quot; ng-model=&quot;vm.user.username&quot; placeholder=&quot;请输入用户名&quot; autofocus=&quot;&quot; ng-keyup=&quot;vm.keyUp($event)&quot; tabindex=&quot;1&quot; aria-invalid=&quot;false&quot; style=&quot;&quot;&gt;
-</code></pre>
-
-<ol>
-<li>Xpath的绝对路径：</li>
-</ol>
-
-<pre><code class="language-html">Xpath =/html/body/div/titan-login/div/div[1]/div[2]/input
-</code></pre>
-
-<p>我们可以从最外层开始找，html下面的body下面的div下面的第4个div下面的&hellip;.input标签。通过一级一级的锁定就找到了想要的元素。</p>
-
-<ol>
-<li>Xpath的相对路径：</li>
-</ol>
-
-<p>绝对路径的用法往往是在我们迫不得已的时候才用的。大多时候用相对路径更简便。
-3. 元素本身：
-Xpath同样可以利用元素自身的属性：</p>
-
-<pre><code class="language-html">Xpath=/html/body/div/titan-login/div/div[1]/div[2]/input[@placeholder='请输入用户名']
-Xpath = //*[@placeholder='请输入用户名]
-</code></pre>
-
-<p>//表示某个层级下，*表示某个标签名。@placeholder=&lsquo;请输入用户名&rsquo;表示这个元素有个placeholder等于请输入用户名 。
-元素本身，可以利用的属性就不只局限为于id和name，但要保证这些元素可以唯一的识别一个元素。</p>
-
-<p>4.找上级：</p>
-
-<p>当我们要找的元素没有id和name，但是它有父节点，那么同样可以定位到该元素。</p>
-
-<p>元素的上级属性为：</p>
-
-<pre><code class="language-html">&lt;form name=&quot;f&quot; id=&quot;form&quot; action=&quot;/s&quot; class=&quot;fm&quot; onsubmit=&quot;javascript:F.call('ps/sug','pssubmit')&quot;&gt;
-　　&lt;span class=&quot;s_kw_wrap&quot; class=&quot;bg s_ipt_wr quickdelete-wrap&quot;&gt;
-  &lt;span class=&quot;soutu-btn&quot;&gt;
-　　　 &lt;input  type=&quot;text&quot; class=&quot;s_ipt&quot; name=&quot;wd&quot; id=&quot;kw&quot; maxlength=&quot;100&quot; autocomplete=&quot;off&quot;&gt;
-</code></pre>
-
-<p>找父节点：</p>
-
-<pre><code class="language-html">xpath = //span[@class=’bg s_ipt_wr’]/input
-</code></pre>
-
-<p>如果父节点没有唯一的属性，可以找父父节点：
-xpath = //form[@id=’form’]/span/input
-这样一级一级找上去，直到html那么就是一个绝对路径了。</p>
-
-<h3 id="2-3-css定位">2.3 CSS定位</h3>
-
-<p>CSS的定位更灵活，因为他它用到的更多的匹配符和规格。</p>
-
-<table>
-<thead>
-<tr>
-<th>选择器</th>
-<th>示例</th>
-<th>示例描述</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>.class</td>
-<td>.intro</td>
-<td>选择 class=&ldquo;intro&rdquo; 的所有元素</td>
-</tr>
-
-<tr>
-<td>id</td>
-<td>firstname</td>
-<td>选择 id=&ldquo;firstname&rdquo; 的所有元素</td>
-</tr>
-
-<tr>
-<td>*</td>
-<td>*</td>
-<td>选择所有元素</td>
-</tr>
-
-<tr>
-<td>element</td>
-<td>p</td>
-<td>选择所有 <p> 元素</td>
-</tr>
-
-<tr>
-<td>element.element</td>
-<td>div.p</td>
-<td>选择所有 <div> 元素和所有 <p> 元素</td>
-</tr>
-
-<tr>
-<td>element&gt;element</td>
-<td>div&gt;p</td>
-<td>选择父元素为 <div> 元素的所有 <p> 元素</td>
-</tr>
-
-<tr>
-<td>element+element</td>
-<td>div+p</td>
-<td>选择紧接在 <div> 元素之后的所有 <p> 元素</td>
-</tr>
-
-<tr>
-<td>[attribute]</td>
-<td>[target]</td>
-<td>选择带有 target 属性所有元素</td>
-</tr>
-
-<tr>
-<td>[attribute=value]</td>
-<td>[target=_blank]</td>
-<td>选择 target=&rdquo;_blank&rdquo; 的所有元素</td>
-</tr>
-
-<tr>
-<td>[attribute~=value]</td>
-<td>[title~=flower]</td>
-<td>选择 title 属性包含单词 &ldquo;flower&rdquo; 的所有元素</td>
-</tr>
-
-<tr>
-<td>[attribute=value]</td>
-<td>[lang=en]</td>
-<td>选择 lang 属性值以 &ldquo;en&rdquo; 开头的所有元素</td>
-</tr>
-</tbody>
-</table>
-
-<p>同样以百度输入框的代码，具体CSS定位如下：</p>
-
-<p>id定位：</p>
-
-<pre><code class="language-html">css=#kw
-
-class定位：
-
-css=.s_ipt
-</code></pre>
-
-<p>其它属性：</p>
-
-<pre><code class="language-html">css=[name=wd]
-css=[type=text]
-css=[autocomplete=off]
-</code></pre>
-
-<p>父子定位：</p>
-
-<pre><code class="language-html"> css=span&gt;input
- css=form&gt;span&gt;input
-</code></pre>
-
-<p>根据标签名定位：</p>
-
-<pre><code class="language-html">css=input
-</code></pre>
-
-<p>以Cgntest的登录按钮为例子Robot framework 中的写法：</p>
-
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>定位</th>
-<th>文本</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>Input Text</td>
-<td>css=.btn</td>
-<td>\\13</td>
-</tr>
-
-<tr>
-<td>Input Text</td>
-<td>css=body &gt; div &gt; titan-login &gt; div &gt; div.form &gt; div.btn</td>
-<td>\\13</td>
-</tr>
-</tbody>
-</table>
-
-<p>同样一个元素，根基CSS的不同规则，可能有几十上百种写法。CSS更灵活强大，但是相比Xpath 的学习成本为更高。但是CSS和Xpath两种定位方式是一定要学会一种，不然你的自动化工作更无法开展。</p>
-
-<h3 id="2-4-js定位">2.4 JS定位</h3>
-
-<p>当碰到使用上述方法仍无法定位时，可选择JS定位，该方法比较通用，能正常定位到所有元素。</p>
-
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>定位</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>Execute JavaScript</td>
-<td>$(&ldquo;.btn&rdquo;).click()</td>
-</tr>
-</tbody>
-</table>
             </div>
             <footer class="article-footer">
-    <a data-url="http://blog.titangroupco.com/2017/01/22/rf%E4%B8%AD%E9%A1%B5%E9%9D%A2%E5%85%83%E7%B4%A0%E5%AE%9A%E4%BD%8D" data-id="27ea0a1bd4ea65c44d8474fc1e80bb9a" class="article-share-link">
+    <a data-url="http://blog.titangroupco.com/2017/03/07/jmeter-introduce" data-id="6c04fce26deb185388187d28bf124e2c" class="article-share-link">
         <i class="fa fa-share"></i>
         Share
     </a>
@@ -639,21 +395,14 @@ css=[autocomplete=off]
         
 <nav id="article-nav">
     
-    <a href="http://blog.titangroupco.com/2017/01/22/python-decorator" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="http://blog.titangroupco.com/2017/03/03/javascript-events" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">
           Older
       </strong>
-      <div class="article-nav-title">Python Decorator</div>
+      <div class="article-nav-title">javascript events</div>
     </a>
     
 
-    
-    <a href="http://blog.titangroupco.com/2017/01/22/%E5%89%8D%E7%AB%AF%E4%BD%BF%E7%94%A8websocket%E7%9A%84%E9%97%AE%E9%A2%98" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">
-          Newer
-      </strong>
-      <div class="article-nav-title">前端使用websocket的问题</div>
-    </a>
     
 </nav>
 
