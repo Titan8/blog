@@ -15,11 +15,11 @@
       <pubDate>Tue, 07 Mar 2017 10:44:56 +0800</pubDate>
       
       <guid>http://blog.titangroupco.com/2017/03/07/jmeter-introduce</guid>
-      <description>
-
-&lt;p&gt;&lt;img src=&#34;http://blog.titangroupco.com/img/jmeter.jpg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+      <description>&lt;p&gt;&lt;img src=&#34;http://blog.titangroupco.com/img/jmeter.jpg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;h1 id=&#34;jmeter-windows下安装步骤&#34;&gt;Jmeter  windows下安装步骤：&lt;/h1&gt;
+
+&lt;p&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;一-安装jdk&#34;&gt;一.安装JDK&lt;/h2&gt;
 
@@ -121,8 +121,7 @@
 
 &lt;p&gt;&amp;emsp;e.选择“File -&amp;gt; Export to JMeter”菜单，填写文件名“baidu.jmx”，将录制好脚本导出为JMeter脚本格式。也可以选择“File -&amp;gt; Save”菜单保存为Badboy脚本。&lt;/p&gt;
 
-&lt;p&gt;&amp;emsp;f.启动JMeter并打开刚刚生成的测试脚本，就可以用JMeter进行测试。&lt;/p&gt;
-</description>
+&lt;p&gt;&amp;emsp;f.启动JMeter并打开刚刚生成的测试脚本，就可以用JMeter进行测试。&lt;/p&gt;</description>
     </item>
     
     <item>
