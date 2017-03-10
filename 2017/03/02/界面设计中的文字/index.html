@@ -314,6 +314,8 @@ font-family: arial, &lsquo;Hiragino Sans GB&rsquo;, &lsquo;Microsoft Yahei&rsquo
     </a>
     
 
+    <script type="text/javascript" src="http://jeromeetienne.github.io/jquery-qrcode/src/jquery.qrcode.js"></script>
+    <script type="text/javascript" src="http://jeromeetienne.github.io/jquery-qrcode/src/qrcode.js"></script>
     <script>
     (function ($) {
         
@@ -344,19 +346,29 @@ font-family: arial, &lsquo;Hiragino Sans GB&rsquo;, &lsquo;Microsoft Yahei&rsquo
             } else {
                 var html = [
                     '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
+                        '<input id="text" class="article-share-input" value="' + url + '">',
                         '<div class="article-share-links">',
                             '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
                             '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
                             '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
                             '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                            '<a href="http://v.t.sina.com.cn/share/share.php?title=' + encodedUrl + '" class="fa fa-weibo article-share-weibo" target="_blank" title="weibo"></a>',
+                            '<a id="titan-weixin" class="fa fa-wechat article-share-wechat" title="weixin"></a>',
                         '</div>',
+                        '<div id="titan-qrcode" style="width:auto;height:auto"></div>',
                     '</div>'
                 ].join('');
 
               box = $(html);
 
               $('body').append(box);
+
+              $('#titan-weixin, #titan-qrcode').hover(function () {
+                  var url = $('#text').val();
+                  $('#titan-qrcode').qrcode(url);
+              }, function (e) {
+                  $('#titan-qrcode').html('');
+              });
             }
 
             $('.article-share-box.on').hide();
@@ -376,6 +388,7 @@ font-family: arial, &lsquo;Hiragino Sans GB&rsquo;, &lsquo;Microsoft Yahei&rsquo
 
             window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
         });
+
     })(jQuery);
     </script>
 </footer>
@@ -394,11 +407,11 @@ font-family: arial, &lsquo;Hiragino Sans GB&rsquo;, &lsquo;Microsoft Yahei&rsquo
     
 
     
-    <a href="http://blog.titangroupco.com/2017/03/03/%E5%B0%8F%E8%B0%88javascript%E4%B8%ADthis%E7%9A%84%E7%94%A8%E6%B3%95" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="http://blog.titangroupco.com/2017/03/03/javascript-events" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">
           Newer
       </strong>
-      <div class="article-nav-title">小谈javascript中this的用法</div>
+      <div class="article-nav-title">javascript events</div>
     </a>
     
 </nav>
@@ -474,32 +487,6 @@ font-family: arial, &lsquo;Hiragino Sans GB&rsquo;, &lsquo;Microsoft Yahei&rsquo
             
             <li>
                 <div class="item-thumbnail">
-                    <a href="http://blog.titangroupco.com/2017/03/03/%E5%B0%8F%E8%B0%88javascript%E4%B8%ADthis%E7%9A%84%E7%94%A8%E6%B3%95" class="thumbnail">
-                    
-                        <span class="thumbnail-image thumbnail-none"></span>
-                    
-                    </a>
-                </div>
-                <div class="item-inner">
-                    
-                    
-                    <p class="item-category">
-                        
-                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/frontend">
-                        frontend
-                        </a>
-                    </p>
-                    
-                    
-                    <p class="item-title"><a href="http://blog.titangroupco.com/2017/03/03/%E5%B0%8F%E8%B0%88javascript%E4%B8%ADthis%E7%9A%84%E7%94%A8%E6%B3%95" class="title">小谈javascript中this的用法</a></p>
-                    <p class="item-date">
-                        <time datetime="2017-03-03 09:41:07 &#43;0800 CST" itemprop="datePublished">2017-03-03</time>
-                    </p>
-                </div>
-            </li>
-            
-            <li>
-                <div class="item-thumbnail">
                     <a href="http://blog.titangroupco.com/2017/03/02/%E7%95%8C%E9%9D%A2%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E6%96%87%E5%AD%97" class="thumbnail">
                     
                         <span class="thumbnail-image thumbnail-none"></span>
@@ -550,6 +537,32 @@ font-family: arial, &lsquo;Hiragino Sans GB&rsquo;, &lsquo;Microsoft Yahei&rsquo
                 </div>
             </li>
             
+            <li>
+                <div class="item-thumbnail">
+                    <a href="http://blog.titangroupco.com/2017/01/24/d3-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B" class="thumbnail">
+                    
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    
+                    </a>
+                </div>
+                <div class="item-inner">
+                    
+                    
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/frontend">
+                        frontend
+                        </a>
+                    </p>
+                    
+                    
+                    <p class="item-title"><a href="http://blog.titangroupco.com/2017/01/24/d3-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B" class="title">D3 入门教程</a></p>
+                    <p class="item-date">
+                        <time datetime="2017-01-24 16:50:51 &#43;0800 CST" itemprop="datePublished">2017-01-24</time>
+                    </p>
+                </div>
+            </li>
+            
         </ul>
     </div>
 </div>
@@ -576,7 +589,7 @@ font-family: arial, &lsquo;Hiragino Sans GB&rsquo;, &lsquo;Microsoft Yahei&rsquo
                 <a class="category-list-link" href="http://blog.titangroupco.com/categories/frontend">
                     frontend
                 </a>
-                <span class="category-list-count">7</span>
+                <span class="category-list-count">6</span>
             </li>
             
             <li class="category-list-item">
@@ -641,7 +654,7 @@ font-family: arial, &lsquo;Hiragino Sans GB&rsquo;, &lsquo;Microsoft Yahei&rsquo
                 <a class="category-list-link" href="http://blog.titangroupco.com/tags/javascript">
                     javascript
                 </a>
-                <span class="category-list-count">7</span>
+                <span class="category-list-count">6</span>
             </li>
             
             <li class="category-list-item">
