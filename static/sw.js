@@ -6,9 +6,6 @@ const __DEBUG__ = false;
 const offlineResources = [
     '/',
     '/404.html',
-    '/js/script.js',
-    'img/logo.jpeg',
-    'css/style.css'
 ];
 const ignoreFetch = [
     /https?:\/\/cdn.bootcss.com\//,
