@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title></title>
+    <link>http://blog.titangroupco.com/author/ybduan/index.xml</link>
+    <description>Recent content on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Powered by [Hugo](//gohugo.io). Theme by [DevTeam](mailto:dev@titangroupco.com) of Titan.</copyright>
+    <atom:link href="http://blog.titangroupco.com/author/ybduan/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Javascript Prototype</title>
+      <link>http://blog.titangroupco.com/2017/01/05/javascript-prototype</link>
+      <pubDate>Thu, 05 Jan 2017 00:00:00 +0800</pubDate>
+      
+      <guid>http://blog.titangroupco.com/2017/01/05/javascript-prototype</guid>
+      <description>&lt;p&gt;&lt;em&gt;note of &lt;a href=&#34;https://github.com/getify/You-Dont-Know-JS/tree/master/this%20%26%20object%20prototypes&#34;&gt;You Don&amp;rsquo;t know JS&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;data-types-in-javascript&#34;&gt;Data types in Javascript&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;// Javascript has 6 primitive data(immutable) types
+typeof 3.14  // &#39;number&#39;;
+typeof &#39;bla&#39;  // &#39;string&#39;;
+typeof true  // &#39;boolean&#39;
+typeof Symbol.iterator  // &#39;symbol&#39;
+typeof undefined  // &#39;undefined&#39;
+typeof null  // &#39;object&#39;
+
+// and object
+typeof {a:1}  // &#39;object&#39;
+typeof function fn(){}  // &#39;function&#39;, it&#39;s in fact an object with special type tag
+
+
+// object has sub type
+Object.prototype.toString.call(fn)  // &#39;[object Function]&#39;
+
+// primitive types have object equivalent that wrap around them.
+Object.prototype.toString.call(3.14)  // &#39;[object Number]&#39;
+Object.prototype.toString.call(&#39;bla&#39;)  // &#39;[object String]&#39;
+Object.prototype.toString.call(true)  // &#39;[object Boolean]&#39;
+Object.prototype.toString.call(Symbol.iterator)  // &#39;[object Symbol]&#39;
+
+Object.prototype.toString.call({})  // &#39;[object Object]&#39;
+Object.prototype.toString.call([])  // &#39;[object Array]&#39;
+Object.prototype.toString.call(/[a-zA-Z]+/)  // &#39;[object RegExp]&#39;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;
+&lt;code&gt;null&lt;/code&gt; is not an object for it has no any property.&lt;/p&gt;
+
+&lt;p&gt;for why &lt;code&gt;typeof null === &#39;object&#39;&lt;/code&gt; see details &lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof#null&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;object-property&#34;&gt;Object property&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var myObject = {
+    a: 2
+};
+
+// `in` operator will check upwards the whole prototype chain
+(&#39;a&#39; in myObject) // true
+(&#39;toString&#39; in myObject) // true
+// `hasOwnProperty` function check only `this` object
+(myObject.hasOwnProperty(&#39;toString&#39;))  // false
+
+// property has characteristics decribed by sth called `descriptor`
+Object.getOwnPropertyDescriptor( myObject, &amp;quot;a&amp;quot; );
+// {
+//    value: 2,
+//    writable: true,
+//    enumerable: true,
+//    configurable: true
+// }
+
+// another way to define property
+Object.defineProperty( myObject, &amp;quot;a&amp;quot;, {
+    value: 2,
+    writable: true,
+    configurable: true,
+    enumerable: true
+} );
+
+// prevent an object from having new properties added to it
+Object.preventExtensions( myObject );
+
+Object.seal(..) 
+// Object.preventExtensions(..) + marks all its existing properties as configurable:false.
+
+Object.freeze(..)
+// Object.seal(..) + marks all &amp;quot;data accessor&amp;quot; properties as writable:false
+
+// descriptor includes data descriptor and accessor descriptor
+Object.defineProperty(
+    myObject,   // target
+    &amp;quot;b&amp;quot;,        // property name
+    {           // descriptor
+        // define a getter for `b`
+        get: function(){ return this.a * 2 },
+
+        // make sure `b` shows up as an object property
+        enumerable: true
+    }
+);
+
+myObject.b;  // 4
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;what-is-this&#34;&gt;What is &lt;code&gt;this&lt;/code&gt;?&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;function dcyy() {
+  console.log(this.name, &#39;到此一游 :(&#39;);
+}
+var name = &#39;global&#39;;
+var zs = {
+  name: &#39;张三&#39;,
+  dcyy
+}
+var ls = {
+  name: &#39;李四&#39;
+}
+
+dcyy();  // global 到此一游 :(
+zs.dcyy();  // &#39;张三 到此一游 :(
+dcyy.call(ls);  // 李四 到此一游 :(
+new dcyy();
+// undefined &#39;到此一游 :(&#39;
+// dcyy {}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;this&lt;/code&gt; is not an author-time binding but a runtime binding.&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;Called with new? Use the newly constructed object.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Called with &lt;code&gt;call&lt;/code&gt; or &lt;code&gt;apply&lt;/code&gt; (or &lt;code&gt;bind&lt;/code&gt;)? Use the specified object.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Called with a context object owning the call? Use that context object.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Default: undefined in strict mode, global object otherwise.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;prototype-chain&#34;&gt;Prototype Chain&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;function Foo() {
+    // ...
+}
+
+var a = new Foo();
+
+Object.getPrototypeOf( a ) === Foo.prototype; // true
+
+a.__proto__ === Foo.prototype;  // true
+
+Foo.prototype.isPrototypeOf(a);  // true
+
+var p = {
+    sayHi: function () {
+        console.log(&#39;hi!&#39;);
+    }
+}
+var c = Object.create(p);
+c.sayHi();  // &#39;hi!&#39;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;So, when u create an object use &lt;code&gt;new&lt;/code&gt; operator and a function say &lt;em&gt;fn&lt;/em&gt;, the prototype of this created object is &lt;code&gt;fn.prototype&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;You Dont Know JS&lt;/code&gt; advocates prototype pattern which is the foundation of JS, objects OO simulation.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Introduction to Vue</title>
+      <link>http://blog.titangroupco.com/2016/10/31/introduction-to-vue</link>
+      <pubDate>Mon, 31 Oct 2016 08:42:14 +0800</pubDate>
+      
+      <guid>http://blog.titangroupco.com/2016/10/31/introduction-to-vue</guid>
+      <description>&lt;h2 id=&#34;basic&#34;&gt;Basic&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;div id=&amp;quot;app&amp;quot;&amp;gt;
+  {{ message }}
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;var app = new Vue({
+  el: &#39;#app&#39;,
+  data: {
+    message: &#39;Hello Vue!&#39;
+  }
+})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;
+Vue inherits a lot from angular. Both has concept of &lt;code&gt;directives&lt;/code&gt; and &lt;code&gt;components&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;We will skip those similarities, but focus on differences here.&lt;/p&gt;
+
+&lt;h3 id=&#34;directive-has-modifier-and-arguments&#34;&gt;Directive has Modifier and Arguments&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;input v-model.number=&amp;quot;age&amp;quot; type=&amp;quot;number&amp;quot;&amp;gt;
+&amp;lt;a v-bind:href=&amp;quot;url&amp;quot;&amp;gt;&amp;lt;/a&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Modifiers are special postfixes denoted by a dot, which indicate that a directive should be bound in some special way.&lt;/li&gt;
+&lt;li&gt;Some directives can take an “argument”, denoted by a colon after the directive name.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;component-has-slots&#34;&gt;Component has slots&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://p1.bpimg.com/567571/d8c7009a5bc6f77a.jpg&#34; alt=&#34;slot&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The API for a Vue component comes in three parts - props, events, and slots:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Props allow the external environment to pass data into the component&lt;/li&gt;
+&lt;li&gt;Events allow the component to trigger side effects in the external environment&lt;/li&gt;
+&lt;li&gt;Slots allow the external environment to compose the component with extra content.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;my-component
+  v-bind:foo=&amp;quot;baz&amp;quot;
+  v-bind:bar=&amp;quot;qux&amp;quot;
+  v-on:event-a=&amp;quot;doThis&amp;quot;
+  v-on:event-b=&amp;quot;doThat&amp;quot;
+&amp;gt;
+  &amp;lt;img slot=&amp;quot;icon&amp;quot; src=&amp;quot;...&amp;quot;&amp;gt;
+  &amp;lt;p slot=&amp;quot;main-text&amp;quot;&amp;gt;Hello!&amp;lt;/p&amp;gt;
+&amp;lt;/my-component&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;vue-ecosystem&#34;&gt;Vue Ecosystem&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;http://router.vuejs.org/&#34;&gt;vue-router&lt;/a&gt; is officially-supported&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;a href=&#34;http://vuex.vuejs.org/&#34;&gt;vuex&lt;/a&gt; is a state management pattern + library for Vue.js applications.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;comparison&#34;&gt;Comparison&lt;/h2&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Metric&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;Angular&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;Angular 2&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;React&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;Vue&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Star(Github)&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;53015&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;17748&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;52844&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;32113&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Fork(Github)&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;26177&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;4525&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;9306&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;3645&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Issue(on/off)&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;&lt;sup&gt;674&lt;/sup&gt;&amp;frasl;&lt;sub&gt;7460&lt;/sub&gt;&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;&lt;sup&gt;811&lt;/sup&gt;&amp;frasl;&lt;sub&gt;6964&lt;/sub&gt;&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;&lt;sup&gt;484&lt;/sup&gt;&amp;frasl;&lt;sub&gt;3336&lt;/sub&gt;&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;&lt;sup&gt;66&lt;/sup&gt;&amp;frasl;&lt;sub&gt;3069&lt;/sub&gt;&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Size&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;156K&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;636K&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;150K&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;64K&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;LOC(TodoMVC)&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;442&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;198&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;520&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;221&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Size(TodoMVC)&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;1.1M&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;1.6M&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;1.2M&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;294K&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;em&gt;created on 10/31/2016&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;PS:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Angular 2 requires Typescript while others require Javascript.&lt;/li&gt;
+&lt;li&gt;Angular 2, React and Vue support cross-platform programming.&lt;/li&gt;
+&lt;li&gt;Angular offer more features. But React and Vue get enhancement from
+additional libraries, which is authored and supported by community.&lt;/li&gt;
+&lt;li&gt;From the metric above, Vue has the smallest community.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://vuejs.org/guide/comparison.html&#34;&gt;Read more&lt;/a&gt; on differences among these front-end Javascript frameworks.&lt;/p&gt;
+
+&lt;p&gt;You can use &lt;a href=&#34;https://github.com/vuejs/vue-cli&#34;&gt;vue-cli&lt;/a&gt; to scaffold Vue.js projects.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Webpack</title>
+      <link>http://blog.titangroupco.com/2016/10/28/webpack</link>
+      <pubDate>Fri, 28 Oct 2016 08:42:14 +0800</pubDate>
+      
+      <guid>http://blog.titangroupco.com/2016/10/28/webpack</guid>
+      <description>&lt;h2 id=&#34;motivation-or-problems&#34;&gt;Motivation or Problems&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;There are multiple standards of module system in JS world including CommonJS, AMD, ES6 modules and &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; tag style.&lt;/li&gt;
+&lt;li&gt;There are two extremes when transferring modules
+
+&lt;ol&gt;
+&lt;li&gt;one request per module&lt;/li&gt;
+&lt;li&gt;All modules in one request&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;li&gt;Why should a module system only help the developer with JavaScript?&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;io&#34;&gt;IO&lt;/h2&gt;
+
+&lt;p&gt;Webpack is a module bundler.&lt;/p&gt;
+
+&lt;p&gt;It takes a bunch of files, treating each as a module, figuring out the dependencies between them, and bundle them into static assets that are ready for deployment.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://dtinth.github.io/webpack-docs-images/usage/how-it-works.png&#34; alt=&#34;what webpack does&#34; /&gt;
+&lt;/p&gt;
+
+&lt;h3 id=&#34;some-concepts-of-webpack&#34;&gt;Some concepts of Webpack&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;chunk: A batch of modules that bundled into one single file.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;loader: Transformations that are applied on a resource file(module) of your app.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;plugin: Add functionality typically related to bundles in webpack.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;some-plugins&#34;&gt;Some plugins&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;DefinePlugin: Allows you to create global constants which can be configured at compile time.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;HotModuleReplacementPlugin: Enables Hot Module Replacement.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;HtmlWebpackPlugin: Generates a solid base html page for your web application with all your webpack generated css and js files built in.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;CommonsChunkPlugin: Generate an extra chunk, which contains common modules shared between entry points.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;UglifyJsPlugin: Minimize all JavaScript output of chunks.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;ExtractTextPlugin: Extract text from bundle into a file.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;example-of-webpack-configuration&#34;&gt;Example of Webpack configuration&lt;/h3&gt;
+
+&lt;p&gt;&lt;em&gt;notice comments start with hash character&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;{
+  ...
+  module: {
+    ...
+    loaders: [
+      # They are functions that take the source of a resource file as the parameter
+      # and return the new source.
+      { test: /\.less$/,
+        loader: &#39;css-loader!less-loader&#39; },
+      { test: /\.js$/,
+        loader: &#39;babel&#39;,
+        include: &#39;/path-to-your-project/vue-webpack&#39;,
+        exclude: /node_modules/ },
+      ...
+    ]
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

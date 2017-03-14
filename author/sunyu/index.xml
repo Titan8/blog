@@ -1,0 +1,1119 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title></title>
+    <link>http://blog.titangroupco.com/author/sunyu/index.xml</link>
+    <description>Recent content on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Powered by [Hugo](//gohugo.io). Theme by [DevTeam](mailto:dev@titangroupco.com) of Titan.</copyright>
+    <atom:link href="http://blog.titangroupco.com/author/sunyu/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Python Web Server Gateway Interface</title>
+      <link>http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface</link>
+      <pubDate>Tue, 21 Feb 2017 09:15:24 +0800</pubDate>
+      
+      <guid>http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface</guid>
+      <description>&lt;h1 id=&#34;引言&#34;&gt;引言&lt;/h1&gt;
+
+&lt;p&gt;在Python的Web开发界，有着多种多样的框架，比如Flask, Django, Falcon等等，可谓是百花齐放。许多新入门的同学，都会纠结使用哪个框架比较好。在这里 我们不去回答这个问题，而是去寻找它们的共通点，也就是本篇的主题：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Web Server Gateway Interface (WSGI, 可以分开来读, 也可以读作&#39;wiz-gee&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;wsgi是什么&#34;&gt;WSGI是什么&lt;/h1&gt;
+
+&lt;p&gt;WSGI不是一个框架，也不是一个Python的库，也不是服务，API或者其他任何类型的软件。它只是服务(&lt;code&gt;Web Server&lt;/code&gt;)和应用(&lt;code&gt;Web Application&lt;/code&gt;)之间的一种简单通用的接口规范。它定义了服务和应用两端，除此之外还有一种叫中间件(&lt;code&gt;Middleware&lt;/code&gt;)的组件，它同时实现了服务端和应用端。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;如果一个应用满足了WSGI，那么它就能在所有满足WSGI的服务上跑起来。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&#34;application&#34;&gt;Application&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;Application&lt;/code&gt;处理请求，并返回处理的结果。它是一个可调用(&lt;code&gt;callable&lt;/code&gt;)的对象，可以是一个函数，方法，实现了&lt;code&gt;__call__&lt;/code&gt;或者&lt;code&gt;__iter__&lt;/code&gt;方法的类。&lt;/p&gt;
+
+&lt;h4 id=&#34;函数&#34;&gt;函数&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def app(environ, start_response):
+    start_response(&#39;200 OK&#39;, [(&#39;Content-type&#39;, &#39;text/plain&#39;)])
+    return [&#39;Hello world!&#39;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;方法&#34;&gt;方法&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;class Demo(object):
+    def __init__(self):
+        # do something
+        ...
+    
+    def app(self, environ, start_response):
+        start_response(&#39;200 OK&#39;, [(&#39;Content-type&#39;, &#39;text/plain&#39;)])
+        return [&#39;Hello world!&#39;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;call-类&#34;&gt;__call__类&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;class Application(object):
+    def __init__(self):
+        # do something
+        ...
+        
+    def __call__(self, environ, start_response):
+        start_response(&#39;200 OK&#39;, [(&#39;Content-type&#39;, &#39;text/plain&#39;)])
+        return [&#39;Hello world!&#39;]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;iter-类&#34;&gt;__iter__类&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;class Application(object):
+    def __init__(self, environ, start_response):
+        self.environ = environ
+        self.start_response = start_response
+        
+    def __iter__(self):
+        self.start_response(&#39;200 OK&#39;, [(&#39;Content-type&#39;, &#39;text/plain&#39;)])
+        yield &#39;Hello world!&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;server&#34;&gt;Server&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;Server&lt;/code&gt;接收网络请求，调用&lt;code&gt;Application&lt;/code&gt;去处理请求，并把其返回的结果传输给客户端。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;import os, sys
+
+def run_with_cgi(application):
+
+    environ = dict(os.environ.items())
+    environ[&#39;wsgi.input&#39;]        = sys.stdin
+    environ[&#39;wsgi.errors&#39;]       = sys.stderr
+    environ[&#39;wsgi.version&#39;]      = (1, 0)
+    environ[&#39;wsgi.multithread&#39;]  = False
+    environ[&#39;wsgi.multiprocess&#39;] = True
+    environ[&#39;wsgi.run_once&#39;]     = True
+
+    if environ.get(&#39;HTTPS&#39;, &#39;off&#39;) in (&#39;on&#39;, &#39;1&#39;):
+        environ[&#39;wsgi.url_scheme&#39;] = &#39;https&#39;
+    else:
+        environ[&#39;wsgi.url_scheme&#39;] = &#39;http&#39;
+
+    headers_set = []
+    headers_sent = []
+
+    def write(data):
+        if not headers_set:
+             raise AssertionError(&amp;quot;write() before start_response()&amp;quot;)
+
+        elif not headers_sent:
+             # Before the first output, send the stored headers
+             status, response_headers = headers_sent[:] = headers_set
+             sys.stdout.write(&#39;Status: %s\r\n&#39; % status)
+             for header in response_headers:
+                 sys.stdout.write(&#39;%s: %s\r\n&#39; % header)
+             sys.stdout.write(&#39;\r\n&#39;)
+
+        sys.stdout.write(data)
+        sys.stdout.flush()
+
+    def start_response(status, response_headers, exc_info=None):
+        if exc_info:
+            try:
+                if headers_sent:
+                    # Re-raise original exception if headers sent
+                    raise exc_info[0], exc_info[1], exc_info[2]
+            finally:
+                exc_info = None     # avoid dangling circular ref
+        elif headers_set:
+            raise AssertionError(&amp;quot;Headers already set!&amp;quot;)
+
+        headers_set[:] = [status, response_headers]
+        return write
+
+    result = application(environ, start_response)
+    try:
+        for data in result:
+            if data:    # don&#39;t send headers until body appears
+                write(data)
+        if not headers_sent:
+            write(&#39;&#39;)   # send headers now if body was empty
+    finally:
+        if hasattr(result, &#39;close&#39;):
+            result.close()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;middleware&#34;&gt;Middleware&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;Middleware&lt;/code&gt;同时实现了&lt;code&gt;Server&lt;/code&gt;和&lt;code&gt;Application&lt;/code&gt;两端的功能，它接收上层&lt;code&gt;Server&lt;/code&gt;或者&lt;code&gt;Middleware&lt;/code&gt;传过来的请求，调用下层&lt;code&gt;Application&lt;/code&gt;或者&lt;code&gt;Middleware&lt;/code&gt;来处理，处理的结果又返回给上层。在实际场景中，我们会有多个中间件，这样就形成了中间件栈。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def app(environ, start_response):
+    start_response(&#39;200 OK&#39;, [(&#39;Content-type&#39;, &#39;text/plain&#39;)])
+    return [&#39;Hello world!&#39;]
+    
+class Middleware1(object):
+    def __init__(self, app):
+        self.app = app
+        
+    def __call__(self, environ, start_response)
+        print &#39;Middleware1&#39;
+        return self.app(environ, start_response)
+        
+
+class Middleware2(object):
+    def __init__(self, app):
+        self.app = app
+        
+    def __call__(self, environ, start_response)
+        print &#39;Middleware2&#39;
+        return self.app(environ, start_response)
+        
+
+app = Middleware1(Middleware2(app))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://blog.titangroupco.com/img/wsgi.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;我们现在常用的框架，如Flask, Django都是应用端的，但是它们提供了简单的服务端运行，这样在开发过程中就可以运行起来。&lt;/p&gt;
+
+&lt;p&gt;服务端实现有库wsgiref(内置库), werkzeug, gunicorn, gevent, uwsgi等。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&#34;一步步写个web&#34;&gt;一步步写个Web&lt;/h1&gt;
+
+&lt;h3 id=&#34;运行hello-world&#34;&gt;运行Hello World&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# coding=utf-8
+
+from wsgiref.simple_server import make_server
+
+
+def app(environ, start_response):
+    start_response(&#39;200 Ok&#39;, [(&#39;Content-Type&#39;, &#39;text/plain&#39;)])
+    return [&#39;Hello World!&#39;]
+
+
+if __name__ == &#39;__main__&#39;:
+    server = make_server(&#39;127.0.0.1&#39;, 8080, app)
+    print &#39;Server start at 127.0.0.1:8080...&#39;
+    server.serve_forever()
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;post方法&#34;&gt;POST方法&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;environ&lt;/code&gt;是一个纯字典，它包含了许多WSGI所需要的变量，如请求参数，请求方法等等。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# coding=utf-8
+
+from wsgiref.simple_server import make_server
+
+
+def app(environ, start_response):
+    if environ[&#39;REQUEST_METHOD&#39;] == &#39;POST&#39;:
+        res = &#39;Post Request.&#39;
+    else:
+        res = &#39;Hello World!&#39;
+    start_response(&#39;200 Ok&#39;, [(&#39;Content-Type&#39;, &#39;text/plain&#39;)])
+    return res
+
+
+if __name__ == &#39;__main__&#39;:
+    server = make_server(&#39;127.0.0.1&#39;, 8080, app)
+    print &#39;Server start at 127.0.0.1:8080...&#39;
+    server.serve_forever()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;添加route&#34;&gt;添加Route&lt;/h3&gt;
+
+&lt;p&gt;上面的例子中，所有的url请求返回的结果都是一样的。如果我们需要根据不同url返回不同的结果，那么就需要添加路由处理。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# coding=utf-8
+
+from wsgiref.simple_server import make_server
+
+
+def app(environ, start_response):
+    path = environ[&#39;PATH_INFO&#39;]
+    if path == &#39;/&#39;:
+        res = &#39;Hello World!&#39;
+    elif path == &#39;/test&#39;:
+        res = &#39;Get /test&#39;
+    else:
+        res = &#39;Cannot handle url.&#39;
+
+    start_response(&#39;200 Ok&#39;, [(&#39;Content-Type&#39;, &#39;text/plain&#39;)])
+    return res
+
+if __name__ == &#39;__main__&#39;:
+    server = make_server(&#39;127.0.0.1&#39;, 8080, app)
+    print &#39;Server start at 127.0.0.1:8080...&#39;
+    server.serve_forever()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;随着我们要处理的url越来越多，app的逻辑会越来越复杂，所以我们用类来重构一下。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# coding=utf-8
+
+from wsgiref.simple_server import make_server
+
+
+def handle_root():
+    return &#39;Hello World!&#39;
+
+
+def handle_test():
+    return &#39;Get /test&#39;
+
+
+class Application(object):
+
+    def __init__(self, routes):
+        self.routes = routes
+
+    def __call__(self, environ, start_response):
+        handler = self.routes.get(environ[&#39;PATH_INFO&#39;])
+        if handler is None:
+            res = &#39;Cannot handler url.&#39;
+        else:
+            res = handler()
+        start_response(&#39;200 Ok&#39;, [(&#39;Content-Type&#39;, &#39;text/plain&#39;)])
+        return res
+
+
+if __name__ == &#39;__main__&#39;:
+    routes = {
+        &#39;/&#39;: handle_root,
+        &#39;/test&#39;: handle_test
+    }
+    server = make_server(&#39;127.0.0.1&#39;, 8080, Application(routes))
+    print &#39;Server start at 127.0.0.1:8080...&#39;
+    server.serve_forever()
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;继续重构，为每个url添加method。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# coding=utf-8
+
+from wsgiref.simple_server import make_server
+
+
+def get_root():
+    return &#39;Hello World!&#39;
+
+
+def post_root():
+    return &#39;Post root&#39;
+
+
+def get_test():
+    return &#39;Get /test&#39;
+
+
+def post_test():
+    return &#39;Post /test&#39;
+
+
+class Application(object):
+
+    def __init__(self, routes):
+        self.routes = routes
+
+    def __call__(self, environ, start_response):
+        handler = self.routes.get(environ[&#39;PATH_INFO&#39;], {}).get(environ[&#39;REQUEST_METHOD&#39;])
+        if handler is None:
+            res = &#39;Cannot handler url.&#39;
+        else:
+            res = handler()
+        start_response(&#39;200 Ok&#39;, [(&#39;Content-Type&#39;, &#39;text/plain&#39;)])
+        return res
+
+
+if __name__ == &#39;__main__&#39;:
+    routes = {
+        &#39;/&#39;: {
+            &#39;GET&#39;: get_root,
+            &#39;POST&#39;: post_root
+        },
+        &#39;/test&#39;: {
+            &#39;GET&#39;: get_test,
+            &#39;POST&#39;: post_test
+        }
+    }
+    server = make_server(&#39;127.0.0.1&#39;, 8080, Application(routes))
+    print &#39;Server start at 127.0.0.1:8080...&#39;
+    server.serve_forever()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;日志中间件&#34;&gt;日志中间件&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# coding=utf-8
+
+from wsgiref.simple_server import make_server
+
+
+def handle_root():
+    return &#39;Hello World!&#39;
+
+
+def handle_test():
+    return &#39;Get /test&#39;
+
+
+class Application(object):
+
+    def __init__(self, routes):
+        self.routes = routes
+
+    def __call__(self, environ, start_response):
+        handler = self.routes.get(environ[&#39;PATH_INFO&#39;])
+        if handler is None:
+            res = &#39;Cannot handler url.&#39;
+        else:
+            res = handler()
+        start_response(&#39;200 Ok&#39;, [(&#39;Content-Type&#39;, &#39;text/plain&#39;)])
+        return res
+
+
+class Middleware(object):
+
+    def __init__(self, app):
+        self.app = app
+
+    def __call__(self, environ, start_response):
+        print &#39;Before request.&#39;
+        res = self.app(environ, start_response)
+        print &#39;After request.&#39;
+        return res
+
+
+if __name__ == &#39;__main__&#39;:
+    routes = {
+        &#39;/&#39;: handle_root,
+        &#39;/test&#39;: handle_test
+    }
+    server = make_server(&#39;127.0.0.1&#39;, 8080, Middleware(Application(routes)))
+    print &#39;Server start at 127.0.0.1:8080...&#39;
+    server.serve_forever()
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;总结&#34;&gt;总结&lt;/h1&gt;
+
+&lt;p&gt;本篇介绍了WSGI的一些相关概念，然后一步步写了一个简单的web后台。当然，实际开发过程中我们根本不需要这么来做，因为现在的框架已经封装了好了一切。&lt;/p&gt;
+
+&lt;p&gt;举个Flask的例子：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# coding=utf-8
+
+from flask import Flask
+
+
+app = Flask(__name__)
+
+
+@app.route(&#39;/&#39;)
+def hello():
+    return &#39;Hello World!&#39;
+
+
+if __name__ == &#39;__main__&#39;:
+    app.run()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;参考&#34;&gt;参考&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.python.org/dev/peps/pep-0333/&#34;&gt;PEP333&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/mainframer/PEP333-zh-CN&#34;&gt;PEP333中文翻译&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Python Decorator</title>
+      <link>http://blog.titangroupco.com/2017/01/22/python-decorator</link>
+      <pubDate>Sun, 22 Jan 2017 13:20:36 +0800</pubDate>
+      
+      <guid>http://blog.titangroupco.com/2017/01/22/python-decorator</guid>
+      <description>&lt;h2 id=&#34;什么是装饰器&#34;&gt;什么是装饰器&lt;/h2&gt;
+
+&lt;p&gt;在coding的时候，你经常会需要计算一个函数的执行时间，最容易想到的方法是在每个函数内部进行计算。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def hello():
+    start = time.time()
+    print &#39;Hello&#39;
+    print &#39;Spend &#39;, time.time() - start
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;也有可能是在函数外部计算时间。&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def hello():
+    print &#39;Hello&#39;
+
+start = time.time()
+hello()
+print &#39;Spend &#39;, time.time() - start
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;但是，一个hello还好，如果还有hello1、 hello2、hello3，甚至更多的时候你就懵了。这时候，你就会想有没有不需要写这么多重复代码的方法。&lt;/p&gt;
+
+&lt;p&gt;要解决这个问题，你首先需要知道在Python中，&lt;code&gt;function is the first class&lt;/code&gt;。有一种意译是，“函数是一等公民”。你想啊，函数都是一等公民了，那它肯定可以像基本类型那样作为函数参数喽。于是呢，就有了下面这种方法。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def spend(func):
+    def _spend():
+        start = time.time()
+        func()
+        print &#39;Spend &#39;, time.time() - start
+    return _spend
+
+def hello():
+    print &#39;Hello&#39;
+
+hello = spend(hello)
+hello()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样是不是少写了很多代码，但是呢，还有一个问题，一旦需要计算时间的函数多了，就有可能漏掉一个两个。那么，将时间计算写在函数定义的时候总不会漏了吧。于是乎，Python从2.4版本开始引入一个特殊的语法糖标记&lt;code&gt;@&lt;/code&gt;。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;@spend
+def hello():
+    print &#39;Hello&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这个spend呢，我们就将其称之为装饰器（Decorator）。&lt;/p&gt;
+
+&lt;h2 id=&#34;装饰器的种类&#34;&gt;装饰器的种类&lt;/h2&gt;
+
+&lt;h3 id=&#34;无参数装饰器&#34;&gt;无参数装饰器&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def spend(func):
+    def _spend(*args, **kwargs):
+        start = time.time()
+        func(*args, **kwargs)
+        print &#39;Spend &#39;, time.time() - start
+    return _spend
+
+@spend
+def hello(name):
+    print &#39;Hello&#39;, name
+
+# 等同于
+def hello(name):
+    print &#39;Hello&#39;, name
+hello = spend(hello)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;有参数装饰器&#34;&gt;有参数装饰器&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def spend(start):
+    def _spend(func):
+        def __spend(*args, **kwargs):
+            func(*args, **kwargs)
+            print &#39;Spend &#39;, time.time() - start
+        return __spend
+    return _spend
+
+@spend(time.time())
+def hello(name):
+    print &#39;Hello&#39;, name
+
+# 等同于
+def hello(name):
+    print &#39;Hello&#39;, name
+hello = spend(time.time())(hello)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这里有个问题，为什么spend的参数start能在hello中使用？&lt;/p&gt;
+
+&lt;p&gt;我们从作用域的角度分析这个问题，举一个另外的例子。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def outer(arg):
+    print locals()
+    def inner():
+        x = arg * arg
+        print locals()
+        print x
+    return inner
+
+&amp;gt;&amp;gt;&amp;gt; f = outer(2)
+{&#39;arg&#39;: 2}
+&amp;gt;&amp;gt;&amp;gt; f()
+{&#39;x&#39;: 4, &#39;arg&#39;: 2}
+4
+&amp;gt;&amp;gt;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;locals函数的结果是局部命名空间的内容。在outer中，局部命名空间只有一个键arg，而在inner内部也有arg。这就引出了另外一个术语&lt;code&gt;闭包&lt;/code&gt;。在维基中，闭包的解释是这样的：&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;在计算机科学中，闭包（Closure）是词法闭包（Lexical Closure）的简称，是引用了自由变量的函数。这个被引用的自由变量将和这个函数一同存在，即使已经离开了创造它的环境也不例外。所以，有另一种说法认为闭包是由函数和与其相关的引用环境组合而成的实体。闭包在运行时可以有多个实例，不同的引用环境和相同的函数组合可以产生不同的实例。&lt;/p&gt;
+
+&lt;p&gt;我的理解是，Python的装饰器就是一种闭包。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;这样，我们就能明白为什么spend的参数start能在hello中使用了。&lt;/p&gt;
+
+&lt;h3 id=&#34;类装饰器&#34;&gt;类装饰器&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def deco(*args, **kwargs):
+    def _deco(cls):
+        cls.x = 12
+        return cls
+    return _deco
+
+@deco(&#39;hello&#39;)
+class A(object):
+    pass
+
+&amp;gt;&amp;gt;&amp;gt; A.x
+12
+
+# 等同于
+class A(object):
+    pass
+A = deco(&#39;hello&#39;)(A)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;装饰器类&#34;&gt;装饰器类&lt;/h3&gt;
+
+&lt;p&gt;类作为装饰器，分为有参数和无参数。同时，需要装饰的是类方法时，需要用到&lt;strong&gt;get&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;h4 id=&#34;无参数&#34;&gt;无参数&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;class Deco(object):
+    def __init__(self, func):
+        self.func = func
+
+    def __call__(self, *args, **kwargs):
+        print &#39;call Deco&#39;
+        self.func(*args, **kwargs)
+
+@Deco
+def test():
+    print &#39;call test&#39;
+
+# 等同于
+test = Deco(test)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;有参数&#34;&gt;有参数&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;class Deco(object):
+    def __init__(self, *args, **kwargs):
+        print args, kwargs
+
+    def __call__(self, func):
+        def _deco(*args, **kwargs):
+            print &#39;call Deco&#39;
+            func(*args, **kwargs)
+        return _deco
+
+@Deco(&#39;hello&#39;)
+def test():
+    print &#39;call test&#39;
+
+# 等同于
+test = Deco(&#39;hello&#39;)(func)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;内置装饰器&#34;&gt;内置装饰器&lt;/h2&gt;
+
+&lt;p&gt;Python中有三个常用的内置装饰器，&lt;code&gt;staticmethod&lt;/code&gt;，&lt;code&gt;classmethod&lt;/code&gt;，&lt;code&gt;functools.wraps&lt;/code&gt;。&lt;/p&gt;
+
+&lt;h3 id=&#34;staticmethod&#34;&gt;staticmethod&lt;/h3&gt;
+
+&lt;p&gt;staticmethod返回一个静态方法。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;class Time(object):
+
+    @staticmethod
+    def now():
+        print time.time()
+
+t = Time()
+t.now()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;classmethod&#34;&gt;classmethod&lt;/h3&gt;
+
+&lt;p&gt;classmethod返回一个类方法。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;class Time(object):
+
+    @classmethod
+    def now():
+        print time.time()
+
+Time.now()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;functools-wraps&#34;&gt;functools.wraps&lt;/h3&gt;
+
+&lt;p&gt;在使用装饰器的时候，返回的新函数的名称并不是原函数的。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def spend(func):
+    def _spend(*args, **kwargs):
+        start = time.time()
+        func(*args, **kwargs)
+        print &#39;Spend &#39;, time.time() - start
+    return _spend
+
+@spend
+def hello(name):
+    print &#39;Hello&#39;, name
+
+&amp;gt;&amp;gt;&amp;gt; print hello.__name__
+_spend
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果需要新函数的名称和原函数相同，functools.wraps就派上用场了。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def spend(func):
+    @functools.wraps(func)
+    def _spend(*args, **kwargs):
+        start = time.time()
+        func(*args, **kwargs)
+        print &#39;Spend &#39;, time.time() - start
+    return _spend
+
+@spend
+def hello(name):
+    print &#39;Hello&#39;, name
+
+&amp;gt;&amp;gt;&amp;gt; print hello.__name__
+hello
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;总结&#34;&gt;总结&lt;/h2&gt;
+
+&lt;p&gt;假如有新的功能需要实现，但是又不想改变已有的逻辑代码，这时候就需要考虑考虑装饰器了。&lt;/p&gt;
+
+&lt;p&gt;参考： &lt;a href=&#34;https://www.python.org/dev/peps/pep-0318/#warningwarningwarning&#34;&gt;PEP 318 &amp;ndash; Decorators for Functions and Methods&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Mongo Introduction</title>
+      <link>http://blog.titangroupco.com/2017/01/19/mongo-introduction</link>
+      <pubDate>Thu, 19 Jan 2017 09:15:18 +0800</pubDate>
+      
+      <guid>http://blog.titangroupco.com/2017/01/19/mongo-introduction</guid>
+      <description>&lt;h1 id=&#34;introdution&#34;&gt;Introdution&lt;/h1&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;https://zh.wikipedia.org/wiki/NoSQL&#34;&gt;NoSQL&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Open Source&lt;/li&gt;
+&lt;li&gt;No Need For ORM( Object Relational Mapping)&lt;/li&gt;
+&lt;li&gt;Document(Record)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;{
+   &amp;quot;_id&amp;quot; : ObjectId(&amp;quot;54c955492b7c8eb21818bd09&amp;quot;),
+   &amp;quot;address&amp;quot; : {
+      &amp;quot;street&amp;quot; : &amp;quot;2 Avenue&amp;quot;,
+      &amp;quot;zipcode&amp;quot; : &amp;quot;10075&amp;quot;,
+      &amp;quot;building&amp;quot; : &amp;quot;1480&amp;quot;,
+      &amp;quot;coord&amp;quot; : [ -73.9557413, 40.7720266 ]
+   },
+   &amp;quot;borough&amp;quot; : &amp;quot;Manhattan&amp;quot;,
+   &amp;quot;cuisine&amp;quot; : &amp;quot;Italian&amp;quot;,
+   &amp;quot;grades&amp;quot; : [
+      {
+         &amp;quot;date&amp;quot; : ISODate(&amp;quot;2014-10-01T00:00:00Z&amp;quot;),
+         &amp;quot;grade&amp;quot; : &amp;quot;A&amp;quot;,
+         &amp;quot;score&amp;quot; : 11
+      },
+      {
+         &amp;quot;date&amp;quot; : ISODate(&amp;quot;2014-01-16T00:00:00Z&amp;quot;),
+         &amp;quot;grade&amp;quot; : &amp;quot;B&amp;quot;,
+         &amp;quot;score&amp;quot; : 17
+      }
+   ],
+   &amp;quot;name&amp;quot; : &amp;quot;Vella&amp;quot;,
+   &amp;quot;restaurant_id&amp;quot; : &amp;quot;41704620&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Collection(Table)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;primary key: _id&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Database&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&#34;connect-database&#34;&gt;Connect Database&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;mongo --host 192.168.0.238 --port 27017 -u demo -p 123456 --authenticationMechanism MONGODB-CR demo
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;insert&#34;&gt;Insert&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;# use database
+use demo
+
+# show tables
+show tables
+
+show collections
+
+# insert
+db.restaurants.insert(
+   {
+      &amp;quot;address&amp;quot; : {
+         &amp;quot;street&amp;quot; : &amp;quot;2 Avenue&amp;quot;,
+         &amp;quot;zipcode&amp;quot; : &amp;quot;10075&amp;quot;,
+         &amp;quot;building&amp;quot; : &amp;quot;1480&amp;quot;,
+         &amp;quot;coord&amp;quot; : [ -73.9557413, 40.7720266 ]
+      },
+      &amp;quot;borough&amp;quot; : &amp;quot;Manhattan&amp;quot;,
+      &amp;quot;cuisine&amp;quot; : &amp;quot;Italian&amp;quot;,
+      &amp;quot;grades&amp;quot; : [
+         {
+            &amp;quot;date&amp;quot; : ISODate(&amp;quot;2014-10-01T00:00:00Z&amp;quot;),
+            &amp;quot;grade&amp;quot; : &amp;quot;A&amp;quot;,
+            &amp;quot;score&amp;quot; : 11
+         },
+         {
+            &amp;quot;date&amp;quot; : ISODate(&amp;quot;2014-01-16T00:00:00Z&amp;quot;),
+            &amp;quot;grade&amp;quot; : &amp;quot;B&amp;quot;,
+            &amp;quot;score&amp;quot; : 17
+         }
+      ],
+      &amp;quot;name&amp;quot; : &amp;quot;Vella&amp;quot;,
+      &amp;quot;restaurant_id&amp;quot; : &amp;quot;41704620&amp;quot;
+   }
+)
+
+# after insert, return  WriteResult
+WriteResult({ &amp;quot;nInserted&amp;quot; : 1 })
+
+# or
+var r = db.restaurants.insert(...)
+
+# Three methods to insert
+insert  insertOne  insertMany
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;find-or-query&#34;&gt;Find or Query&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;db.restaurants.find( { &amp;quot;address.zipcode&amp;quot;: &amp;quot;10075&amp;quot;, &amp;quot;borough&amp;quot;: &amp;quot;Manhattan&amp;quot;  } )
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;array-query&#34;&gt;Array Query&lt;/h3&gt;
+
+&lt;h4 id=&#34;exact-match&#34;&gt;Exact Match&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;db.users.find( { badges: [ &amp;quot;blue&amp;quot;, &amp;quot;black&amp;quot; ] } )
+
+{
+   &amp;quot;_id&amp;quot; : 1,
+   &amp;quot;name&amp;quot; : &amp;quot;sue&amp;quot;,
+   &amp;quot;age&amp;quot; : 19,
+   &amp;quot;type&amp;quot; : 1,
+   &amp;quot;status&amp;quot; : &amp;quot;P&amp;quot;,
+   &amp;quot;favorites&amp;quot; : { &amp;quot;artist&amp;quot; : &amp;quot;Picasso&amp;quot;, &amp;quot;food&amp;quot; : &amp;quot;pizza&amp;quot; },
+   &amp;quot;finished&amp;quot; : [ 17, 3 ]
+   &amp;quot;badges&amp;quot; : [ &amp;quot;blue&amp;quot;, &amp;quot;black&amp;quot; ],
+   &amp;quot;points&amp;quot; : [ { &amp;quot;points&amp;quot; : 85, &amp;quot;bonus&amp;quot; : 20 }, { &amp;quot;points&amp;quot; : 85, &amp;quot;bonus&amp;quot; : 10 } ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;match-an-array-element&#34;&gt;Match an Array Element&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;db.users.find( { badges: &amp;quot;black&amp;quot; } )
+
+{
+   &amp;quot;_id&amp;quot; : 1,
+   &amp;quot;name&amp;quot; : &amp;quot;sue&amp;quot;,
+   &amp;quot;age&amp;quot; : 19,
+   &amp;quot;type&amp;quot; : 1,
+   &amp;quot;status&amp;quot; : &amp;quot;P&amp;quot;,
+   &amp;quot;favorites&amp;quot; : { &amp;quot;artist&amp;quot; : &amp;quot;Picasso&amp;quot;, &amp;quot;food&amp;quot; : &amp;quot;pizza&amp;quot; },
+   &amp;quot;finished&amp;quot; : [ 17, 3 ]
+   &amp;quot;badges&amp;quot; : [ &amp;quot;blue&amp;quot;, &amp;quot;black&amp;quot; ],
+   &amp;quot;points&amp;quot; : [ { &amp;quot;points&amp;quot; : 85, &amp;quot;bonus&amp;quot; : 20 }, { &amp;quot;points&amp;quot; : 85, &amp;quot;bonus&amp;quot; : 10 } ]
+}
+{
+   &amp;quot;_id&amp;quot; : 4,
+   &amp;quot;name&amp;quot; : &amp;quot;xi&amp;quot;,
+   &amp;quot;age&amp;quot; : 34,
+   &amp;quot;type&amp;quot; : 2,
+   &amp;quot;status&amp;quot; : &amp;quot;D&amp;quot;,
+   &amp;quot;favorites&amp;quot; : { &amp;quot;artist&amp;quot; : &amp;quot;Chagall&amp;quot;, &amp;quot;food&amp;quot; : &amp;quot;chocolate&amp;quot; },
+   &amp;quot;finished&amp;quot; : [ 5, 11 ],
+   &amp;quot;badges&amp;quot; : [ &amp;quot;red&amp;quot;, &amp;quot;black&amp;quot; ],
+   &amp;quot;points&amp;quot; : [ { &amp;quot;points&amp;quot; : 53, &amp;quot;bonus&amp;quot; : 15 }, { &amp;quot;points&amp;quot; : 51, &amp;quot;bonus&amp;quot; : 15 } ]
+}
+{
+   &amp;quot;_id&amp;quot; : 6,
+   &amp;quot;name&amp;quot; : &amp;quot;abc&amp;quot;,
+   &amp;quot;age&amp;quot; : 43,
+   &amp;quot;type&amp;quot; : 1,
+   &amp;quot;status&amp;quot; : &amp;quot;A&amp;quot;,
+   &amp;quot;favorites&amp;quot; : { &amp;quot;food&amp;quot; : &amp;quot;pizza&amp;quot;, &amp;quot;artist&amp;quot; : &amp;quot;Picasso&amp;quot; },
+   &amp;quot;finished&amp;quot; : [ 18, 12 ],
+   &amp;quot;badges&amp;quot; : [ &amp;quot;black&amp;quot;, &amp;quot;blue&amp;quot; ],
+   &amp;quot;points&amp;quot; : [ { &amp;quot;points&amp;quot; : 78, &amp;quot;bonus&amp;quot; : 8 }, { &amp;quot;points&amp;quot; : 57, &amp;quot;bonus&amp;quot; : 7 } ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;match-a-specific-element-of-an-array&#34;&gt;Match a Specific Element of an Array&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;db.users.find( { &amp;quot;badges.0&amp;quot;: &amp;quot;black&amp;quot; } )
+
+{
+   &amp;quot;_id&amp;quot; : 6,
+   &amp;quot;name&amp;quot; : &amp;quot;abc&amp;quot;,
+   &amp;quot;age&amp;quot; : 43,
+   &amp;quot;type&amp;quot; : 1,
+   &amp;quot;status&amp;quot; : &amp;quot;A&amp;quot;,
+   &amp;quot;favorites&amp;quot; : { &amp;quot;food&amp;quot; : &amp;quot;pizza&amp;quot;, &amp;quot;artist&amp;quot; : &amp;quot;Picasso&amp;quot; },
+   &amp;quot;finished&amp;quot; : [ 18, 12 ],
+   &amp;quot;badges&amp;quot; : [ &amp;quot;black&amp;quot;, &amp;quot;blue&amp;quot; ],
+   &amp;quot;points&amp;quot; : [ { &amp;quot;points&amp;quot; : 78, &amp;quot;bonus&amp;quot; : 8 }, { &amp;quot;points&amp;quot; : 57, &amp;quot;bonus&amp;quot; : 7 } ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://docs.mongodb.com/manual/tutorial/query-documents/#read-operations-arrays&#34;&gt;More&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;specify-conditions-with-operators&#34;&gt;Specify Conditions with Operators&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;db.restaurants.find( { &amp;quot;grades.score&amp;quot;: { $gt: 30 } } )
+db.restaurants.find( { &amp;quot;grades.score&amp;quot;: { $lt: 10 } } )
+db.restaurants.find( { &amp;quot;cuisine&amp;quot;: &amp;quot;Italian&amp;quot;, &amp;quot;address.zipcode&amp;quot;: &amp;quot;10075&amp;quot; } )
+db.restaurants.find(
+   { $or: [ { &amp;quot;cuisine&amp;quot;: &amp;quot;Italian&amp;quot; }, { &amp;quot;address.zipcode&amp;quot;: &amp;quot;10075&amp;quot; } ] }
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://docs.mongodb.com/manual/reference/operator/query/&#34;&gt;more&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;sort-query-results&#34;&gt;Sort Query Results&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;db.restaurants.find().sort( { &amp;quot;borough&amp;quot;: 1, &amp;quot;address.zipcode&amp;quot;: 1 } )
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;show-partial-fields&#34;&gt;Show partial fields&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;db.restaurants.find({}, {borough: 1})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;pretty-results&#34;&gt;Pretty results&lt;/h4&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;db.restaurants.find().pretty()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;update&#34;&gt;Update&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;db.restaurants.update(
+    { &amp;quot;name&amp;quot; : &amp;quot;Juni&amp;quot; },
+    {
+      $set: { &amp;quot;cuisine&amp;quot;: &amp;quot;American (New)&amp;quot; },
+      $currentDate: { &amp;quot;lastModified&amp;quot;: true }
+    }
+)
+
+db.restaurants.update(
+  { &amp;quot;restaurant_id&amp;quot; : &amp;quot;41156888&amp;quot; },
+  { $set: { &amp;quot;address.street&amp;quot;: &amp;quot;East 31st Street&amp;quot; } }
+)
+
+db.restaurants.update(
+  { &amp;quot;address.zipcode&amp;quot;: &amp;quot;10016&amp;quot;, cuisine: &amp;quot;Other&amp;quot; },
+  {
+    $set: { cuisine: &amp;quot;Category To Be Determined&amp;quot; },
+    $currentDate: { &amp;quot;lastModified&amp;quot;: true }
+  },
+  { multi: true, upsert: true}
+)
+
+db.restaurants.update(
+   { &amp;quot;restaurant_id&amp;quot; : &amp;quot;41704620&amp;quot; },
+   {
+     &amp;quot;name&amp;quot; : &amp;quot;Vella 2&amp;quot;,
+     &amp;quot;address&amp;quot; : {
+              &amp;quot;coord&amp;quot; : [ -73.9557413, 40.7720266 ],
+              &amp;quot;building&amp;quot; : &amp;quot;1480&amp;quot;,
+              &amp;quot;street&amp;quot; : &amp;quot;2 Avenue&amp;quot;,
+              &amp;quot;zipcode&amp;quot; : &amp;quot;10075&amp;quot;
+     }
+   }
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;自增id的实现&#34;&gt;自增ID的实现&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;collection store id&lt;/li&gt;
+&lt;li&gt;$inc operator&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;db.ids.insert({name: &#39;test&#39;, value: NumberInt(0)})
+db.ids.update({name: &#39;test&#39;}, {$inc: {value: 1}})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://docs.mongodb.com/manual/reference/operator/update/&#34;&gt;more&lt;/a&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;remove&#34;&gt;Remove&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;db.restaurants.remove( { &amp;quot;borough&amp;quot;: &amp;quot;Manhattan&amp;quot; } )
+db.restaurants.remove( { &amp;quot;borough&amp;quot;: &amp;quot;Queens&amp;quot; }, { justOne: true } )
+db.restaurants.remove( { } )
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;drop-collection&#34;&gt;Drop collection&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;db.restaurants.drop()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;data-aggregation&#34;&gt;Data Aggregation&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;db.collection.aggregate( [ &amp;lt;stage1&amp;gt;, &amp;lt;stage2&amp;gt;, ... ] )
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;group&#34;&gt;Group&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;db.restaurants.aggregate(
+   [
+     { $group: { &amp;quot;_id&amp;quot;: &amp;quot;$borough&amp;quot;, &amp;quot;count&amp;quot;: { $sum: 1 } } }
+   ]
+)
+
+{ &amp;quot;_id&amp;quot; : &amp;quot;Staten Island&amp;quot;, &amp;quot;count&amp;quot; : 969 }
+{ &amp;quot;_id&amp;quot; : &amp;quot;Brooklyn&amp;quot;, &amp;quot;count&amp;quot; : 6086 }
+{ &amp;quot;_id&amp;quot; : &amp;quot;Manhattan&amp;quot;, &amp;quot;count&amp;quot; : 10259 }
+{ &amp;quot;_id&amp;quot; : &amp;quot;Queens&amp;quot;, &amp;quot;count&amp;quot; : 5656 }
+{ &amp;quot;_id&amp;quot; : &amp;quot;Bronx&amp;quot;, &amp;quot;count&amp;quot; : 2338 }
+{ &amp;quot;_id&amp;quot; : &amp;quot;Missing&amp;quot;, &amp;quot;count&amp;quot; : 51 }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;filter-and-group&#34;&gt;Filter and Group&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;db.restaurants.aggregate(
+   [
+     { $match: { &amp;quot;borough&amp;quot;: &amp;quot;Queens&amp;quot;, &amp;quot;cuisine&amp;quot;: &amp;quot;Brazilian&amp;quot; } },
+     { $group: { &amp;quot;_id&amp;quot;: &amp;quot;$address.zipcode&amp;quot; , &amp;quot;count&amp;quot;: { $sum: 1 } } }
+   ]
+)
+
+{ &amp;quot;_id&amp;quot; : &amp;quot;11368&amp;quot;, &amp;quot;count&amp;quot; : 1 }
+{ &amp;quot;_id&amp;quot; : &amp;quot;11106&amp;quot;, &amp;quot;count&amp;quot; : 3 }
+{ &amp;quot;_id&amp;quot; : &amp;quot;11377&amp;quot;, &amp;quot;count&amp;quot; : 1 }
+{ &amp;quot;_id&amp;quot; : &amp;quot;11103&amp;quot;, &amp;quot;count&amp;quot; : 1 }
+{ &amp;quot;_id&amp;quot; : &amp;quot;11101&amp;quot;, &amp;quot;count&amp;quot; : 2 }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;mapreduce&#34;&gt;MapReduce&lt;/h1&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;db.collection.mapReduce(
+                         &amp;lt;map&amp;gt;,
+                         &amp;lt;reduce&amp;gt;,
+                         {
+                           out: &amp;lt;collection&amp;gt;,
+                           query: &amp;lt;document&amp;gt;,
+                           sort: &amp;lt;document&amp;gt;,
+                           limit: &amp;lt;number&amp;gt;,
+                           finalize: &amp;lt;function&amp;gt;,
+                           scope: &amp;lt;document&amp;gt;,
+                           jsMode: &amp;lt;boolean&amp;gt;,
+                           verbose: &amp;lt;boolean&amp;gt;,
+                           bypassDocumentValidation: &amp;lt;boolean&amp;gt;
+                         }
+                       )
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;map-function&#34;&gt;Map Function&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;function() {
+   ...
+   emit(key, value);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The map function has the following requirements:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;In the map function, reference the current document as this within the function.&lt;/li&gt;
+&lt;li&gt;The map function should not access the database for any reason.&lt;/li&gt;
+&lt;li&gt;The map function should be pure, or have no impact outside of the function (i.e. side effects.)&lt;/li&gt;
+&lt;li&gt;A single emit can only hold half of MongoDB’s maximum BSON document size.&lt;/li&gt;
+&lt;li&gt;The map function may optionally call emit(key,value) any number of times to create an output document associating key with value.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The following map function will call emit(key,value) either 0 or 1 times depending on the value of the input document’s status field:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;function() {
+    if (this.status == &#39;A&#39;)
+        emit(this.cust_id, 1);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The following map function may call emit(key,value) multiple times depending on the number of elements in the input document’s items field:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;function() {
+    this.items.forEach(function(item){ emit(item.sku, 1); });
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;reduce-function&#34;&gt;Reduce Function&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;function(key, values) {
+   ...
+   return result;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The reduce function exhibits the following behaviors:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The reduce function should not access the database, even to perform read operations.&lt;/li&gt;
+&lt;li&gt;The reduce function should not affect the outside system.&lt;/li&gt;
+&lt;li&gt;MongoDB will not call the reduce function for a key that has only a single value. The values argument is an array whose elements are the value objects that are “mapped” to the key.&lt;/li&gt;
+&lt;li&gt;MongoDB can invoke the reduce function more than once for the same key. In this case, the previous output from the reduce function for that key will become one of the input values to the next reduce function invocation for that key.&lt;/li&gt;
+&lt;li&gt;The reduce function can access the variables defined in the scope parameter.&lt;/li&gt;
+&lt;li&gt;The inputs to reduce must not be larger than half of MongoDB’s maximum BSON document size. This requirement may be violated when large documents are returned and then joined together in subsequent reduce steps.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;reduce(key, [ C, reduce(key, [ A, B ]) ] ) == reduce( key, [ C, A, B ] )
+reduce( key, [ reduce(key, valuesArray) ] ) == reduce( key, valuesArray )
+reduce( key, [ A, B ] ) == reduce( key, [ B, A ] )
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;example&#34;&gt;Example&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-javascript&#34;&gt;{
+     _id: ObjectId(&amp;quot;50a8240b927d5d8b5891743c&amp;quot;),
+     cust_id: &amp;quot;abc123&amp;quot;,
+     ord_date: new Date(&amp;quot;Oct 04, 2012&amp;quot;),
+     status: &#39;A&#39;,
+     price: 25,
+     items: [ { sku: &amp;quot;mmm&amp;quot;, qty: 5, price: 2.5 },
+              { sku: &amp;quot;nnn&amp;quot;, qty: 5, price: 2.5 } ]
+}
+
+var mapFunction1 = function() {
+                       emit(this.cust_id, this.price);
+                   };
+var reduceFunction1 = function(keyCustId, valuesPrices) {
+                          return Array.sum(valuesPrices);
+                      };
+db.orders.mapReduce(
+                     mapFunction1,
+                     reduceFunction1,
+                     { out: &amp;quot;map_reduce_example&amp;quot; }
+                   )
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
