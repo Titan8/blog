@@ -1,6 +1,7 @@
 +++
 draft = true
-title = "document your code"
+title = "Document Your Code"
+author = "ybduan"
 tags = []
 categories = []
 description = ""

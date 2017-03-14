@@ -1,12 +1,12 @@
 +++
 date = "2017-03-07T10:44:56+08:00"
 title = "jmeter introduce"
+author = "maxu"
 draft = false
 categories = ["test"]
 tags = ["autotest"]
-
-
 +++
+
 ![Jmeter](/img/jmeter.jpg) 
 <!--more-->
 # Jmeter  windows下安装步骤：

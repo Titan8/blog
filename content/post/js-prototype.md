@@ -2,6 +2,7 @@
 draft = false
 date = "2017-01-05T00:00:00+08:00"
 title = "Javascript Prototype"
+author = "ybduan"
 categories = ["frontend"]
 tags = ["JavaScript"]
 +++

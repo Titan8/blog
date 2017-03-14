@@ -2,6 +2,7 @@
 draft = false
 date = "2017-01-19T09:15:18+08:00"
 title = "Mongo Introduction"
+author = "sunyu"
 categories = ["backend"]
 tags = ["Database"]
 +++

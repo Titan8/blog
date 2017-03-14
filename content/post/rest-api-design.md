@@ -2,10 +2,11 @@
 menu = ""
 description = ""
 categories = []
+author = "ybduan"
 tags = []
 banner = ""
 date = "2017-03-03T15:47:54+08:00"
-title = "rest api design"
+title = "REST API Design"
 draft = true
 images = []
 +++

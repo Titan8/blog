@@ -1,6 +1,7 @@
 +++
 date = "2017-03-03T10:34:39+08:00"
 title = "javascript events"
+author = "wubing"
 draft = false
 categories = ["frontend"]
 tags = ["javascript"]

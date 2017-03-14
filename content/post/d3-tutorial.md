@@ -2,6 +2,7 @@
 draft = false
 date = "2017-01-24T16:50:51+08:00"
 title = "D3 入门教程"
+author = "fwyan"
 categories = ["frontend"]
 tags = ["JavaScript"]
 +++

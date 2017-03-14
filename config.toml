@@ -10,6 +10,10 @@ paginate = 10
 footnotereturnlinkcontents = "↩"
 theme = "hugo-icarus-theme"
 
+[taxonomies]
+tag = "tags"
+category = "categories"
+author = "author"
 
 [permalinks]
     post = "/:year/:month/:day/:slug"

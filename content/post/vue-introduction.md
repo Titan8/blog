@@ -2,6 +2,7 @@
 draft = false
 date = "2016-10-31T08:42:14+08:00"
 title = "Introduction to Vue"
+author = "ybduan"
 categories = ["frontend"]
 tags = ["JavaScript"]
 +++

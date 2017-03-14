@@ -2,6 +2,7 @@
 draft = false
 date = "2017-01-22T13:20:36+08:00"
 title = "Python Decorator"
+author = "sunyu"
 categories = ["backend"]
 tags = ["Python"]
 +++
