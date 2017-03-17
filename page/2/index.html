@@ -2,7 +2,7 @@
 <html lang="en-us">
 <head>
     <title></title>
-    <meta name="generator" content="Hugo 0.17" />
+    <meta name="generator" content="Hugo 0.18.1" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="author" content="Titan Developers">
@@ -29,7 +29,7 @@
 <meta property="og:url" content="http://blog.titangroupco.com/" />
 
 
-<meta property="og:updated_time" content="2016-10-31T08:42:14&#43;08:00"/>
+<meta property="og:updated_time" content="2017-01-05T00:00:00&#43;08:00"/>
 
 
 
@@ -150,6 +150,194 @@
     <div class="outer">      
     <section id="main">
     
+    
+    <article class="article article-type-post" itemscope="" itemprop="blogPost">
+        <div class="article-inner">
+            
+            </a>
+
+            <header class="article-header">
+    <a href="http://blog.titangroupco.com/2017/01/05/javascript-prototype">
+    <h1 class="article-title" itemprop="name">
+        Javascript Prototype
+    </h1>
+    </a>
+    <div class="article-meta">
+        <div class="article-author">
+          <a class="article-category-link" href="/author/ybduan">ybduan</a>
+        </div>
+        
+        <div class="article-date">
+            <i class="fa fa-calendar"></i>
+            <time datetime="2017-01-05 00:00:00 &#43;0800 CST" itemprop="datePublished">2017-01-05</time>
+            &middot;
+            488
+            words
+            &middot;
+            3
+            minute read
+        </div>
+        
+        
+            
+            
+            <div class="article-category">
+                <i class="fa fa-folder"></i>
+                
+                
+                <a class="article-category-link" href="http://blog.titangroupco.com/categories/frontend">frontend</a>
+                
+                
+            </div>
+            
+        
+
+        
+            
+            
+            <div class="article-category">
+                <i class="fa fa-tags"></i>
+                
+                
+                <a class="article-category-link" href="http://blog.titangroupco.com/tags/javascript">JavaScript</a>
+                
+                
+            </div>
+            
+        
+    </div>
+</header>
+
+            <div class="article-entry" itemprop="articleBody">
+                <p>
+                    <em>note of <a href="https://github.com/getify/You-Dont-Know-JS/tree/master/this%20%26%20object%20prototypes">You Don&rsquo;t know JS</a></em></p>
+
+<h2 id="data-types-in-javascript">Data types in Javascript</h2>
+
+<pre><code class="language-javascript">// Javascript has 6 primitive data(immutable) types
+typeof 3.14  // 'number';
+typeof 'bla'  // 'string';
+typeof true  // 'boolean'
+typeof Symbol.iterator  // 'symbol'
+typeof undefined  // 'undefined'
+typeof null  // 'object'
+
+// and object
+typeof {a:1}  // 'object'
+typeof function fn(){}  // 'function', it's in fact an object with special type tag
+
+
+// object has sub type
+Object.prototype.toString.call(fn)  // '[object Function]'
+
+// primitive types have object equivalent that wrap around them.
+Object.prototype.toString.call(3.14)  // '[object Number]'
+Object.prototype.toString.call('bla')  // '[object String]'
+Object.prototype.toString.call(true)  // '[object Boolean]'
+Object.prototype.toString.call(Symbol.iterator)  // '[object Symbol]'
+
+Object.prototype.toString.call({})  // '[object Object]'
+Object.prototype.toString.call([])  // '[object Array]'
+Object.prototype.toString.call(/[a-zA-Z]+/)  // '[object RegExp]'
+
+</code></pre>
+
+                    <br>
+                </p>
+                <p class="article-more-link">
+                    <a href="http://blog.titangroupco.com/2017/01/05/javascript-prototype">
+                        Read more
+                    </a>
+                </p>
+            </div>
+            <footer class="article-footer">
+    <a data-url="http://blog.titangroupco.com/2017/01/05/javascript-prototype" data-id="c62e96ef5ce2c56547e3f201b67965ed" class="article-share-link">
+        <i class="fa fa-share"></i>
+        Share
+    </a>
+    
+
+    <script type="text/javascript" src="http://jeromeetienne.github.io/jquery-qrcode/src/jquery.qrcode.js"></script>
+    <script type="text/javascript" src="http://jeromeetienne.github.io/jquery-qrcode/src/qrcode.js"></script>
+    <script>
+    (function ($) {
+        
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input id="text" class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                            '<a href="http://v.t.sina.com.cn/share/share.php?title=' + encodedUrl + '" class="fa fa-weibo article-share-weibo" target="_blank" title="weibo"></a>',
+                            '<a id="titan-weixin" class="fa fa-wechat article-share-wechat" title="weixin"></a>',
+                        '</div>',
+                        '<div id="titan-qrcode" style="width:auto;height:auto"></div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+
+              $('#titan-weixin, #titan-qrcode').hover(function () {
+                  var url = $('#text').val();
+                  $('#titan-qrcode').qrcode(url);
+              }, function (e) {
+                  $('#titan-qrcode').html('');
+              });
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+
+    })(jQuery);
+    </script>
+</footer>
+
+        </div>
+    </article>
     
     <article class="article article-type-post" itemscope="" itemprop="blogPost">
         <div class="article-inner">
@@ -529,6 +717,25 @@
             
             <li>
                 <div class="item-thumbnail">
+                    <a href="http://blog.titangroupco.com/2017/03/15/flask_cookie_based_session_mechanism" class="thumbnail">
+                    
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    
+                    </a>
+                </div>
+                <div class="item-inner">
+                    
+                    
+                    
+                    <p class="item-title"><a href="http://blog.titangroupco.com/2017/03/15/flask_cookie_based_session_mechanism" class="title">flask_cookie_based_session_mechanism</a></p>
+                    <p class="item-date">
+                        <time datetime="2017-03-15 16:34:27 &#43;0800 CST" itemprop="datePublished">2017-03-15</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                <div class="item-thumbnail">
                     <a href="http://blog.titangroupco.com/2017/03/07/jmeter-introduce" class="thumbnail">
                     
                         <span class="thumbnail-image thumbnail-none"></span>
@@ -627,32 +834,6 @@
                     <p class="item-title"><a href="http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface" class="title">Python Web Server Gateway Interface</a></p>
                     <p class="item-date">
                         <time datetime="2017-02-21 09:15:24 &#43;0800 CST" itemprop="datePublished">2017-02-21</time>
-                    </p>
-                </div>
-            </li>
-            
-            <li>
-                <div class="item-thumbnail">
-                    <a href="http://blog.titangroupco.com/2017/01/24/d3-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B" class="thumbnail">
-                    
-                        <span class="thumbnail-image thumbnail-none"></span>
-                    
-                    </a>
-                </div>
-                <div class="item-inner">
-                    
-                    
-                    <p class="item-category">
-                        
-                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/frontend">
-                        frontend
-                        </a>
-                    </p>
-                    
-                    
-                    <p class="item-title"><a href="http://blog.titangroupco.com/2017/01/24/d3-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B" class="title">D3 入门教程</a></p>
-                    <p class="item-date">
-                        <time datetime="2017-01-24 16:50:51 &#43;0800 CST" itemprop="datePublished">2017-01-24</time>
                     </p>
                 </div>
             </li>

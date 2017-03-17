@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
-    <title>javascript events &middot; </title>
+    <title>flask_cookie_based_session_mechanism &middot; </title>
     <meta name="generator" content="Hugo 0.18.1" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -10,7 +10,7 @@
       <meta name="description" content="">
     
     
-    <link rel="canonical" href="http://blog.titangroupco.com/2017/03/03/javascript-events"/>
+    <link rel="canonical" href="http://blog.titangroupco.com/2017/03/15/flask_cookie_based_session_mechanism"/>
     <link rel="icon" href="http://blog.titangroupco.com/favicon.ico">
     <link rel="apple-touch-icon" href="http://blog.titangroupco.com/apple-touch-icon.png"/>
     <link rel="stylesheet" href="http://blog.titangroupco.com/css/style.css">
@@ -20,20 +20,22 @@
     
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
-    <meta property="og:title" content="javascript events" />
-<meta property="og:description" content="JavaScript事件机制
+    <meta property="og:title" content="flask_cookie_based_session_mechanism" />
+<meta property="og:description" content="1、对cookie和session概念的理解
 
-事件是实现页面交互的常用手段，在浏览器环境下的事件主要由DOM、BOM事件类型组成。
+引自维基百科上的两段话：
 
-一、什么是事件
 
-事件就是文档、浏览器窗口中发生的一些特定的交互瞬间，一般是由用户主动触发，在事件被触发之后，可以根据是否预先绑定了事件处理程序来决定如何对这个事件的发生做出反应。
+在计算机科学领域来说，尤其是在网络领域，会话（session）是一种持久网络协议，在用户（或用户代理）端和服务器端之间创建关联，从而起到交换数据包的作用机制，session在网络协议（例如telnet或FTP）中是非常重要的部分。
+在不包含会话层（例如UDP）或者是无法长时间驻留会话层（例如HTTP）的传输协议中，会话的维持需要依靠在传输数据中的高级别程序。例如，在浏览器和远程主机之间的HTTP传输中，HTTP cookie就会被用来包含一些相关的信息，例如session ID，参数和权限信息等。
+
+因为HTTP协议是无状态的，即服务器不知道用户上一次做了什么，这严重阻碍了交互式Web应用程序的实现。在典型的网上购物场景中，用户浏览了几个页面，买了一盒饼干和两饮料。最后结帐时，由于HTTP的无状态性，不通过额外的手段，服务器并不知道用户到底买了什么。 所以Cookie就是用来绕开HTTP的无状态性的“额外手段”之一。服务器可以设置或读取Cookies中包含信息，借此维护用户跟服务器会话中的状态。
 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.titangroupco.com/2017/03/03/javascript-events" />
+<meta property="og:url" content="http://blog.titangroupco.com/2017/03/15/flask_cookie_based_session_mechanism" />
 
 
-<meta property="og:updated_time" content="2017-03-03T10:34:39&#43;08:00"/>
+<meta property="og:updated_time" content="2017-03-15T16:34:27&#43;08:00"/>
 
 
 
@@ -46,19 +48,21 @@
 
     
     
-<meta itemprop="name" content="javascript events">
-<meta itemprop="description" content="JavaScript事件机制
+<meta itemprop="name" content="flask_cookie_based_session_mechanism">
+<meta itemprop="description" content="1、对cookie和session概念的理解
 
-事件是实现页面交互的常用手段，在浏览器环境下的事件主要由DOM、BOM事件类型组成。
+引自维基百科上的两段话：
 
-一、什么是事件
 
-事件就是文档、浏览器窗口中发生的一些特定的交互瞬间，一般是由用户主动触发，在事件被触发之后，可以根据是否预先绑定了事件处理程序来决定如何对这个事件的发生做出反应。
+在计算机科学领域来说，尤其是在网络领域，会话（session）是一种持久网络协议，在用户（或用户代理）端和服务器端之间创建关联，从而起到交换数据包的作用机制，session在网络协议（例如telnet或FTP）中是非常重要的部分。
+在不包含会话层（例如UDP）或者是无法长时间驻留会话层（例如HTTP）的传输协议中，会话的维持需要依靠在传输数据中的高级别程序。例如，在浏览器和远程主机之间的HTTP传输中，HTTP cookie就会被用来包含一些相关的信息，例如session ID，参数和权限信息等。
+
+因为HTTP协议是无状态的，即服务器不知道用户上一次做了什么，这严重阻碍了交互式Web应用程序的实现。在典型的网上购物场景中，用户浏览了几个页面，买了一盒饼干和两饮料。最后结帐时，由于HTTP的无状态性，不通过额外的手段，服务器并不知道用户到底买了什么。 所以Cookie就是用来绕开HTTP的无状态性的“额外手段”之一。服务器可以设置或读取Cookies中包含信息，借此维护用户跟服务器会话中的状态。
 ">
 
 
-<meta itemprop="dateModified" content="2017-03-03T10:34:39&#43;08:00" />
-<meta itemprop="wordCount" content="528">
+<meta itemprop="dateModified" content="2017-03-15T16:34:27&#43;08:00" />
+<meta itemprop="wordCount" content="132">
 
 
 
@@ -70,14 +74,16 @@
 
 
 
-<meta name="twitter:title" content="javascript events"/>
-<meta name="twitter:description" content="JavaScript事件机制
+<meta name="twitter:title" content="flask_cookie_based_session_mechanism"/>
+<meta name="twitter:description" content="1、对cookie和session概念的理解
 
-事件是实现页面交互的常用手段，在浏览器环境下的事件主要由DOM、BOM事件类型组成。
+引自维基百科上的两段话：
 
-一、什么是事件
 
-事件就是文档、浏览器窗口中发生的一些特定的交互瞬间，一般是由用户主动触发，在事件被触发之后，可以根据是否预先绑定了事件处理程序来决定如何对这个事件的发生做出反应。
+在计算机科学领域来说，尤其是在网络领域，会话（session）是一种持久网络协议，在用户（或用户代理）端和服务器端之间创建关联，从而起到交换数据包的作用机制，session在网络协议（例如telnet或FTP）中是非常重要的部分。
+在不包含会话层（例如UDP）或者是无法长时间驻留会话层（例如HTTP）的传输协议中，会话的维持需要依靠在传输数据中的高级别程序。例如，在浏览器和远程主机之间的HTTP传输中，HTTP cookie就会被用来包含一些相关的信息，例如session ID，参数和权限信息等。
+
+因为HTTP协议是无状态的，即服务器不知道用户上一次做了什么，这严重阻碍了交互式Web应用程序的实现。在典型的网上购物场景中，用户浏览了几个页面，买了一盒饼干和两饮料。最后结帐时，由于HTTP的无状态性，不通过额外的手段，服务器并不知道用户到底买了什么。 所以Cookie就是用来绕开HTTP的无状态性的“额外手段”之一。服务器可以设置或读取Cookies中包含信息，借此维护用户跟服务器会话中的状态。
 "/>
 
 
@@ -192,657 +198,190 @@
             
 
             <header class="article-header">
-    <a href="http://blog.titangroupco.com/2017/03/03/javascript-events">
+    <a href="http://blog.titangroupco.com/2017/03/15/flask_cookie_based_session_mechanism">
     <h1 class="article-title" itemprop="name">
-        javascript events
+        flask_cookie_based_session_mechanism
     </h1>
     </a>
     <div class="article-meta">
         <div class="article-author">
-          <a class="article-category-link" href="/author/wubing">wubing</a>
+          <a class="article-category-link" href="/author/FWYAN">FWYAN</a>
         </div>
         
         <div class="article-date">
             <i class="fa fa-calendar"></i>
-            <time datetime="2017-03-03 10:34:39 &#43;0800 CST" itemprop="datePublished">2017-03-03</time>
+            <time datetime="2017-03-15 16:34:27 &#43;0800 CST" itemprop="datePublished">2017-03-15</time>
             &middot;
-            528
+            132
             words
             &middot;
-            3
+            1
             minute read
         </div>
         
         
             
             
-            <div class="article-category">
-                <i class="fa fa-folder"></i>
-                
-                
-                <a class="article-category-link" href="http://blog.titangroupco.com/categories/frontend">frontend</a>
-                
-                
-            </div>
-            
         
 
         
             
-            
-            <div class="article-category">
-                <i class="fa fa-tags"></i>
-                
-                
-                <a class="article-category-link" href="http://blog.titangroupco.com/tags/javascript">javascript</a>
-                
-                
-            </div>
             
         
     </div>
 </header>
 
             <div class="article-entry" itemprop="articleBody">
-                <h1 id="javascript事件机制">JavaScript事件机制</h1>
+                <h4 id="1-对cookie和session概念的理解">1、对cookie和session概念的理解</h4>
 
-<p>事件是实现页面交互的常用手段，在浏览器环境下的事件主要由DOM、BOM事件类型组成。</p>
+<p>引自维基百科上的两段话：</p>
 
-<h2 id="一-什么是事件">一、什么是事件</h2>
+<blockquote>
+<p>在计算机科学领域来说，尤其是在网络领域，会话（session）是一种持久网络协议，在用户（或用户代理）端和服务器端之间创建关联，从而起到交换数据包的作用机制，session在网络协议（例如telnet或FTP）中是非常重要的部分。
+在不包含会话层（例如UDP）或者是无法长时间驻留会话层（例如HTTP）的传输协议中，会话的维持需要依靠在传输数据中的高级别程序。例如，在浏览器和远程主机之间的HTTP传输中，HTTP cookie就会被用来包含一些相关的信息，例如session ID，参数和权限信息等。</p>
 
-<p>事件就是文档、浏览器窗口中发生的一些特定的交互瞬间，一般是由用户主动触发，在事件被触发之后，可以根据是否预先绑定了事件处理程序来决定如何对这个事件的发生做出反应。
+<p>因为HTTP协议是无状态的，即服务器不知道用户上一次做了什么，这严重阻碍了交互式Web应用程序的实现。在典型的网上购物场景中，用户浏览了几个页面，买了一盒饼干和两饮料。最后结帐时，由于HTTP的无状态性，不通过额外的手段，服务器并不知道用户到底买了什么。 所以Cookie就是用来绕开HTTP的无状态性的“额外手段”之一。服务器可以设置或读取Cookies中包含信息，借此维护用户跟服务器会话中的状态。
 </p>
+</blockquote>
 
-<h2 id="二-事件流">二、事件流</h2>
+<p>简言之，就是在基于HTTP协议的应用中，服务器每次响应客户端的请求，一是不知道是谁，二是不知道上次用户做了什么，而这两点是交互式web应用必须需要满足的需求，即服务器和客户端需要能够保持会话状态，session记录了服务端的会话状态，并借助cookie将服务端的会话状态传递至客户端，客户端通过cookie，将记录的会话状态再传递给服务端，服务端就能还原出上次会话现场了，这样就实现了服务端和客户端维持会话状态的目的。</p>
 
-<p>事件流是指页面中的元素、节点接收某一个被触发的事件的顺序。分为事件冒泡、事件捕获和DOM事件流。
-IE和Netscape的浏览器开发团队提出了两种截然不同的，甚至是完全相反的事件流概念。IE的事件流是事件冒泡，而Netscape的事件流是事件捕获。</p>
+<h6 id="补充">补充：</h6>
+
+<blockquote>
+<ol>
+<li>cookie由相应的RFC6256定义相关规范和标准，是HTTP报文头部里实际存在的字段，常用的客户端，如浏览器都支持cookie，以及web server都支持cookie。</li>
+<li>个人理解session是web应用级别的解决方案，通常由web application实现（如果不需要也就不需要实现），常见的web框架一般都提供session功能模块</li>
+</ol>
+</blockquote>
+
+<h4 id="2-常见应用场景">2、常见应用场景</h4>
+
+<p>客户端初次请求服务器端，服务端创建session对象，记录相关会话信息，同时给该session对象创建一个唯一性的session_id，然后在response响应头里设置set_cookie，将session_id的内容以cookie的方式发送到客户端，这样客户端就保存了session_id的内容在cookie里，后续客户端再访问服务端，请求头里就会自动带上cookie里的session_id，服务端从请求头里获取到session_id，通过session_id检索到响应的session对象，就能还原上次会话现场了。</p>
+
+<p>这里大家肯定会有疑问，这个session对象里存的什么内容，存放在哪里，session对象里要放什么内容，取决于具体应用的业务需求，完全可以自定义的，比如当前用户的相关信息，浏览器相关信息等，session的存放，通常有以下几种方案：</p>
+
+<ol>
+<li>服务端的存储方案，session内容存放在服务端数据库，文件，缓存等，session_id存放客户端cookie</li>
+<li>客户端的存储方案，cookie based session，直接将session的内容通过set-cookie的方式，存到客户端去</li>
+</ol>
+
+<h6 id="注意">注意：</h6>
+
+<blockquote>
+<p>为了达到保持会话状态的目的，虽然现在浏览器都支持cookie，但cookie不是100%的方案，因为cookie可以被人为的禁止，则必须有其他机制以便在cookie被禁止时仍然能够把session id传递回服务器。经常被使用的一种技术叫做URL重写，就是把session id直接附加在URL路径的后面。还有一种技术叫做表单隐藏字段。就是服务器会自动修改表单，添加一个隐藏字段，以便在表单提交时能够把session id传递回服务器。</p>
+</blockquote>
+
+<p>前面说了，cookie由RFC定义，不需要应用程序自身实现，基本上常见的客户端（浏览器）和服务器都支持cookie，而session则不同，session机制需要应用程序自身来实现（如果应用需要session的话），通常web框架都会提供各自的session方案。</p>
+
+<h4 id="3-flask的cookie-based-session">3、flask的cookie based session</h4>
+
+<p>Flask自带的session模块，实现的是上述第第二种方案，cookie based session。</p>
+
+<p>Flask app启动时，会创建一个全局的session对象，可以在app的请求上下文中访问到，结构类似于字典，可以根据业务需要在session里面添加自定义键值对，http请求返回时，通过set-cookie将整个session对象，写到客户端的cookie里，因为cookie里只能存放文本字符串，而session对象通常是有一定的组织结构的数据对象，所以需要在服务端经过一系列的转换之后，比如序列化，编码，签名等操作后，得到的一个字符串，才能以set-cookie的方式写到客户端。</p>
+
+<p>将session对象成功写入客户端cookie后，后续客户端的请求就会自动带上该cookie，服务端从请求头里检索出cookie的内容，就获得了上次请求时创建的session对象，经过解码，验证签名，反序列化之后，既可得到服务端格式的session对象，写cookie和读取cookie的流程如下图所示：
+<img src="/img/flask_cookie_based_session.png" alt="flask_cookie_based_session" /></p>
+
+<p>上图红色箭头标注的过程，是session对象转换成cookie格式字符串的过程，详细过程包括以下几个步骤，如下图所示：
+<img src="/img/flask_session_cookie_gen.png" alt="flask_session_cookie_gen" /></p>
+
+<p>同样，解析cookie_session的过程，就是上述过程的逆过程，生成和解析验证cookie_session的过程都由服务器端完成，客户端负责存储和捎带。</p>
+
+<h6 id="补充-1">补充：</h6>
+
+<blockquote>
+<p>HMACSHA1 是从 SHA1 哈希函数构造的一种键控哈希算法，被用作 HMAC（基于哈希的消息验证代码）。 此 HMAC 进程将密钥与消息数据混合，使用哈希函数对混合结果进行哈希计算，将所得哈希值与该密钥混合，然后再次应用哈希函数。 输出的哈希值长度为 160 位。
+HMAC 可用于确定通过不安全信道发送的消息是否已被篡改。 发送方计算原始数据的哈希值，并将原始数据和哈希值放在一个消息中同时传送。 接收方重新计算所接收消息的哈希值，并检查计算所得的 HMAC 是否与传送的 HMAC 匹配。</p>
+</blockquote>
+
+<h6 id="cookie的安全措施">cookie的安全措施：</h6>
+
+<ol>
+<li>通过设置httponly标识，保证存放在客户端里的session内容不会被js访问到，杜绝了xss攻击，flask的session_cookie默认是设置了httpOnly标识的。</li>
+<li>通过添加签名，防止了session被恶意篡改，如果在客户端里把session里的用户认证信息修改成他人，想冒充他人身份访问服务器，是验证不通过的，因为验证签名不可能通过，除非你同时知道了签名秘钥secrect_key，而这个是服务端配置的，是极不可能被盗取的。flask的session采用HMACSHA1对发送到客户端的session_cookie做了签名。</li>
+</ol>
+
+<h4 id="4-flask-login对cookie-based-session的应用">4、flask_login对cookie_based_session的应用</h4>
+
+<p>经过前面的阐述，我们对session，cookie概念，以及cookie base session机制有了比较清晰的认识了，然后我们实际的业务需求哪些可以基于这些技术来实现呢，我们通常有哪些信息cookie里，需要经常发送给服务端的数据就非常适合存放在cookie里面，比如身份认证信息，为了避免每次访问都要认证用户身份，可以将用户身份信息存储在cookie里，这样每次客户端访问服务器时，会自动捎带身份信息到服务端。</p>
+
+<p>flask_login就是基于flask的cookie base session提供用户登录登出的功能的一个比较实用的插件。</p>
+
+<p>flask_login插件使用起来是非常简单的，主要核心的几个方法：</p>
+
+<h6 id="1-login-user方法">1、login_user方法</h6>
+
+<pre><code>
+def login_user(user, remember=False, force=False, fresh=True):
+    '''
+    ......
+    '''
+
+    user_id = getattr(user, current_app.login_manager.id_attribute)()
+    session['user_id'] = user_id
+    session['_fresh'] = fresh
+    session['_id'] = _create_identifier()
+    '''
+    ......
+    '''
+    return True
+</code></pre>
+
+<p>用户登录时，提交了用户名和密码，flask验证了用户名和密码ok后，调用该方法，传递一个user对象，就成功将用户身份信息（user_id）写入了session，然后返回写入到了浏览器的cookie里，用户后续访问，flask就能从session对象里的user_id来加载用户，在flask的上下文环境下，维持一个当前用户对象，current_user对象。</p>
+
+<h6 id="2-get-id方法">2、get_id方法</h6>
+
+<p>前面提到了用户身份信息user_id，这个属性可以自定义，通常采用具有唯一性的用户属性来定义user_id，比如用户id，user_name等唯一性属性。通过定义get_id方法来返回user_id即可。</p>
+
+<pre><code>def get_id(self):
+    return six.text_type(self.username)
+
+</code></pre>
+
+<h6 id="3-user-loader装饰器和current-user对象">3、user_loader装饰器和current_user对象</h6>
+
+<p>flask应用需要定义一个方法，加上flask_login的user_loader装饰器，该方法根据user_id检索用户，返回一个user对象，这个user对象就是上下文里的current_user对象</p>
+
+<pre><code>@login_manager.user_loader
+def user_loader(username):
+    user = db.User.get_user_by_name(username)
+    if not user:
+        return
+    return user
+</code></pre>
+
+<h6 id="4-login-required装饰器">4、login_required装饰器</h6>
+
+<p>对于某些需要登录才能访问的API，添加该装饰器即可</p>
+
+<pre><code>@login_required
+    def get_alerts(self):
+        pass
+</code></pre>
+
+<h6 id="5-login-out方法">5、login_out方法</h6>
+
+<p>退出登录，主要工作就是将session里的相关身份信息清空，如user_id等，session更新了，response通过set-cookie同步也更新了客户端cookie里的session内容。</p>
+
+<h6 id="附注">附注：</h6>
+
+<blockquote>
+<p>你可能记得不太清楚的cookie细节，推荐下面这篇文章，梳理了很多cookie相关细节知识点，比如expire，domain和path，secure属性，HttpOnly属性，服务端和客户端设置cookie有哪些不同等。</p>
+
+<p><a href="https://segmentfault.com/a/1190000004556040">https://segmentfault.com/a/1190000004556040</a></p>
+</blockquote>
+
+<h6 id="参考">参考：</h6>
 
 <ul>
-<li>事件冒泡：事件发生后，由目标元素首先接收，然后按照DOM结构，逐级向上传播，直至到达最顶层的根节点document</li>
-<li>事件捕获：事件发生后，由根节点document先接收，然后按照DOM结构，逐级向下传播，直到事件的目标元素</li>
-
-<li><p>DOM事件流：包括三个阶段：当一个事件发生，首先进入事件捕获阶段，按照事件捕获流进行传播；然后进入目标阶段，目标元素接收到事件；最后进入事件冒泡阶段，按照事件冒泡流传播。<img src="http://7xi480.com1.z0.glb.clouddn.com/121ba0d37798d6d23227d2dd49d0e58c_articlex.png" alt="image" /></p>
-
-<h2 id="三-基础事件操作">三、基础事件操作</h2>
-
-<h3 id="1-事件监听">1、事件监听</h3>
-
-<p>浏览器会根据某些操作触发对应事件，比如我们打开一个页面，浏览器加载完成之后就会触发load事件。当我们监听load事件，显示欢迎信息，那么浏览器在加载完成后就会显示欢迎信息。</p>
-
-<ul>
-<li><p>html内联属性：HTML元素里面直接填写与事件有关属性，属性值为JavaScript代码。</p>
-
-<pre><code>&lt;button onclick=&quot;alert('you clicked this btn')&quot;&gt;click me！&lt;/button&gt;
-</code></pre></li>
-
-<li><p>DOM属性绑定：使用DOM元素的onXXX属性设置，简单易懂，兼容性好，但是如果在后面的代码中再次为ele绑定一个回调函数，会覆盖掉之前回调函数的内容。</p>
-
-<pre><code>   &lt;button id=&quot;btn&quot;&gt;click me!&lt;/button&gt;
-   &lt;script&gt;
-       var ele = document.getElementById('btn');
-       ele.onclick = function (event) {
-           alert('you clicked again');
-       }
-   &lt;/script&gt;
-</code></pre></li>
-
-<li><p>使用事件监听函数：标准的事件监听函数如下：</p>
-
-<pre><code>element.addEventListener(event-name,callback,use-capture)
-</code></pre></li>
+<li><a href="https://zh.wikipedia.org/wiki/Cookie">https://zh.wikipedia.org/wiki/Cookie</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/%E4%BC%9A%E8%AF%9D_(%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6)">https://zh.wikipedia.org/wiki/%E4%BC%9A%E8%AF%9D_(%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6)</a></li>
+<li><a href="https://tools.ietf.org/html/rfc6265">https://tools.ietf.org/html/rfc6265</a></li>
 </ul>
-
-<p>在element这个对象上面添加一个事件监听器，当监听到有事件发生时，调用这个回调函数，use-capture表示该事件监听是在‘捕获’阶段监听（设置为true）还是在‘冒泡’阶段监听（设置为false）</p>
-
-<pre><code>&lt;button&gt;click me!&lt;/button&gt;
-&lt;script&gt;
-    var ele = document.getElementByTagName('button');
-    ele[0].addEventListener('click', function () {
-        alert('the third time clicked');
-    }, false);
-&lt;/script&gt;
-</code></pre>
-
-<h3 id="2-移除事件监听">2、移除事件监听</h3>
-
-<p>当我们为某个元素绑定了一个事件，每次触发这个事件的时候，都会执行事件绑定的回调函数。如果我们想解除绑定，需要使用 removeEventListener 方法：</p>
-
-<pre><code>element.removeEventListener(event-name,callback,use-capture)
-</code></pre>
-
-<p>需要注意的是，绑定事件时的回调函数不能是匿名函数，必须是一个声明的函数，因为解除事件绑定时需要传递这个回调函数的引用，才可以断开绑定。</p>
-
-<pre><code>&lt;button id=&quot;btn&quot;&gt;click me&lt;/button&gt;
-&lt;script&gt;
-var elbtn = document.getElementById('btn');
-var fun = function () {
-    alert(this button is only can click once);
-    elbtn.removeEventListener('click', fun, false);
-};
-elbtn.addEventListener('click', fun, false);
-&lt;/script&gt;
-</code></pre>
-
-<h1 id="window事件">window事件</h1>
-
-<h2 id="常用的window事件">常用的window事件</h2>
-
-<p>例子：<a href="https://jsfiddle.net/uujt1o1p/">https://jsfiddle.net/uujt1o1p/</a></p></li>
-
-<li><h3 id="onload加载事件和onunload卸载事件">onload加载事件和onunload卸载事件</h3>
-
-<p>当页面完全加载之后触发加载事件（onload）</p>
-
-<pre><code>window.onload = function () {
-  alert(&quot;here is after  onload&quot;);
-}
-alert('onloading...');
-</code></pre>
-
-<p>当页面完全卸载之后触发卸载事件(unload)，在页面从服务器获取到需要加载的新的页面后调用，不能阻止页面的刷新和关闭。</p>
-
-<pre><code>//firefox不支持，IE和360生效，chrome系统自定义
-var isSave = false;
-function save() {
- alert('this is save function running.');
-  isSave = true;
-}
-window.onbeforeunload = function () {
-  console.log('this is onbeforeunload');
-  if (!isSave) {
-      return '当前数据还没保存，关闭或刷新窗口会自动保存，是否继续？';
-  } else {
-      return '';
-  }
-};
-window.onunload = function () {
-  if (!isSave) {
-      save();
-  }
-};
-</code></pre>
-
-<p>onbeforeunload事件：在页面去服务器读取新的页面前调用，可以阻止页面的关闭和刷新，还有unload事件的执行
-so:</p>
-
-<ul>
-<li>页面加载时只执行onload</li>
-<li>页面关闭时先执行onbeforeunload，最后onunload</li>
-<li>页面刷新时先执行onbeforeunload，然后onunload，最后onload。</li>
-</ul></li>
-
-<li><h3 id="onscroll滚动事件">onscroll滚动事件</h3>
-
-<p>当滚动的时候触发滚动事件</p>
-
-<pre><code>window.onscroll = function() {
-      console.log(&quot;滚动&quot;);
-
-      var h = document.documentElement.scrollTop || document.body.scrollTop;
-      console.log(h);
-};
-</code></pre>
-
-<p>document.documentElement.scrollTop 和document.body.scrollTop：是用来设置滚动tiao的高度。
-document.documentElement.scrollTop：IE，firefox；
-document.body.scrollTop: chrome,360</p>
-
-<pre><code>// 返回页面顶部
-function fun() {
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
-}
-</code></pre></li>
-
-<li><h3 id="onresize窗口变化事件">onresize窗口变化事件</h3>
-
-<p>改变窗口尺寸时触发窗口变化事件</p>
-
-<pre><code>window.onresize = function() {
-      console.log(&quot;窗口变化&quot;);
-
-      var w = document.documentElement.clientWidth || document.body.clientWidth || window.innerWidth;
-
-      var h = document.documentElement.clientHeight || document.body.clientHeight || window.innerHeight;
-
-      console.log(w, h);
-};
-</code></pre></li>
-</ul>
-
-<h1 id="键盘事件">键盘事件</h1>
-
-<p>js中的键盘事件只有三种：keydown、keypress、keyup。触发顺序为：keydown ——&gt; keypress ——&gt; keyup。
-当按下一个键不放开时，一般会重复触发keydown+keypress，直到放开后触发一个keyup事件。</p>
-
-<ul>
-<li><p>keydown()：在键盘按下时触发</p></li>
-
-<li><p>keypress()：在敲击按键时ch，即按下并抬起同一个按键</p></li>
-
-<li><p>keyup()：在按键释放时触发</p>
-
-<h2 id="获取键盘上的ascii码">获取键盘上的ascII码</h2>
-
-<p>栗子：<a href="https://jsfiddle.net/fz87pk7t/1/">https://jsfiddle.net/fz87pk7t/1/</a></p></li>
-</ul>
-
-<pre><code>// 获取键码
-$(document).keydown(function (event) {
-    alert(event.keyCode + 'keydown');
-});
-
-$(document).keyup(function (event) {
-    alert(event.keyCode + 'keyup');
-});
-
-$(document).keypress(function (event) {
-    alert(event.keyCode + 'keypress');
-});
-</code></pre>
-
-<p>字母和数字键的键码值(keyCode)</p>
-
-<table>
-<thead>
-<tr>
-<th>按键</th>
-<th>键码</th>
-<th>按键</th>
-<th>键码</th>
-<th>按键</th>
-<th>键码</th>
-<th>按键</th>
-<th>键码</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>A</td>
-<td>65</td>
-<td>J</td>
-<td>74</td>
-<td>S</td>
-<td>83</td>
-<td>1</td>
-<td>49</td>
-</tr>
-
-<tr>
-<td>B</td>
-<td>66</td>
-<td>K</td>
-<td>75</td>
-<td>T</td>
-<td>84</td>
-<td>1</td>
-<td>50</td>
-</tr>
-
-<tr>
-<td>C</td>
-<td>67</td>
-<td>L</td>
-<td>76</td>
-<td>U</td>
-<td>85</td>
-<td>1</td>
-<td>51</td>
-</tr>
-
-<tr>
-<td>D</td>
-<td>68</td>
-<td>M</td>
-<td>77</td>
-<td>V</td>
-<td>86</td>
-<td>1</td>
-<td>52</td>
-</tr>
-
-<tr>
-<td>E</td>
-<td>69</td>
-<td>N</td>
-<td>78</td>
-<td>W</td>
-<td>87</td>
-<td>1</td>
-<td>53</td>
-</tr>
-
-<tr>
-<td>F</td>
-<td>70</td>
-<td>O</td>
-<td>79</td>
-<td>X</td>
-<td>88</td>
-<td>1</td>
-<td>54</td>
-</tr>
-
-<tr>
-<td>G</td>
-<td>71</td>
-<td>P</td>
-<td>80</td>
-<td>Y</td>
-<td>89</td>
-<td>1</td>
-<td>55</td>
-</tr>
-
-<tr>
-<td>H</td>
-<td>72</td>
-<td>Q</td>
-<td>81</td>
-<td>Z</td>
-<td>90</td>
-<td>1</td>
-<td>56</td>
-</tr>
-
-<tr>
-<td>I</td>
-<td>73</td>
-<td>R</td>
-<td>82</td>
-<td>0</td>
-<td>48</td>
-<td>1</td>
-<td>57</td>
-</tr>
-</tbody>
-</table>
-
-<p>数字键盘上的键的键码值(keyCode)</p>
-
-<table>
-<thead>
-<tr>
-<th>按键</th>
-<th>健码</th>
-<th>按键</th>
-<th>健码</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>0</td>
-<td>96</td>
-<td>8</td>
-<td>104</td>
-</tr>
-
-<tr>
-<td>1</td>
-<td>97</td>
-<td>9</td>
-<td>105</td>
-</tr>
-
-<tr>
-<td>2</td>
-<td>98</td>
-<td>*</td>
-<td>106</td>
-</tr>
-
-<tr>
-<td>3</td>
-<td>99</td>
-<td>+</td>
-<td>107</td>
-</tr>
-
-<tr>
-<td>4</td>
-<td>100</td>
-<td>Enter</td>
-<td>108</td>
-</tr>
-
-<tr>
-<td>5</td>
-<td>101</td>
-<td>-</td>
-<td>109</td>
-</tr>
-
-<tr>
-<td>6</td>
-<td>102</td>
-<td>.</td>
-<td>110</td>
-</tr>
-
-<tr>
-<td>7</td>
-<td>103</td>
-<td>/</td>
-<td>111</td>
-</tr>
-</tbody>
-</table>
-
-<p>功能键键码值(keyCode)</p>
-
-<table>
-<thead>
-<tr>
-<th>按键</th>
-<th>健码</th>
-<th>按键</th>
-<th>健码</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>F1</td>
-<td>112</td>
-<td>F7</td>
-<td>118</td>
-</tr>
-
-<tr>
-<td>F2</td>
-<td>113</td>
-<td>F8</td>
-<td>119</td>
-</tr>
-
-<tr>
-<td>F3</td>
-<td>114</td>
-<td>F9</td>
-<td>120</td>
-</tr>
-
-<tr>
-<td>F4</td>
-<td>115</td>
-<td>F10</td>
-<td>121</td>
-</tr>
-
-<tr>
-<td>F5</td>
-<td>116</td>
-<td>F11</td>
-<td>122</td>
-</tr>
-
-<tr>
-<td>F6</td>
-<td>117</td>
-<td>F12</td>
-<td>123</td>
-</tr>
-</tbody>
-</table>
-
-<p>控制键键码值(keyCode)</p>
-
-<table>
-<thead>
-<tr>
-<th>按键</th>
-<th>键码</th>
-<th>按键</th>
-<th>键码</th>
-<th>按键</th>
-<th>键码</th>
-<th>按键</th>
-<th>键码</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td>BackSpace</td>
-<td>8</td>
-<td>Esc</td>
-<td>27</td>
-<td>Right Arrow</td>
-<td>39</td>
-<td>-_</td>
-<td>189</td>
-</tr>
-
-<tr>
-<td>Tab</td>
-<td>9</td>
-<td>Spacebar</td>
-<td>32</td>
-<td>Down Arrow</td>
-<td>40</td>
-<td>.&gt;</td>
-<td>190</td>
-</tr>
-
-<tr>
-<td>Clear</td>
-<td>12</td>
-<td>Page Up</td>
-<td>33</td>
-<td>Insert</td>
-<td>45</td>
-<td>/?</td>
-<td>191</td>
-</tr>
-
-<tr>
-<td>Enter</td>
-<td>13</td>
-<td>Page Down</td>
-<td>34</td>
-<td>Delete</td>
-<td>46</td>
-<td>`~</td>
-<td>192</td>
-</tr>
-
-<tr>
-<td>Shift</td>
-<td>16</td>
-<td>End</td>
-<td>35</td>
-<td>Num Lock</td>
-<td>144</td>
-<td>[{</td>
-<td>219</td>
-</tr>
-
-<tr>
-<td>Control</td>
-<td>17</td>
-<td>Home</td>
-<td>36</td>
-<td>;:</td>
-<td>186</td>
-<td>\ |</td>
-<td>220</td>
-</tr>
-
-<tr>
-<td>Alt</td>
-<td>18</td>
-<td>Left Arrow</td>
-<td>37</td>
-<td>=+</td>
-<td>187</td>
-<td>]}</td>
-<td>221</td>
-</tr>
-
-<tr>
-<td>Cape Lock</td>
-<td>20</td>
-<td>Up Arrow</td>
-<td>38</td>
-<td>,&lt;</td>
-<td>188</td>
-<td>&rsquo;&rdquo;</td>
-<td>222</td>
-</tr>
-</tbody>
-</table>
-
-<h2 id="三种键盘事件的区别">三种键盘事件的区别</h2>
-
-<ul>
-<li>keydown 和 keyup 是比较底层的事件，分别对应一个键的按下与放开，键盘上任何一个键被点按，都会触发这两个事件。</li>
-<li>keypress 更接近用户，只有可打印的字符和控制字符（如换行）被键入才触发。</li>
-<li>keydown 和 keyup 被触发后，都会产生一个虚拟键盘码，用来表示按下的是哪个键。键盘上的每个键只对应一个虚拟键盘码。keypress 被触发后产生的是实际键入的字符的 Ascll 编码，而没有对应的虚拟键盘码。这两种编码有时在数值上是相等的。</li>
-</ul>
-
-<h4 id="注意">注意：</h4>
-
-<ul>
-<li>keypress：只针对一些可以打印出来的字符有效，而对于功能键如F1-F12、Backspace、Enter、Escape、PageUp、PageDown和箭头方向等，就不会产生keypress事件，但是可以产生keydown、keyup事件</li>
-<li>keypress的keyCode对字母大小写敏感，而keydown和keyup不敏感；</li>
-<li>keypress事件无法区分主键盘上的数字键和副键盘数字键，而keydown和keyup的keyCode可以区分。</li>
-</ul>
-
-<h1 id="鼠标事件mouseevent">鼠标事件MouseEvent</h1>
-
-<p>常见的鼠标事件：</p>
-
-<ul>
-<li>mousedown:鼠标的犍钮被按下</li>
-<li>mouseup:鼠标的犍钮被释放弹起</li>
-<li>click：单击，mousedown + mouseup =&gt; click</li>
-<li>dblclick:双击，连续两次单击</li>
-<li>contextmenu:弹出右键菜单
-
-<ul>
-<li>el.contextmenu(handle)或el.on(&lsquo;contextmenu&rsquo;,handle)</li>
-<li>el.off(&lsquo;contextmenu&rsquo;),移除事件</li>
-</ul></li>
-<li>mouseover:鼠标移到目标上方</li>
-<li>mouseout:鼠标移出目标的上方</li>
-<li>mousemove:鼠标在目标上移动</li>
-<li>hover():鼠标指针进入和离开元素事被执行，同时绑定mouseenter和mouseleave事件，el.hover(handlerIn,handlerOut)等同于el.mouseenter(handlerIn).mouseleave(handlerOut);</li>
-<li>MouseEvent.button:返回值为数值(在DOM2.0中，W3C对鼠标事件作了现范，鼠标事件被解析为MouseEvent（我们可以用e.constructor == MouseEvent来判断其是否为鼠标事件，是左键点击还是右键点击由它的一个叫button的属性判定。以下就是W3C的标准现范：)
-
-<ul>
-<li>1：左键被按下</li>
-<li>2：中键被按下（没测出来中键）</li>
-<li>3：右键被按下</li>
-</ul></li>
-</ul>
-
-<p>栗子：<a href="https://jsfiddle.net/9gjz3eux/1/">https://jsfiddle.net/9gjz3eux/1/</a></p>
             </div>
             <footer class="article-footer">
-    <a data-url="http://blog.titangroupco.com/2017/03/03/javascript-events" data-id="378ba72137875bc94d20f783faddd8ee" class="article-share-link">
+    <a data-url="http://blog.titangroupco.com/2017/03/15/flask_cookie_based_session_mechanism" data-id="3597fff339eb21af7bbda6d981e654b6" class="article-share-link">
         <i class="fa fa-share"></i>
         Share
     </a>
@@ -932,21 +471,14 @@ $(document).keypress(function (event) {
         
 <nav id="article-nav">
     
-    <a href="http://blog.titangroupco.com/2017/03/02/%E7%95%8C%E9%9D%A2%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E6%96%87%E5%AD%97" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="http://blog.titangroupco.com/2017/03/07/jmeter-introduce" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">
           Older
       </strong>
-      <div class="article-nav-title">界面设计中的文字</div>
+      <div class="article-nav-title">jmeter introduce</div>
     </a>
     
 
-    
-    <a href="http://blog.titangroupco.com/2017/03/07/jmeter-introduce" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">
-          Newer
-      </strong>
-      <div class="article-nav-title">jmeter introduce</div>
-    </a>
     
 </nav>
 
