@@ -1,7 +1,7 @@
 +++
 draft = false
 date = "2017-11-22T17:03:51+08:00"
-title = "振动分析AI初探"
+title = "振动分析AI实践"
 author = "fwyan"
 categories = ["ai", "cms"]
 tags = ["ai", "cms"]
