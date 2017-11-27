@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Author on </title>
+    <link>http://blog.titangroupco.com/author/</link>
+    <description>Recent content in Author on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Powered by [Hugo](//gohugo.io). Theme by [DevTeam](mailto:dev@titangroupco.com) of Titan.</copyright>
+    
+	<atom:link href="http://blog.titangroupco.com/author/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Fwyan</title>
+      <link>http://blog.titangroupco.com/author/fwyan/</link>
+      <pubDate>Wed, 22 Nov 2017 17:03:51 +0800</pubDate>
+      
+      <guid>http://blog.titangroupco.com/author/fwyan/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Hyyang</title>
+      <link>http://blog.titangroupco.com/author/hyyang/</link>
+      <pubDate>Thu, 02 Mar 2017 09:26:01 +0800</pubDate>
+      
+      <guid>http://blog.titangroupco.com/author/hyyang/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Maxu</title>
+      <link>http://blog.titangroupco.com/author/maxu/</link>
+      <pubDate>Tue, 07 Mar 2017 10:44:56 +0800</pubDate>
+      
+      <guid>http://blog.titangroupco.com/author/maxu/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Sunyu</title>
+      <link>http://blog.titangroupco.com/author/sunyu/</link>
+      <pubDate>Tue, 21 Feb 2017 09:15:24 +0800</pubDate>
+      
+      <guid>http://blog.titangroupco.com/author/sunyu/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Wubing</title>
+      <link>http://blog.titangroupco.com/author/wubing/</link>
+      <pubDate>Fri, 03 Mar 2017 10:34:39 +0800</pubDate>
+      
+      <guid>http://blog.titangroupco.com/author/wubing/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Ybduan</title>
+      <link>http://blog.titangroupco.com/author/ybduan/</link>
+      <pubDate>Thu, 05 Jan 2017 00:00:00 +0800</pubDate>
+      
+      <guid>http://blog.titangroupco.com/author/ybduan/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ai on </title>
+    <link>http://blog.titangroupco.com/categories/ai/</link>
+    <description>Recent content in Ai on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Powered by [Hugo](//gohugo.io). Theme by [DevTeam](mailto:dev@titangroupco.com) of Titan.</copyright>
+    <lastBuildDate>Wed, 22 Nov 2017 17:03:51 +0800</lastBuildDate>
+    
+	<atom:link href="http://blog.titangroupco.com/categories/ai/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>振动分析AI初探</title>
+      <link>http://blog.titangroupco.com/2017/11/22/%E6%8C%AF%E5%8A%A8%E5%88%86%E6%9E%90ai%E5%88%9D%E6%8E%A2/</link>
+      <pubDate>Wed, 22 Nov 2017 17:03:51 +0800</pubDate>
+      
+      <guid>http://blog.titangroupco.com/2017/11/22/%E6%8C%AF%E5%8A%A8%E5%88%86%E6%9E%90ai%E5%88%9D%E6%8E%A2/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;相关背景&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;浙江胄天科技公司研发的风电设备全生命周期管理平台去年已经上线了风电故障自动分析模块，该模块将风电领域常见的各故障的分析策略提取成领域算法，整合到PLM平台上，对风电CMS实时数据进行自动分析，一旦发现故障，会报警实时通知到分析师，然后分析师进行进一步的故障诊断。&lt;/p&gt;
+
+&lt;p&gt;自动分析模块提高了分析师的分析效率，对于少数分析策略比较简单的故障类型，比如不对中故障，自动分析的效率提升是非常可观的，但是随着故障分析需求不断增加，如故障类型的增加，分析策略的复杂度提高，该模块也逐渐暴露出一些不足之处：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;策略的规则逻辑来自分析师的领域知识，策略的针对性相对较强，故而通用性相对较弱，不同故障类型的分析策略差别较大。&lt;/li&gt;
+&lt;li&gt;将分析师的分析策略提取成领域算法的代价较高，对于逻辑复杂的策略，需要分析师和软件工程师进行反复的沟通，编码，实现，验证，才能达到预期的效果。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

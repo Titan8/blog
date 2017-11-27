@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on </title>
+    <link>http://blog.titangroupco.com/categories/</link>
+    <description>Recent content in Categories on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>Powered by [Hugo](//gohugo.io). Theme by [DevTeam](mailto:dev@titangroupco.com) of Titan.</copyright>
+    <lastBuildDate>Wed, 22 Nov 2017 17:03:51 +0800</lastBuildDate>
+    
+	<atom:link href="http://blog.titangroupco.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Ai</title>
+      <link>http://blog.titangroupco.com/categories/ai/</link>
+      <pubDate>Wed, 22 Nov 2017 17:03:51 +0800</pubDate>
+      
+      <guid>http://blog.titangroupco.com/categories/ai/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Backend</title>
+      <link>http://blog.titangroupco.com/categories/backend/</link>
+      <pubDate>Tue, 21 Feb 2017 09:15:24 +0800</pubDate>
+      
+      <guid>http://blog.titangroupco.com/categories/backend/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Cms</title>
+      <link>http://blog.titangroupco.com/categories/cms/</link>
+      <pubDate>Wed, 22 Nov 2017 17:03:51 +0800</pubDate>
+      
+      <guid>http://blog.titangroupco.com/categories/cms/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Frontend</title>
+      <link>http://blog.titangroupco.com/categories/frontend/</link>
+      <pubDate>Fri, 03 Mar 2017 10:34:39 +0800</pubDate>
+      
+      <guid>http://blog.titangroupco.com/categories/frontend/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Test</title>
+      <link>http://blog.titangroupco.com/categories/test/</link>
+      <pubDate>Tue, 07 Mar 2017 10:44:56 +0800</pubDate>
+      
+      <guid>http://blog.titangroupco.com/categories/test/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Ui</title>
+      <link>http://blog.titangroupco.com/categories/ui/</link>
+      <pubDate>Thu, 02 Mar 2017 09:26:01 +0800</pubDate>
+      
+      <guid>http://blog.titangroupco.com/categories/ui/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

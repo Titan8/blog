@@ -1,68 +1,69 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://blog.titangroupco.com/2017/03/15/flask_cookie_based_session_mechanism</loc>
-    <lastmod>2017-03-15T16:34:27+08:00</lastmod>
+    <loc>http://blog.titangroupco.com/2017/11/22/%E6%8C%AF%E5%8A%A8%E5%88%86%E6%9E%90ai%E5%88%9D%E6%8E%A2/</loc>
+    <lastmod>2017-11-22T17:03:51+08:00</lastmod>
   </url>
   
   <url>
-    <loc>http://blog.titangroupco.com/2017/03/07/jmeter-introduce</loc>
+    <loc>http://blog.titangroupco.com/2017/03/07/jmeter-introduce/</loc>
     <lastmod>2017-03-07T10:44:56+08:00</lastmod>
   </url>
   
   <url>
-    <loc>http://blog.titangroupco.com/2017/03/03/javascript-events</loc>
+    <loc>http://blog.titangroupco.com/2017/03/03/javascript-events/</loc>
     <lastmod>2017-03-03T10:34:39+08:00</lastmod>
   </url>
   
   <url>
-    <loc>http://blog.titangroupco.com/2017/03/02/%E7%95%8C%E9%9D%A2%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E6%96%87%E5%AD%97</loc>
+    <loc>http://blog.titangroupco.com/2017/03/02/%E7%95%8C%E9%9D%A2%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E6%96%87%E5%AD%97/</loc>
     <lastmod>2017-03-02T09:26:01+08:00</lastmod>
   </url>
   
   <url>
-    <loc>http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface</loc>
+    <loc>http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface/</loc>
     <lastmod>2017-02-21T09:15:24+08:00</lastmod>
   </url>
   
   <url>
-    <loc>http://blog.titangroupco.com/2017/01/24/d3-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B</loc>
+    <loc>http://blog.titangroupco.com/2017/01/24/d3-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/</loc>
     <lastmod>2017-01-24T16:50:51+08:00</lastmod>
   </url>
   
   <url>
-    <loc>http://blog.titangroupco.com/2017/01/22/%E5%89%8D%E7%AB%AF%E4%BD%BF%E7%94%A8websocket%E7%9A%84%E9%97%AE%E9%A2%98</loc>
+    <loc>http://blog.titangroupco.com/2017/01/22/%E5%89%8D%E7%AB%AF%E4%BD%BF%E7%94%A8websocket%E7%9A%84%E9%97%AE%E9%A2%98/</loc>
     <lastmod>2017-01-22T18:11:48+08:00</lastmod>
   </url>
   
   <url>
-    <loc>http://blog.titangroupco.com/2017/01/22/rf%E4%B8%AD%E9%A1%B5%E9%9D%A2%E5%85%83%E7%B4%A0%E5%AE%9A%E4%BD%8D</loc>
+    <loc>http://blog.titangroupco.com/2017/01/22/rf%E4%B8%AD%E9%A1%B5%E9%9D%A2%E5%85%83%E7%B4%A0%E5%AE%9A%E4%BD%8D/</loc>
     <lastmod>2017-01-22T17:03:51+08:00</lastmod>
   </url>
   
   <url>
-    <loc>http://blog.titangroupco.com/2017/01/22/python-decorator</loc>
+    <loc>http://blog.titangroupco.com/2017/01/22/python-decorator/</loc>
     <lastmod>2017-01-22T13:20:36+08:00</lastmod>
   </url>
   
   <url>
-    <loc>http://blog.titangroupco.com/2017/01/19/mongo-introduction</loc>
+    <loc>http://blog.titangroupco.com/2017/01/19/mongo-introduction/</loc>
     <lastmod>2017-01-19T09:15:18+08:00</lastmod>
   </url>
   
   <url>
-    <loc>http://blog.titangroupco.com/2017/01/05/javascript-prototype</loc>
+    <loc>http://blog.titangroupco.com/2017/01/05/javascript-prototype/</loc>
     <lastmod>2017-01-05T00:00:00+08:00</lastmod>
   </url>
   
   <url>
-    <loc>http://blog.titangroupco.com/2016/10/31/introduction-to-vue</loc>
+    <loc>http://blog.titangroupco.com/2016/10/31/introduction-to-vue/</loc>
     <lastmod>2016-10-31T08:42:14+08:00</lastmod>
   </url>
   
   <url>
-    <loc>http://blog.titangroupco.com/2016/10/28/webpack</loc>
+    <loc>http://blog.titangroupco.com/2016/10/28/webpack/</loc>
     <lastmod>2016-10-28T08:42:14+08:00</lastmod>
   </url>
   
@@ -73,7 +74,19 @@
   
   <url>
     <loc>http://blog.titangroupco.com/</loc>
-    <lastmod>2017-03-15T16:34:27+08:00</lastmod>
+    <lastmod>2017-11-22T17:03:51+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.titangroupco.com/categories/ai/</loc>
+    <lastmod>2017-11-22T17:03:51+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.titangroupco.com/tags/ai/</loc>
+    <lastmod>2017-11-22T17:03:51+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -102,6 +115,19 @@
   
   <url>
     <loc>http://blog.titangroupco.com/categories/</loc>
+    <lastmod>2017-11-22T17:03:51+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.titangroupco.com/categories/cms/</loc>
+    <lastmod>2017-11-22T17:03:51+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://blog.titangroupco.com/tags/cms/</loc>
+    <lastmod>2017-11-22T17:03:51+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -119,7 +145,7 @@
   
   <url>
     <loc>http://blog.titangroupco.com/author/fwyan/</loc>
-    <lastmod>2017-03-15T16:34:27+08:00</lastmod>
+    <lastmod>2017-11-22T17:03:51+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -143,7 +169,7 @@
   
   <url>
     <loc>http://blog.titangroupco.com/post/</loc>
-    <lastmod>2017-03-15T16:34:27+08:00</lastmod>
+    <lastmod>2017-11-22T17:03:51+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -161,6 +187,7 @@
   
   <url>
     <loc>http://blog.titangroupco.com/tags/</loc>
+    <lastmod>2017-11-22T17:03:51+08:00</lastmod>
     <priority>0</priority>
   </url>
   

@@ -2,7 +2,7 @@
 <html lang="en-us">
 <head>
     <title></title>
-    <meta name="generator" content="Hugo 0.18.1" />
+    <meta name="generator" content="Hugo 0.31" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="author" content="Titan Developers">
@@ -29,7 +29,9 @@
 <meta property="og:url" content="http://blog.titangroupco.com/" />
 
 
-<meta property="og:updated_time" content="2017-03-15T16:34:27&#43;08:00"/>
+
+<meta property="og:updated_time" content="2017-11-22T17:03:51&#43;08:00"/>
+
 
 
 
@@ -45,7 +47,9 @@
 <meta itemprop="description" content="">
 
 
-    
+    <meta name="twitter:card" content="summary"/><meta name="twitter:title" content=""/>
+<meta name="twitter:description" content=""/>
+
     
 
     
@@ -157,21 +161,21 @@
             </a>
 
             <header class="article-header">
-    <a href="http://blog.titangroupco.com/2017/03/15/flask_cookie_based_session_mechanism">
+    <a href="http://blog.titangroupco.com/2017/11/22/%E6%8C%AF%E5%8A%A8%E5%88%86%E6%9E%90ai%E5%88%9D%E6%8E%A2/">
     <h1 class="article-title" itemprop="name">
-        flask_cookie_based_session_mechanism
+        振动分析AI初探
     </h1>
     </a>
     <div class="article-meta">
         <div class="article-author">
-          <a class="article-category-link" href="/author/FWYAN">FWYAN</a>
+          <a class="article-category-link" href="/author/fwyan">fwyan</a>
         </div>
         
         <div class="article-date">
             <i class="fa fa-calendar"></i>
-            <time datetime="2017-03-15 16:34:27 &#43;0800 CST" itemprop="datePublished">2017-03-15</time>
+            <time datetime="2017-11-22 17:03:51 &#43;0800 CST" itemprop="datePublished">2017-11-22</time>
             &middot;
-            132
+            35
             words
             &middot;
             1
@@ -181,10 +185,36 @@
         
             
             
+            <div class="article-category">
+                <i class="fa fa-folder"></i>
+                
+                
+                <a class="article-category-link" href="http://blog.titangroupco.com/categories/ai">ai</a>
+                &middot;
+                
+                
+                <a class="article-category-link" href="http://blog.titangroupco.com/categories/cms">cms</a>
+                
+                
+            </div>
+            
         
 
         
             
+            
+            <div class="article-category">
+                <i class="fa fa-tags"></i>
+                
+                
+                <a class="article-category-link" href="http://blog.titangroupco.com/tags/ai">ai</a>
+                &middot;
+                
+                
+                <a class="article-category-link" href="http://blog.titangroupco.com/tags/cms">cms</a>
+                
+                
+            </div>
             
         
     </div>
@@ -192,26 +222,31 @@
 
             <div class="article-entry" itemprop="articleBody">
                 <p>
-                    <h4 id="1-对cookie和session概念的理解">1、对cookie和session概念的理解</h4>
+                    <blockquote>
+<p>相关背景</p>
+</blockquote>
 
-<p>引自维基百科上的两段话：</p>
+<p>浙江胄天科技公司研发的风电设备全生命周期管理平台去年已经上线了风电故障自动分析模块，该模块将风电领域常见的各故障的分析策略提取成领域算法，整合到PLM平台上，对风电CMS实时数据进行自动分析，一旦发现故障，会报警实时通知到分析师，然后分析师进行进一步的故障诊断。</p>
 
-<p><blockquote>
-<p>在计算机科学领域来说，尤其是在网络领域，会话（session）是一种持久网络协议，在用户（或用户代理）端和服务器端之间创建关联，从而起到交换数据包的作用机制，session在网络协议（例如telnet或FTP）中是非常重要的部分。
-在不包含会话层（例如UDP）或者是无法长时间驻留会话层（例如HTTP）的传输协议中，会话的维持需要依靠在传输数据中的高级别程序。例如，在浏览器和远程主机之间的HTTP传输中，HTTP cookie就会被用来包含一些相关的信息，例如session ID，参数和权限信息等。</p></p>
+<p>自动分析模块提高了分析师的分析效率，对于少数分析策略比较简单的故障类型，比如不对中故障，自动分析的效率提升是非常可观的，但是随着故障分析需求不断增加，如故障类型的增加，分析策略的复杂度提高，该模块也逐渐暴露出一些不足之处：</p>
 
-<p>因为HTTP协议是无状态的，即服务器不知道用户上一次做了什么，这严重阻碍了交互式Web应用程序的实现。在典型的网上购物场景中，用户浏览了几个页面，买了一盒饼干和两饮料。最后结帐时，由于HTTP的无状态性，不通过额外的手段，服务器并不知道用户到底买了什么。 所以Cookie就是用来绕开HTTP的无状态性的“额外手段”之一。服务器可以设置或读取Cookies中包含信息，借此维护用户跟服务器会话中的状态。
+<ol>
+<li>策略的规则逻辑来自分析师的领域知识，策略的针对性相对较强，故而通用性相对较弱，不同故障类型的分析策略差别较大。</li>
+<li>将分析师的分析策略提取成领域算法的代价较高，对于逻辑复杂的策略，需要分析师和软件工程师进行反复的沟通，编码，实现，验证，才能达到预期的效果。</li>
+</ol>
+
+<p></p>
 
                     <br>
                 </p>
                 <p class="article-more-link">
-                    <a href="http://blog.titangroupco.com/2017/03/15/flask_cookie_based_session_mechanism">
+                    <a href="http://blog.titangroupco.com/2017/11/22/%E6%8C%AF%E5%8A%A8%E5%88%86%E6%9E%90ai%E5%88%9D%E6%8E%A2/">
                         Read more
                     </a>
                 </p>
             </div>
             <footer class="article-footer">
-    <a data-url="http://blog.titangroupco.com/2017/03/15/flask_cookie_based_session_mechanism" data-id="3597fff339eb21af7bbda6d981e654b6" class="article-share-link">
+    <a data-url="http://blog.titangroupco.com/2017/11/22/%E6%8C%AF%E5%8A%A8%E5%88%86%E6%9E%90ai%E5%88%9D%E6%8E%A2/" data-id="df2a7d3cac44402e6249f5b7c8d49a4d" class="article-share-link">
         <i class="fa fa-share"></i>
         Share
     </a>
@@ -305,7 +340,7 @@
             </a>
 
             <header class="article-header">
-    <a href="http://blog.titangroupco.com/2017/03/07/jmeter-introduce">
+    <a href="http://blog.titangroupco.com/2017/03/07/jmeter-introduce/">
     <h1 class="article-title" itemprop="name">
         jmeter introduce
     </h1>
@@ -363,13 +398,13 @@
                     <br>
                 </p>
                 <p class="article-more-link">
-                    <a href="http://blog.titangroupco.com/2017/03/07/jmeter-introduce">
+                    <a href="http://blog.titangroupco.com/2017/03/07/jmeter-introduce/">
                         Read more
                     </a>
                 </p>
             </div>
             <footer class="article-footer">
-    <a data-url="http://blog.titangroupco.com/2017/03/07/jmeter-introduce" data-id="6c04fce26deb185388187d28bf124e2c" class="article-share-link">
+    <a data-url="http://blog.titangroupco.com/2017/03/07/jmeter-introduce/" data-id="f73304afbf7c9626ab256ecfb7abc932" class="article-share-link">
         <i class="fa fa-share"></i>
         Share
     </a>
@@ -463,7 +498,7 @@
             </a>
 
             <header class="article-header">
-    <a href="http://blog.titangroupco.com/2017/03/03/javascript-events">
+    <a href="http://blog.titangroupco.com/2017/03/03/javascript-events/">
     <h1 class="article-title" itemprop="name">
         javascript events
     </h1>
@@ -523,17 +558,18 @@
 <h2 id="一-什么是事件">一、什么是事件</h2>
 
 <p>事件就是文档、浏览器窗口中发生的一些特定的交互瞬间，一般是由用户主动触发，在事件被触发之后，可以根据是否预先绑定了事件处理程序来决定如何对这个事件的发生做出反应。
+</p>
 
                     <br>
                 </p>
                 <p class="article-more-link">
-                    <a href="http://blog.titangroupco.com/2017/03/03/javascript-events">
+                    <a href="http://blog.titangroupco.com/2017/03/03/javascript-events/">
                         Read more
                     </a>
                 </p>
             </div>
             <footer class="article-footer">
-    <a data-url="http://blog.titangroupco.com/2017/03/03/javascript-events" data-id="378ba72137875bc94d20f783faddd8ee" class="article-share-link">
+    <a data-url="http://blog.titangroupco.com/2017/03/03/javascript-events/" data-id="b3651bc4e5a6e1ab53c42858ce37dc23" class="article-share-link">
         <i class="fa fa-share"></i>
         Share
     </a>
@@ -627,7 +663,7 @@
             </a>
 
             <header class="article-header">
-    <a href="http://blog.titangroupco.com/2017/03/02/%E7%95%8C%E9%9D%A2%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E6%96%87%E5%AD%97">
+    <a href="http://blog.titangroupco.com/2017/03/02/%E7%95%8C%E9%9D%A2%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E6%96%87%E5%AD%97/">
     <h1 class="article-title" itemprop="name">
         界面设计中的文字
     </h1>
@@ -671,7 +707,7 @@
 
             <div class="article-entry" itemprop="articleBody">
                 <p>
-                    <img src="/img/head.png" alt="image" /><br />
+                    <p><img src="/img/head.png" alt="image" /><br />
 文字是界面设计中重要而又容易被忽略的部分。</p>
 
 <h3 id="字体">字体</h3>
@@ -683,17 +719,18 @@
 <strong>Arial</strong> 为win平台默认的无衬线西文字体，显示效果一般。<br />
 <strong>Tahoma</strong> 也是十分常见的无衬线字体，显示效果比Arial好一些。</p>
 
-<p>
+<p></p>
+
                     <br>
                 </p>
                 <p class="article-more-link">
-                    <a href="http://blog.titangroupco.com/2017/03/02/%E7%95%8C%E9%9D%A2%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E6%96%87%E5%AD%97">
+                    <a href="http://blog.titangroupco.com/2017/03/02/%E7%95%8C%E9%9D%A2%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E6%96%87%E5%AD%97/">
                         Read more
                     </a>
                 </p>
             </div>
             <footer class="article-footer">
-    <a data-url="http://blog.titangroupco.com/2017/03/02/%E7%95%8C%E9%9D%A2%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E6%96%87%E5%AD%97" data-id="d3d45dd5cf7f21f6b54c18c4586f7e20" class="article-share-link">
+    <a data-url="http://blog.titangroupco.com/2017/03/02/%E7%95%8C%E9%9D%A2%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E6%96%87%E5%AD%97/" data-id="735871faf4e7b536fb3c1bf90c4ffc6b" class="article-share-link">
         <i class="fa fa-share"></i>
         Share
     </a>
@@ -787,7 +824,7 @@
             </a>
 
             <header class="article-header">
-    <a href="http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface">
+    <a href="http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface/">
     <h1 class="article-title" itemprop="name">
         Python Web Server Gateway Interface
     </h1>
@@ -866,17 +903,18 @@
     return ['Hello world!']
 </code></pre>
 
-<p>
+<p></p>
+
                     <br>
                 </p>
                 <p class="article-more-link">
-                    <a href="http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface">
+                    <a href="http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface/">
                         Read more
                     </a>
                 </p>
             </div>
             <footer class="article-footer">
-    <a data-url="http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface" data-id="0184160168bf8b3e3ef9299d989d130f" class="article-share-link">
+    <a data-url="http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface/" data-id="bdb14b9549cd0191f26746bd5293a344" class="article-share-link">
         <i class="fa fa-share"></i>
         Share
     </a>
@@ -970,7 +1008,7 @@
             </a>
 
             <header class="article-header">
-    <a href="http://blog.titangroupco.com/2017/01/24/d3-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B">
+    <a href="http://blog.titangroupco.com/2017/01/24/d3-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/">
     <h1 class="article-title" itemprop="name">
         D3 入门教程
     </h1>
@@ -1042,17 +1080,18 @@
 
 <p>这两个函数返回的结果称为选择集。</p>
 
-<p>
+<p></p>
+
                     <br>
                 </p>
                 <p class="article-more-link">
-                    <a href="http://blog.titangroupco.com/2017/01/24/d3-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B">
+                    <a href="http://blog.titangroupco.com/2017/01/24/d3-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/">
                         Read more
                     </a>
                 </p>
             </div>
             <footer class="article-footer">
-    <a data-url="http://blog.titangroupco.com/2017/01/24/d3-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B" data-id="c2646908c9faa64e3ef86b8baefb1810" class="article-share-link">
+    <a data-url="http://blog.titangroupco.com/2017/01/24/d3-%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/" data-id="22acc0836ed30a0b53394e80086b2df6" class="article-share-link">
         <i class="fa fa-share"></i>
         Share
     </a>
@@ -1146,7 +1185,7 @@
             </a>
 
             <header class="article-header">
-    <a href="http://blog.titangroupco.com/2017/01/22/%E5%89%8D%E7%AB%AF%E4%BD%BF%E7%94%A8websocket%E7%9A%84%E9%97%AE%E9%A2%98">
+    <a href="http://blog.titangroupco.com/2017/01/22/%E5%89%8D%E7%AB%AF%E4%BD%BF%E7%94%A8websocket%E7%9A%84%E9%97%AE%E9%A2%98/">
     <h1 class="article-title" itemprop="name">
         前端使用websocket的问题
     </h1>
@@ -1221,17 +1260,18 @@ IE10以上才支持HTML5，才支持websocket，chrome，火狐，opera等浏览
 Socket.IO是一个跨平台，支持多种连接方式，如websocket，flashsocket,ajax等，如果客户端不支持websocket时，可以切换使用其他链接方式，比如ajax轮询等。</p>
 </blockquote>
 
-<p>
+<p></p>
+
                     <br>
                 </p>
                 <p class="article-more-link">
-                    <a href="http://blog.titangroupco.com/2017/01/22/%E5%89%8D%E7%AB%AF%E4%BD%BF%E7%94%A8websocket%E7%9A%84%E9%97%AE%E9%A2%98">
+                    <a href="http://blog.titangroupco.com/2017/01/22/%E5%89%8D%E7%AB%AF%E4%BD%BF%E7%94%A8websocket%E7%9A%84%E9%97%AE%E9%A2%98/">
                         Read more
                     </a>
                 </p>
             </div>
             <footer class="article-footer">
-    <a data-url="http://blog.titangroupco.com/2017/01/22/%E5%89%8D%E7%AB%AF%E4%BD%BF%E7%94%A8websocket%E7%9A%84%E9%97%AE%E9%A2%98" data-id="4e0549df2e1a535233637caad5193a83" class="article-share-link">
+    <a data-url="http://blog.titangroupco.com/2017/01/22/%E5%89%8D%E7%AB%AF%E4%BD%BF%E7%94%A8websocket%E7%9A%84%E9%97%AE%E9%A2%98/" data-id="7375ad248c52c5b073aa45e9f5f0eb6f" class="article-share-link">
         <i class="fa fa-share"></i>
         Share
     </a>
@@ -1325,7 +1365,7 @@ Socket.IO是一个跨平台，支持多种连接方式，如websocket，flashsoc
             </a>
 
             <header class="article-header">
-    <a href="http://blog.titangroupco.com/2017/01/22/rf%E4%B8%AD%E9%A1%B5%E9%9D%A2%E5%85%83%E7%B4%A0%E5%AE%9A%E4%BD%8D">
+    <a href="http://blog.titangroupco.com/2017/01/22/rf%E4%B8%AD%E9%A1%B5%E9%9D%A2%E5%85%83%E7%B4%A0%E5%AE%9A%E4%BD%8D/">
     <h1 class="article-title" itemprop="name">
         RF中页面元素定位
     </h1>
@@ -1396,17 +1436,18 @@ Socket.IO是一个跨平台，支持多种连接方式，如websocket，flashsoc
 
 </code></pre>
 
-<p>
+<p></p>
+
                     <br>
                 </p>
                 <p class="article-more-link">
-                    <a href="http://blog.titangroupco.com/2017/01/22/rf%E4%B8%AD%E9%A1%B5%E9%9D%A2%E5%85%83%E7%B4%A0%E5%AE%9A%E4%BD%8D">
+                    <a href="http://blog.titangroupco.com/2017/01/22/rf%E4%B8%AD%E9%A1%B5%E9%9D%A2%E5%85%83%E7%B4%A0%E5%AE%9A%E4%BD%8D/">
                         Read more
                     </a>
                 </p>
             </div>
             <footer class="article-footer">
-    <a data-url="http://blog.titangroupco.com/2017/01/22/rf%E4%B8%AD%E9%A1%B5%E9%9D%A2%E5%85%83%E7%B4%A0%E5%AE%9A%E4%BD%8D" data-id="27ea0a1bd4ea65c44d8474fc1e80bb9a" class="article-share-link">
+    <a data-url="http://blog.titangroupco.com/2017/01/22/rf%E4%B8%AD%E9%A1%B5%E9%9D%A2%E5%85%83%E7%B4%A0%E5%AE%9A%E4%BD%8D/" data-id="6d64e1bd1ce0a7083618c4a22b059776" class="article-share-link">
         <i class="fa fa-share"></i>
         Share
     </a>
@@ -1500,7 +1541,7 @@ Socket.IO是一个跨平台，支持多种连接方式，如websocket，flashsoc
             </a>
 
             <header class="article-header">
-    <a href="http://blog.titangroupco.com/2017/01/22/python-decorator">
+    <a href="http://blog.titangroupco.com/2017/01/22/python-decorator/">
     <h1 class="article-title" itemprop="name">
         Python Decorator
     </h1>
@@ -1565,17 +1606,18 @@ Socket.IO是一个跨平台，支持多种连接方式，如websocket，flashsoc
 
 <p>也有可能是在函数外部计算时间。</p>
 
-<p>
+<p></p>
+
                     <br>
                 </p>
                 <p class="article-more-link">
-                    <a href="http://blog.titangroupco.com/2017/01/22/python-decorator">
+                    <a href="http://blog.titangroupco.com/2017/01/22/python-decorator/">
                         Read more
                     </a>
                 </p>
             </div>
             <footer class="article-footer">
-    <a data-url="http://blog.titangroupco.com/2017/01/22/python-decorator" data-id="7acf560587b0e608f3e26a708e46951c" class="article-share-link">
+    <a data-url="http://blog.titangroupco.com/2017/01/22/python-decorator/" data-id="b1fe9c37a505aa9002e0aa8ae2e05a9c" class="article-share-link">
         <i class="fa fa-share"></i>
         Share
     </a>
@@ -1669,7 +1711,7 @@ Socket.IO是一个跨平台，支持多种连接方式，如websocket，flashsoc
             </a>
 
             <header class="article-header">
-    <a href="http://blog.titangroupco.com/2017/01/19/mongo-introduction">
+    <a href="http://blog.titangroupco.com/2017/01/19/mongo-introduction/">
     <h1 class="article-title" itemprop="name">
         Mongo Introduction
     </h1>
@@ -1735,13 +1777,13 @@ Socket.IO是一个跨平台，支持多种连接方式，如websocket，flashsoc
                     <br>
                 </p>
                 <p class="article-more-link">
-                    <a href="http://blog.titangroupco.com/2017/01/19/mongo-introduction">
+                    <a href="http://blog.titangroupco.com/2017/01/19/mongo-introduction/">
                         Read more
                     </a>
                 </p>
             </div>
             <footer class="article-footer">
-    <a data-url="http://blog.titangroupco.com/2017/01/19/mongo-introduction" data-id="33749fb13f26b23a011dbee8c21f2371" class="article-share-link">
+    <a data-url="http://blog.titangroupco.com/2017/01/19/mongo-introduction/" data-id="5a9041ab88cdccd6b94fffbfc57fff1f" class="article-share-link">
         <i class="fa fa-share"></i>
         Share
     </a>
@@ -1855,7 +1897,7 @@ Socket.IO是一个跨平台，支持多种连接方式，如websocket，flashsoc
             
             <li>
                 <div class="item-thumbnail">
-                    <a href="http://blog.titangroupco.com/2017/03/15/flask_cookie_based_session_mechanism" class="thumbnail">
+                    <a href="http://blog.titangroupco.com/2017/11/22/%E6%8C%AF%E5%8A%A8%E5%88%86%E6%9E%90ai%E5%88%9D%E6%8E%A2/" class="thumbnail">
                     
                         <span class="thumbnail-image thumbnail-none"></span>
                     
@@ -1864,17 +1906,24 @@ Socket.IO是一个跨平台，支持多种连接方式，如websocket，flashsoc
                 <div class="item-inner">
                     
                     
+                    <p class="item-category">
+                        
+                        <a class="article-category-link" href="http://blog.titangroupco.com/categories/ai">
+                        ai
+                        </a>
+                    </p>
                     
-                    <p class="item-title"><a href="http://blog.titangroupco.com/2017/03/15/flask_cookie_based_session_mechanism" class="title">flask_cookie_based_session_mechanism</a></p>
+                    
+                    <p class="item-title"><a href="http://blog.titangroupco.com/2017/11/22/%E6%8C%AF%E5%8A%A8%E5%88%86%E6%9E%90ai%E5%88%9D%E6%8E%A2/" class="title">振动分析AI初探</a></p>
                     <p class="item-date">
-                        <time datetime="2017-03-15 16:34:27 &#43;0800 CST" itemprop="datePublished">2017-03-15</time>
+                        <time datetime="2017-11-22 17:03:51 &#43;0800 CST" itemprop="datePublished">2017-11-22</time>
                     </p>
                 </div>
             </li>
             
             <li>
                 <div class="item-thumbnail">
-                    <a href="http://blog.titangroupco.com/2017/03/07/jmeter-introduce" class="thumbnail">
+                    <a href="http://blog.titangroupco.com/2017/03/07/jmeter-introduce/" class="thumbnail">
                     
                         <span class="thumbnail-image thumbnail-none"></span>
                     
@@ -1891,7 +1940,7 @@ Socket.IO是一个跨平台，支持多种连接方式，如websocket，flashsoc
                     </p>
                     
                     
-                    <p class="item-title"><a href="http://blog.titangroupco.com/2017/03/07/jmeter-introduce" class="title">jmeter introduce</a></p>
+                    <p class="item-title"><a href="http://blog.titangroupco.com/2017/03/07/jmeter-introduce/" class="title">jmeter introduce</a></p>
                     <p class="item-date">
                         <time datetime="2017-03-07 10:44:56 &#43;0800 CST" itemprop="datePublished">2017-03-07</time>
                     </p>
@@ -1900,7 +1949,7 @@ Socket.IO是一个跨平台，支持多种连接方式，如websocket，flashsoc
             
             <li>
                 <div class="item-thumbnail">
-                    <a href="http://blog.titangroupco.com/2017/03/03/javascript-events" class="thumbnail">
+                    <a href="http://blog.titangroupco.com/2017/03/03/javascript-events/" class="thumbnail">
                     
                         <span class="thumbnail-image thumbnail-none"></span>
                     
@@ -1917,7 +1966,7 @@ Socket.IO是一个跨平台，支持多种连接方式，如websocket，flashsoc
                     </p>
                     
                     
-                    <p class="item-title"><a href="http://blog.titangroupco.com/2017/03/03/javascript-events" class="title">javascript events</a></p>
+                    <p class="item-title"><a href="http://blog.titangroupco.com/2017/03/03/javascript-events/" class="title">javascript events</a></p>
                     <p class="item-date">
                         <time datetime="2017-03-03 10:34:39 &#43;0800 CST" itemprop="datePublished">2017-03-03</time>
                     </p>
@@ -1926,7 +1975,7 @@ Socket.IO是一个跨平台，支持多种连接方式，如websocket，flashsoc
             
             <li>
                 <div class="item-thumbnail">
-                    <a href="http://blog.titangroupco.com/2017/03/02/%E7%95%8C%E9%9D%A2%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E6%96%87%E5%AD%97" class="thumbnail">
+                    <a href="http://blog.titangroupco.com/2017/03/02/%E7%95%8C%E9%9D%A2%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E6%96%87%E5%AD%97/" class="thumbnail">
                     
                         <span class="thumbnail-image thumbnail-none"></span>
                     
@@ -1943,7 +1992,7 @@ Socket.IO是一个跨平台，支持多种连接方式，如websocket，flashsoc
                     </p>
                     
                     
-                    <p class="item-title"><a href="http://blog.titangroupco.com/2017/03/02/%E7%95%8C%E9%9D%A2%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E6%96%87%E5%AD%97" class="title">界面设计中的文字</a></p>
+                    <p class="item-title"><a href="http://blog.titangroupco.com/2017/03/02/%E7%95%8C%E9%9D%A2%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E6%96%87%E5%AD%97/" class="title">界面设计中的文字</a></p>
                     <p class="item-date">
                         <time datetime="2017-03-02 09:26:01 &#43;0800 CST" itemprop="datePublished">2017-03-02</time>
                     </p>
@@ -1952,7 +2001,7 @@ Socket.IO是一个跨平台，支持多种连接方式，如websocket，flashsoc
             
             <li>
                 <div class="item-thumbnail">
-                    <a href="http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface" class="thumbnail">
+                    <a href="http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface/" class="thumbnail">
                     
                         <span class="thumbnail-image thumbnail-none"></span>
                     
@@ -1969,7 +2018,7 @@ Socket.IO是一个跨平台，支持多种连接方式，如websocket，flashsoc
                     </p>
                     
                     
-                    <p class="item-title"><a href="http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface" class="title">Python Web Server Gateway Interface</a></p>
+                    <p class="item-title"><a href="http://blog.titangroupco.com/2017/02/21/python-web-server-gateway-interface/" class="title">Python Web Server Gateway Interface</a></p>
                     <p class="item-date">
                         <time datetime="2017-02-21 09:15:24 &#43;0800 CST" itemprop="datePublished">2017-02-21</time>
                     </p>
@@ -1991,10 +2040,26 @@ Socket.IO是一个跨平台，支持多种连接方式，如websocket，flashsoc
             
             <li class="category-list-item">
                 
+                <a class="category-list-link" href="http://blog.titangroupco.com/categories/ai">
+                    ai
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
                 <a class="category-list-link" href="http://blog.titangroupco.com/categories/backend">
                     backend
                 </a>
                 <span class="category-list-count">3</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/categories/cms">
+                    cms
+                </a>
+                <span class="category-list-count">1</span>
             </li>
             
             <li class="category-list-item">
@@ -2040,6 +2105,14 @@ Socket.IO是一个跨平台，支持多种连接方式，如websocket，flashsoc
             
             <li class="category-list-item">
                 
+                <a class="category-list-link" href="http://blog.titangroupco.com/tags/ai">
+                    ai
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
                 <a class="category-list-link" href="http://blog.titangroupco.com/tags/autotest">
                     autotest
                 </a>
@@ -2050,6 +2123,14 @@ Socket.IO是一个跨平台，支持多种连接方式，如websocket，flashsoc
                 
                 <a class="category-list-link" href="http://blog.titangroupco.com/tags/build">
                     build
+                </a>
+                <span class="category-list-count">1</span>
+            </li>
+            
+            <li class="category-list-item">
+                
+                <a class="category-list-link" href="http://blog.titangroupco.com/tags/cms">
+                    cms
                 </a>
                 <span class="category-list-count">1</span>
             </li>
@@ -2095,10 +2176,16 @@ Socket.IO是一个跨平台，支持多种连接方式，如websocket，flashsoc
     <div class="widget tagcloud">
         
         
+        <a href="http://blog.titangroupco.com/tags/ai" style="font-size: 12px;">ai</a>
+        
+        
         <a href="http://blog.titangroupco.com/tags/autotest" style="font-size: 12px;">autotest</a>
         
         
         <a href="http://blog.titangroupco.com/tags/build" style="font-size: 12px;">build</a>
+        
+        
+        <a href="http://blog.titangroupco.com/tags/cms" style="font-size: 12px;">cms</a>
         
         
         <a href="http://blog.titangroupco.com/tags/database" style="font-size: 12px;">database</a>
