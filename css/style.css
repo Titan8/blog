@@ -472,7 +472,9 @@ code {
   }
 }
 #sub-nav #profile-nav #profile-anchor {
-  display: block;
+  /* display: block; */
+  display: flex;
+  align-items: center;
   height: 40px;
   line-height: 40px;
 }
@@ -490,7 +492,7 @@ code {
 }
 #sub-nav #profile-nav .avatar {
   width: 40px;
-  height: 40px;
+  /* height: 40px; */
   margin-right: 8px;
 }
 #sub-nav #profile-nav .fa {
