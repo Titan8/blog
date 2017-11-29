@@ -13,10 +13,10 @@
             <i class="fa fa-calendar"></i>
             <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time>
             &middot;
-            {{ .WordCount }}
+            {{ .FuzzyWordCount }}
             {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}}
             &middot;
-            {{ .ReadingTime }}
+            {{ (add .ReadingTime 2)}}
             {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}}
         </div>
         {{ end }}
