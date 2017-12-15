@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
-    <title>振动分析AI实践 &middot; </title>
+    <title>tensorflow学习笔记-模型包装 &middot; </title>
     <meta name="generator" content="Hugo 0.31" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -10,7 +10,7 @@
       <meta name="description" content="">
     
     
-    <link rel="canonical" href="http://blog.titangroupco.com/2017/11/22/%E6%8C%AF%E5%8A%A8%E5%88%86%E6%9E%90ai%E5%AE%9E%E8%B7%B5/"/>
+    <link rel="canonical" href="http://blog.titangroupco.com/2017/11/22/tensorflow%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E6%A8%A1%E5%9E%8B%E5%8C%85%E8%A3%85/"/>
     <link rel="icon" href="http://blog.titangroupco.com/favicon.ico">
     <link rel="apple-touch-icon" href="http://blog.titangroupco.com/apple-touch-icon.png"/>
     <link rel="stylesheet" href="http://blog.titangroupco.com/css/style.css">
@@ -20,23 +20,14 @@
     
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
-    <meta property="og:title" content="振动分析AI实践" />
+    <meta property="og:title" content="tensorflow学习笔记-模型包装" />
 <meta property="og:description" content="
-相关背景
-
-
-浙江胄天科技公司研发的风电设备全生命周期管理平台去年已经上线了风电故障自动分析模块，该模块将风电领域常见的各故障的分析策略提取成领域算法，整合到PLM平台上，对风电CMS实时数据进行自动分析，一旦发现故障，会报警实时通知到分析师，然后分析师进行进一步的故障诊断。
-
-自动分析模块提高了分析师的分析效率，对于少数分析策略比较简单的故障类型，比如不对中故障，自动分析的效率提升是非常可观的，但是随着故障分析需求不断增加，如故障类型的增加，分析策略的复杂度提高，该模块也逐渐暴露出一些不足之处：
-
-
-策略的规则逻辑来自分析师的领域知识，策略的针对性相对较强，故而通用性相对较弱，不同故障类型的分析策略差别较大。
-将分析师的分析策略提取成领域算法的代价较高，对于逻辑复杂的策略，需要分析师和软件工程师进行反复的沟通，编码，实现，验证，才能达到预期的效果。
+tf的模型可以自己完全手写，用tensorflow提供的底层API自己手写，对于tf底层API比较熟悉可以这样，也可以采用tf的高阶API来编写自己的模型，比如用内置模块tf.estimator，本文主要介绍后者。
 
 
 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="http://blog.titangroupco.com/2017/11/22/%E6%8C%AF%E5%8A%A8%E5%88%86%E6%9E%90ai%E5%AE%9E%E8%B7%B5/" />
+<meta property="og:url" content="http://blog.titangroupco.com/2017/11/22/tensorflow%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E6%A8%A1%E5%9E%8B%E5%8C%85%E8%A3%85/" />
 
 
 
@@ -56,18 +47,9 @@
 
     
     
-<meta itemprop="name" content="振动分析AI实践">
+<meta itemprop="name" content="tensorflow学习笔记-模型包装">
 <meta itemprop="description" content="
-相关背景
-
-
-浙江胄天科技公司研发的风电设备全生命周期管理平台去年已经上线了风电故障自动分析模块，该模块将风电领域常见的各故障的分析策略提取成领域算法，整合到PLM平台上，对风电CMS实时数据进行自动分析，一旦发现故障，会报警实时通知到分析师，然后分析师进行进一步的故障诊断。
-
-自动分析模块提高了分析师的分析效率，对于少数分析策略比较简单的故障类型，比如不对中故障，自动分析的效率提升是非常可观的，但是随着故障分析需求不断增加，如故障类型的增加，分析策略的复杂度提高，该模块也逐渐暴露出一些不足之处：
-
-
-策略的规则逻辑来自分析师的领域知识，策略的针对性相对较强，故而通用性相对较弱，不同故障类型的分析策略差别较大。
-将分析师的分析策略提取成领域算法的代价较高，对于逻辑复杂的策略，需要分析师和软件工程师进行反复的沟通，编码，实现，验证，才能达到预期的效果。
+tf的模型可以自己完全手写，用tensorflow提供的底层API自己手写，对于tf底层API比较熟悉可以这样，也可以采用tf的高阶API来编写自己的模型，比如用内置模块tf.estimator，本文主要介绍后者。
 
 
 ">
@@ -75,24 +57,15 @@
 
 <meta itemprop="datePublished" content="2017-11-22T17:03:51&#43;08:00" />
 <meta itemprop="dateModified" content="2017-11-22T17:03:51&#43;08:00" />
-<meta itemprop="wordCount" content="35">
+<meta itemprop="wordCount" content="516">
 
 
 
-<meta itemprop="keywords" content="ai,cms," />
+<meta itemprop="keywords" content="ai,tensorflow," />
 
-    <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="振动分析AI实践"/>
+    <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="tensorflow学习笔记-模型包装"/>
 <meta name="twitter:description" content="
-相关背景
-
-
-浙江胄天科技公司研发的风电设备全生命周期管理平台去年已经上线了风电故障自动分析模块，该模块将风电领域常见的各故障的分析策略提取成领域算法，整合到PLM平台上，对风电CMS实时数据进行自动分析，一旦发现故障，会报警实时通知到分析师，然后分析师进行进一步的故障诊断。
-
-自动分析模块提高了分析师的分析效率，对于少数分析策略比较简单的故障类型，比如不对中故障，自动分析的效率提升是非常可观的，但是随着故障分析需求不断增加，如故障类型的增加，分析策略的复杂度提高，该模块也逐渐暴露出一些不足之处：
-
-
-策略的规则逻辑来自分析师的领域知识，策略的针对性相对较强，故而通用性相对较弱，不同故障类型的分析策略差别较大。
-将分析师的分析策略提取成领域算法的代价较高，对于逻辑复杂的策略，需要分析师和软件工程师进行反复的沟通，编码，实现，验证，才能达到预期的效果。
+tf的模型可以自己完全手写，用tensorflow提供的底层API自己手写，对于tf底层API比较熟悉可以这样，也可以采用tf的高阶API来编写自己的模型，比如用内置模块tf.estimator，本文主要介绍后者。
 
 
 "/>
@@ -207,9 +180,9 @@
             
 
             <header class="article-header">
-    <a href="http://blog.titangroupco.com/2017/11/22/%E6%8C%AF%E5%8A%A8%E5%88%86%E6%9E%90ai%E5%AE%9E%E8%B7%B5/">
+    <a href="http://blog.titangroupco.com/2017/11/22/tensorflow%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E6%A8%A1%E5%9E%8B%E5%8C%85%E8%A3%85/">
     <h1 class="article-title" itemprop="name">
-        振动分析AI实践
+        tensorflow学习笔记-模型包装
     </h1>
     </a>
     <div class="article-meta">
@@ -221,10 +194,10 @@
             <i class="fa fa-calendar"></i>
             <time datetime="2017-11-22 17:03:51 &#43;0800 CST" itemprop="datePublished">2017-11-22</time>
             &middot;
-            100
+            600
             words
             &middot;
-            3
+            5
             minute read
         </div>
         
@@ -239,7 +212,7 @@
                 &middot;
                 
                 
-                <a class="article-category-link" href="http://blog.titangroupco.com/categories/cms">cms</a>
+                <a class="article-category-link" href="http://blog.titangroupco.com/categories/tensorflow">tensorflow</a>
                 
                 
             </div>
@@ -257,7 +230,7 @@
                 &middot;
                 
                 
-                <a class="article-category-link" href="http://blog.titangroupco.com/tags/cms">cms</a>
+                <a class="article-category-link" href="http://blog.titangroupco.com/tags/tensorflow">tensorflow</a>
                 
                 
             </div>
@@ -268,86 +241,210 @@
 
             <div class="article-entry" itemprop="articleBody">
                 <blockquote>
-<p>相关背景</p>
+<p>tf的模型可以自己完全手写，用tensorflow提供的底层API自己手写，对于tf底层API比较熟悉可以这样，也可以采用tf的高阶API来编写自己的模型，比如用内置模块<strong>tf.estimator</strong>，本文主要介绍后者。</p>
 </blockquote>
-
-<p>浙江胄天科技公司研发的风电设备全生命周期管理平台去年已经上线了风电故障自动分析模块，该模块将风电领域常见的各故障的分析策略提取成领域算法，整合到PLM平台上，对风电CMS实时数据进行自动分析，一旦发现故障，会报警实时通知到分析师，然后分析师进行进一步的故障诊断。</p>
-
-<p>自动分析模块提高了分析师的分析效率，对于少数分析策略比较简单的故障类型，比如不对中故障，自动分析的效率提升是非常可观的，但是随着故障分析需求不断增加，如故障类型的增加，分析策略的复杂度提高，该模块也逐渐暴露出一些不足之处：</p>
-
-<ol>
-<li>策略的规则逻辑来自分析师的领域知识，策略的针对性相对较强，故而通用性相对较弱，不同故障类型的分析策略差别较大。</li>
-<li>将分析师的分析策略提取成领域算法的代价较高，对于逻辑复杂的策略，需要分析师和软件工程师进行反复的沟通，编码，实现，验证，才能达到预期的效果。</li>
-</ol>
 
 <p></p>
 
-<p>每当需要新增一种故障类型的领域算法，需要经过以下流程：</p>
+<h4 id="采用底层api自定义模型逻辑">采用底层API自定义模型逻辑</h4>
+
+<p>这里需要理解tf的基本的运行机制，基于tensor，节点，流向，图等概念的模型结构
+通常的步骤是：</p>
 
 <ol>
-<li>分析师针对该故障类型梳理出一套分析策略，通常由一系列的逻辑规则组成。</li>
-<li>软件工程师和分析师对分析策略进行讨论，将分析师角度的分析策略提取成计算机可以执行的算法，编码实现</li>
-<li>对算法进行线上调试，验证</li>
+<li>定义输入输出节点，以及中间节点逻辑</li>
+<li>定义评估函数，损失函数</li>
+<li>喂输入数据，迭代训练</li>
+<li>训练收敛后，用测试集进行评估</li>
+<li>保存模型，预测未知</li>
 </ol>
 
-<p><strong>综合以上几点，提取领域算法的成本是较高的，且通用性较低，每新增一种故障类型，都需要走一套完整的流程，存在较多的重复性的劳动。随着故障分析需求不断增加，故障类型逐渐增多，分析策略的复杂度提高，成本会越来越高。</strong></p>
+<p>以logistic回归模型为例，典型的代码组织如下：</p>
 
-<p>于是我们需要寻找一种更通用的自动分析方法。</p>
+<p>定义模型</p>
 
-<p><strong>AI 改变了围棋，现在也在改变振动分析领域。</strong></p>
+<pre><code># 1. define themodel
+# tf Graph Input
+x = tf.placeholder(tf.float32, [None, 784]) # mnist data image of shape 28*28=784
+y = tf.placeholder(tf.float32, [None, 10]) # 0-9 digits recognition =&gt; 10 classes
 
-<p><strong>通过对振动分析领域知识和业务的学习，我们回到分析师的角度，对分析师平日的分析流程进行画像，抽取出一类通用的分析动作-图谱分析，图谱分析是振动分析中基本的分析流程，包括对各种图谱的特征的分析，如包络谱，加速度谱，速度谱等，很多故障类型，分析师通过肉眼观察图谱的形状特征，就能基本初步判定故障可能性高低，比如轴承内圈故障，外圈故障，滚珠故障等。</strong></p>
+# Set model weights
+W = tf.Variable(tf.zeros([784, 10]))
+b = tf.Variable(tf.zeros([10]))
 
-<p><img src="/img/ai-analysis-blog-1.png" alt="包络图谱特征示例" /></p>
+# Construct model
+pred = tf.nn.softmax(tf.matmul(x, W) + b) # Softmax
 
-<p><strong>如上图所示的包络谱图形，不同故障可能性的图形特征是比较明显的，尤其是左图，是分析师眼里完美的故障包络谱，特征也是非常的明显，于是很自然的想到了目前AI领域的图像识别技术，图像识别技术是AI的分支领域，经过了长时间的发展，已经逐渐成熟，当前也已经融入各个领域，涌现出很多成熟的解决方案。</strong></p>
+# Minimize error using cross entropy
+cost = tf.reduce_mean(-tf.reduce_sum(y*tf.log(pred), reduction_indices=1))
+# Gradient Descent
+optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(cost)
 
-<p><strong>结合我们目前的实际业务场景，我们有理由采用该技术来改进我们的自动分析模块：</strong></p>
+# Initialize the variables (i.e. assign their default value)
+init = tf.global_variables_initializer()
 
-<ol>
-<li>图像识别技术可以覆盖分析师的各种基于图谱的分析动作</li>
-<li>图谱分析动作适用于多种故障类型的分析，通用性较高
-所以，如果计算机能自动通过图谱分析来预测故障可能性，那将进一步提高自动分析的效率，将分析师从大量重复的看图工作中解放出来，从而让分析师有更多的精力投入到后续的精准故障定位工作中去。</li>
-</ol>
+saver = tf.train.Saver(max_to_keep=1)
 
-<p>相比之前的逐个的针对每种故障类型定制详细的分析策略，图谱自动分析的通用性更高。</p>
+# Start training
+with tf.Session() as sess:
 
-<p>按照机器学习的流程，首先需要准备学习样本，我们选取了<strong>某风场机组在一段连续时间内的3w笔CMS数据</strong>，批量生成同等规格尺寸的包络谱样本，然后分析师对图谱样本进行故障可能性标注，按照前面所示图里的3种典型的包络谱，由高到低依次分成3个类别：</p>
+    # Run the initializer
+    sess.run(init)
+</code></pre>
 
-<ol>
-<li>故障可能性极低，正常</li>
-<li>故障可能性中等，预警</li>
-<li>故障可能性极高，报警</li>
-</ol>
+<p>训练模型</p>
 
-<p><img src="/img/ai-analysis-blog-2.png" alt="训练数据" /></p>
+<pre><code>    # 2. feed train_set, train the model
+    for epoch in range(training_epochs):
+        avg_cost = 0.
+        total_batch = int(mnist.train.num_examples/batch_size)
+        # Loop over all batches
+        for i in range(total_batch):
+            batch_xs, batch_ys = mnist.train.next_batch(batch_size)
+            # Run optimization op (backprop) and cost op (to get loss value)
+            _, c = sess.run([optimizer, cost], feed_dict={x: batch_xs,
+                                                          y: batch_ys})
+            # Compute average loss
+            avg_cost += c / total_batch
+        # Display logs per epoch step
+        if (epoch+1) % display_step == 0:
+            print(&quot;Epoch:&quot;, '%04d' % (epoch+1), &quot;cost=&quot;, &quot;{:.9f}&quot;.format(avg_cost))
 
-<p>分析师标记<strong>1w个样本，选取80%样本作为训练集，剩余20%作为测试集</strong>。
-标注好的每一个样本，经过缩略处理，灰度转换，归一处理，生成60*60的二维灰度值数组，每一个元素对应图片里相应位置像素的灰度值，然后输入给分类模型进行训练。
-我们分别采用了4种分类模型进行训练，计算各个分类模型在测试集上的准确率，如下图所示，<strong>随机森林分类模型的准确率最高，约为96%</strong>。综合考虑了各分类模型的特点和效果之后，最终我们选取随机森林分类模型来作为图谱的自动故障预测模型。</p>
+    print(&quot;train Finished!&quot;)
+</code></pre>
 
-<p><img src="/img/ai-analysis-blog-3.png" alt="训练结果" /></p>
+<p>评估模型</p>
 
-<p>接下来，将训练好的图谱故障预测模型用来预测未知的CMS数据，由分析师来评估预测结果。</p>
+<pre><code>    # 3. evaluate the model
+    correct_prediction = tf.equal(tf.argmax(pred, 1), tf.argmax(y, 1))
+    # Calculate accuracy
+    accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+    print(&quot;Accuracy:&quot;, accuracy.eval({x: mnist.test.images, y: mnist.test.labels}))
 
-<p>我们选取某风场133台机组，2017年9月的数据进行未知数据预测试验，针对轴承内圈故障，外圈故障，滚珠故障，进行了图谱故障预测模型预测结果的评估，并和相应的故障策略的判定结果进行比对，下面分别是图谱故障模型预测结果和策略判定结果的对比结果：</p>
+</code></pre>
 
-<p><img src="/img/ai-analysis-blog-4.png" alt="实验结果分析" /></p>
+<p>保存模型</p>
 
-<p>上表分别显示了图谱故障预测模型预测的报警、正常、预警3种结果里，分析策略的判定结果分布，可以发现对于图谱预测模型预测报警和正常的数据里，分析策略里分别判定故障和正常的比例达到<strong>84.59%和82.44%</strong>，表征了预测模型预测的结果和分析策略判定的结果的吻合度。对于图谱预测模型预测预警的数据，策略分析判定正常和故障的比例分别为<strong>40.43%和59.57%</strong>，这样的吻合度是符合分析师预期的。</p>
+<pre><code>    
+    # 4. save trained model to filedisk
+    save_path = saver.save(
+                sess, '{dir}/{model_name}_{ts}/{model_name}.ckpt'.format(
+                dir=self.model_path, ts=int(time.time()), model_name=self.__class__.__name__))
+    # 5. predict new data
+</code></pre>
 
-<p>基于该实验结果，PLM平台的自动分析模块，可以采用图谱故障预测模型进行更加实时且通用的故障报警，适用于多种故障类型。</p>
+<h4 id="高阶api编写更优雅的模型">高阶API编写更优雅的模型</h4>
 
-<p><img src="/img/ai-analysis-blog-5.png" alt="分析流程改进" /></p>
+<p>通过观察模型的一个整个生命周期流程，基本都有几个必须要的流程，比如构建模型，训练模型，评估模型，预测未知，后面3个还需要分别喂给训练数据，验证数据，未知数据。</p>
 
-<p>基于该模型，可以衍生出多种解决方案，服务于多种业务场景。
-对于只需要故障报警的业务场景，图谱故障预测模型即可以完成。
-对于需要故障报警且需要定位故障部件的业务场景，可以由图谱故障预测模型配合当前已有的各个故障分析策略一起进行判定实现。</p>
+<p>tf的内置对象<strong>tf.estimator</strong>模块对这些流程进行了封装，统一用<strong>estimator</strong>来标识：</p>
 
-<p>图谱故障预测模型是一个切入点，振动分析领域仍然还存在很多AI应用的切入点，随着大数据和AI不断发展成熟，后续我们会继续探索领域里更多的AI应用切入点，不断完善改进我们的产品和服务。</p>
+<h5 id="模型包装">模型包装：</h5>
+
+<ul>
+<li>可用模型函数自定义的模型：tf.estimator.Estimator, tf.estimator.EstimatorSpec</li>
+</ul>
+
+<p>通过tf.estimator.EstimatorSpec对象定义模型模板，然后用tf.estimator.Estimator创建模型对象</p>
+
+<pre><code># Define the model function (following TF Estimator Template)
+def model_fn(features, labels, mode):
+    ......
+    estim_specs = tf.estimator.EstimatorSpec(
+        mode=mode,
+        predictions=pred_classes,
+        loss=loss_op,
+        train_op=train_op,
+        eval_metric_ops={'accuracy': acc_op})
+
+    return estim_specs
+
+# Build the Estimator
+classifier = tf.estimator.Estimator(model_fn)
+</code></pre>
+
+<ul>
+<li>tf内置的经典模型，比如DNN，这些直接通过tf.estimator模块即可引用到，可以查询tf的API文档，例如：</li>
+</ul>
+
+<pre><code># Build 3 layer DNN with 10, 20, 10 units respectively.
+classifier = tf.estimator.DNNClassifier(feature_columns=feature_columns,
+                                      hidden_units=[10, 20, 10],
+                                      n_classes=3,
+                                      model_dir=&quot;/tmp/iris_model&quot;)
+......
+</code></pre>
+
+<p>这里的classifier即是象estimator的实例，除了定义了模型本身的一些基本属性，比如输入输出数据格式，还自带了一些实用的方法，比如抽象出来的训练，评估，预测方法：</p>
+
+<pre><code># train train data
+classifier.train(input_fn=train_input_fn, steps=2000)
+# evaluate test data
+classifier.evaluate(input_fn=test_input_fn)
+# predict new unknown data
+classifier.predict(input_fn=predict_input_fn)
+</code></pre>
+
+<p>这三个方法都有一个共同的参数：input_fn输入数据，这是接下来要介绍的输入数据对象。</p>
+
+<h5 id="数据输入规则">数据输入规则</h5>
+
+<p>模型定义的模型的学习逻辑，数据输入规则是一个函数，这里可以对原始数据集进行一些预处理操作，使之符合模型需要的数据格式要求。</p>
+
+<p>这个函数需要按下面的格式定义，并返回数据：</p>
+
+<pre><code>def my_input_fn():
+
+    # Preprocess your data here...
+
+    # ...then return 1) a mapping of feature columns to Tensors with
+    # the corresponding feature data, and 2) a Tensor containing labels
+    return feature_cols, labels
+</code></pre>
+
+<p>实际情况中，通常我们的数据用numpy的数组格式，可以用tf.estimator.inputs.numpy_input_fn函数来构建我们的输入，函数参数x,y分别对应输入和输出，num_epochs参数和shuffle参数是可选的。</p>
+
+<blockquote>
+<p>Two additional arguments are provided: num_epochs: controls the number of epochs to iterate over data. For training, set this to None, so the
+input_fn keeps returning data until the required number of train steps is reached. For evaluate and predict, set this to 1, so the input_fn will iterate over the data once and then raise OutOfRangeError. That error will signal the Estimator to stop evaluate or predict. shuffle: Whether to shuffle the data. For evaluate and predict, set this to False, so the input_fn iterates over the data sequentially. For train, set this to True.</p>
+</blockquote>
+
+<pre><code># Define the training inputs
+  train_input_fn = tf.estimator.inputs.numpy_input_fn(
+      x={&quot;x&quot;: np.array(training_set.data)},
+      y=np.array(training_set.target),
+      num_epochs=None,
+      shuffle=True)
+
+# Define the test inputs
+  test_input_fn = tf.estimator.inputs.numpy_input_fn(
+      x={&quot;x&quot;: np.array(test_set.data)},
+      y=np.array(test_set.target),
+      num_epochs=1,
+      shuffle=False)
+
+# Define the prediction inputs
+new_samples = np.array(
+      [[6.4, 3.2, 4.5, 1.5],
+       [5.8, 3.1, 5.0, 1.7]], dtype=np.float32)
+  predict_input_fn = tf.estimator.inputs.numpy_input_fn(
+      x={&quot;x&quot;: new_samples},
+      num_epochs=1,
+      shuffle=False)
+</code></pre>
+
+<p>输入数据定义好后，即可传递给模型的相应的方法，比如train, evaluate, predict</p>
+
+<pre><code># train train data
+classifier.train(input_fn=train_input_fn, steps=2000)
+# evaluate test data
+classifier.evaluate(input_fn=test_input_fn)
+# predict new unknown data
+classifier.predict(input_fn=predict_input_fn)
+</code></pre>
             </div>
             <footer class="article-footer">
-    <a data-url="http://blog.titangroupco.com/2017/11/22/%E6%8C%AF%E5%8A%A8%E5%88%86%E6%9E%90ai%E5%AE%9E%E8%B7%B5/" data-id="df2a7d3cac44402e6249f5b7c8d49a4d" class="article-share-link">
+    <a data-url="http://blog.titangroupco.com/2017/11/22/tensorflow%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E6%A8%A1%E5%9E%8B%E5%8C%85%E8%A3%85/" data-id="d3a72deae8f22e6d888a5a44764e0130" class="article-share-link">
         <i class="fa fa-share"></i>
         Share
     </a>
@@ -437,21 +534,14 @@
         
 <nav id="article-nav">
     
-    <a href="http://blog.titangroupco.com/2017/03/07/jmeter-introduce/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="http://blog.titangroupco.com/2017/11/22/%E6%8C%AF%E5%8A%A8%E5%88%86%E6%9E%90ai%E5%AE%9E%E8%B7%B5/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">
           Older
       </strong>
-      <div class="article-nav-title">jmeter introduce</div>
+      <div class="article-nav-title">振动分析AI实践</div>
     </a>
     
 
-    
-    <a href="http://blog.titangroupco.com/2017/11/22/tensorflow%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E6%A8%A1%E5%9E%8B%E5%8C%85%E8%A3%85/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">
-          Newer
-      </strong>
-      <div class="article-nav-title">tensorflow学习笔记-模型包装</div>
-    </a>
     
 </nav>
 
