@@ -57,7 +57,7 @@ tf的模型可以自己完全手写，用tensorflow提供的底层API自己手�
 
 <meta itemprop="datePublished" content="2017-11-22T17:03:51&#43;08:00" />
 <meta itemprop="dateModified" content="2017-11-22T17:03:51&#43;08:00" />
-<meta itemprop="wordCount" content="516">
+<meta itemprop="wordCount" content="592">
 
 
 
@@ -442,6 +442,22 @@ classifier.evaluate(input_fn=test_input_fn)
 # predict new unknown data
 classifier.predict(input_fn=predict_input_fn)
 </code></pre>
+
+<blockquote>
+<p>官方推荐的基于tensorflow的工作流：
+Recommended workflow
+We recommend the following workflow:</p>
+</blockquote>
+
+<ol>
+<li><p>Assuming a suitable pre-made Estimator exists, use it to build your first model and use its results to establish a baseline.</p></li>
+
+<li><p>Build and test your overall pipeline, including the integrity and reliability of your data with this pre-made Estimator.</p></li>
+
+<li><p>If suitable alternative pre-made Estimators are available, run experiments to determine which pre-made Estimator produces the best results.</p></li>
+
+<li><p>Possibly, further improve your model by building your own custom Estimator.</p></li>
+</ol>
             </div>
             <footer class="article-footer">
     <a data-url="http://blog.titangroupco.com/2017/11/22/tensorflow%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E6%A8%A1%E5%9E%8B%E5%8C%85%E8%A3%85/" data-id="d3a72deae8f22e6d888a5a44764e0130" class="article-share-link">
