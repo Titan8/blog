@@ -210,3 +210,15 @@ classifier.evaluate(input_fn=test_input_fn)
 # predict new unknown data
 classifier.predict(input_fn=predict_input_fn)
 ```
+
+> 官方推荐的基于tensorflow的工作流：
+Recommended workflow
+We recommend the following workflow:
+
+1. Assuming a suitable pre-made Estimator exists, use it to build your first model and use its results to establish a baseline.
+
+2. Build and test your overall pipeline, including the integrity and reliability of your data with this pre-made Estimator.
+
+3. If suitable alternative pre-made Estimators are available, run experiments to determine which pre-made Estimator produces the best results.
+
+4. Possibly, further improve your model by building your own custom Estimator.
